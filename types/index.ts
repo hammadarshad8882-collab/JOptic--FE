@@ -1,4 +1,4 @@
-export type Page = 'home' | 'product' | 'cart' | 'wishlist' | 'admin';
+export type Page = "home" | "product" | "cart" | "wishlist" | "admin";
 
 export interface Product {
   variants: any;
@@ -30,7 +30,8 @@ export interface CartItem {
   selectedColor: string;
 }
 
-export type OrderStatus = 'Pending' | 'Confirmed' | 'Shipped' | 'Delivered' | 'Cancelled';
+export type OrderStatus =
+  "Pending" | "Confirmed" | "Shipped" | "Delivered" | "Cancelled";
 
 export interface OrderItem {
   product: Product;
@@ -55,3 +56,5 @@ export interface Order {
   totalAmount: number;
   createdAt: string;
 }
+
+export type AdminTab = "dashboard" | "products" | "add" | "orders";

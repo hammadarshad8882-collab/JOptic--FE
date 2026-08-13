@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { Order, OrderStatus } from '@/types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { Order, OrderStatus } from "@/types";
 
 interface OrdersState {
   items: Order[];
@@ -10,13 +10,13 @@ const initialState: OrdersState = {
 };
 
 const ordersSlice = createSlice({
-  name: 'orders',
+  name: "orders",
   initialState,
   reducers: {
     addOrder(state, action: PayloadAction<Order>) {
       state.items.unshift(action.payload);
     },
-   
+
     setInitialOrders(state, action: PayloadAction<Order[]>) {
       state.items = action.payload;
     },

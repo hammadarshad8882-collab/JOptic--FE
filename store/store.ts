@@ -10,7 +10,6 @@ export const store = configureStore({
     cart: cartReducer,
     orders: ordersReducer,
     auth: authReducer,
-
   },
 });
 
@@ -18,12 +17,15 @@ export function startPersistence() {
   store.subscribe(() => {
     try {
       const state = store.getState();
-      localStorage.setItem('lensco:cart', JSON.stringify(state.cart.items));
-      localStorage.setItem('lensco:wishlist', JSON.stringify(state.wishlist.items));
-      localStorage.setItem('lensco:orders', JSON.stringify(state.orders.items));
-      localStorage.setItem('lensco:auth', JSON.stringify(state.auth.user));
+      localStorage.setItem("lensco:cart", JSON.stringify(state.cart.items));
+      localStorage.setItem(
+        "lensco:wishlist",
+        JSON.stringify(state.wishlist.items),
+      );
+      localStorage.setItem("lensco:orders", JSON.stringify(state.orders.items));
+      localStorage.setItem("lensco:auth", JSON.stringify(state.auth.user));
     } catch (e) {
-      console.error('Failed to save state to localStorage', e);
+      console.error("Failed to save state to localStorage", e);
     }
   });
 }

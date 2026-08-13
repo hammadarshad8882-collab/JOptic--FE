@@ -1,24 +1,23 @@
-"use client"
-import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
+"use client";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-import ProductDetail from '@/components/ProductDetail';
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-
-
-
+import ProductDetail from "@/components/ProductDetail";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
-  const[isLoading,setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/getProductbyId/${id}`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/getProductbyId/${id}`,
+        );
         const data = await response.json();
         if (data.success) {
           setProduct(data.product);
@@ -26,8 +25,7 @@ export default function ProductPage() {
         }
       } catch (err) {
         console.log(err);
-      }
-      finally{
+      } finally {
         setIsLoading(false);
       }
     };

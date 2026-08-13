@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { CartItem, Product } from '@/types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { CartItem, Product } from "@/types";
 
 interface CartState {
   items: CartItem[];
@@ -10,13 +10,16 @@ const initialState: CartState = {
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<{ product: Product; color?: string }>) {
-      const { product, color = 'Matte Black' } = action.payload;
+    addToCart(
+      state,
+      action: PayloadAction<{ product: Product; color?: string }>,
+    ) {
+      const { product, color = "Matte Black" } = action.payload;
       const existing = state.items.find(
-        (i) => i.product.id === product.id && i.selectedColor === color
+        (i) => i.product.id === product.id && i.selectedColor === color,
       );
       if (existing) {
         existing.quantity += 1;
@@ -24,23 +27,34 @@ const cartSlice = createSlice({
         state.items.push({ product, quantity: 1, selectedColor: color });
       }
     },
-    removeFromCart(state, action: PayloadAction<{ productId: string; color: string }>) {
+    removeFromCart(
+      state,
+      action: PayloadAction<{ productId: string; color: string }>,
+    ) {
       state.items = state.items.filter(
-        (i) => !(i.product.id === action.payload.productId && i.selectedColor === action.payload.color)
+        (i) =>
+          !(
+            i.product.id === action.payload.productId &&
+            i.selectedColor === action.payload.color
+          ),
       );
     },
     updateQuantity(
       state,
-      action: PayloadAction<{ productId: string; color: string; quantity: number }>
+      action: PayloadAction<{
+        productId: string;
+        color: string;
+        quantity: number;
+      }>,
     ) {
       const { productId, color, quantity } = action.payload;
       if (quantity <= 0) {
         state.items = state.items.filter(
-          (i) => !(i.product.id === productId && i.selectedColor === color)
+          (i) => !(i.product.id === productId && i.selectedColor === color),
         );
       } else {
         const item = state.items.find(
-          (i) => i.product.id === productId && i.selectedColor === color
+          (i) => i.product.id === productId && i.selectedColor === color,
         );
         if (item) {
           item.quantity = quantity;
@@ -56,5 +70,11 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, setInitialCart } = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+  setInitialCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

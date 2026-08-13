@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -19,15 +19,15 @@ export default function GoogleLoginButton({
 
   useEffect(() => {
     const loadGoogleScript = () => {
-      if (document.getElementById('google-gsi-script')) {
+      if (document.getElementById("google-gsi-script")) {
         initializeGoogle();
         return;
       }
 
-      const script = document.createElement('script');
+      const script = document.createElement("script");
 
-      script.id = 'google-gsi-script';
-      script.src = 'https://accounts.google.com/gsi/client';
+      script.id = "google-gsi-script";
+      script.src = "https://accounts.google.com/gsi/client";
       script.async = true;
       script.defer = true;
 
@@ -46,17 +46,12 @@ export default function GoogleLoginButton({
         },
       });
 
-      window.google.accounts.id.renderButton(
-        buttonRef.current,
-        {
-          theme: 'outline',
-          size: 'large',
-          width: 300,
-          text: 'continue_with',
-          
-        }
-
-      );
+      window.google.accounts.id.renderButton(buttonRef.current, {
+        theme: "outline",
+        size: "large",
+        width: 300,
+        text: "continue_with",
+      });
     };
 
     loadGoogleScript();

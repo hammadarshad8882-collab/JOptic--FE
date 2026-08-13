@@ -1,16 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import type { Product } from '@/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '@/store/slics/cart';
-import { toggleWishlist } from '@/store/slics/wishlist';
-import type { RootState } from '@/store/store';
-
-
-
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import type { Product } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/store/slics/cart";
+import { toggleWishlist } from "@/store/slics/wishlist";
+import type { RootState } from "@/store/store";
 
 export default function ProductDetail({
   product,
@@ -26,32 +23,34 @@ export default function ProductDetail({
   const inCart = cartItems.some((item) => item.product.id === product.id);
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
-  const [activeTab, setActiveTab] = useState<'details' | 'specs' | 'reviews'>('specs');
+  const [activeTab, setActiveTab] = useState<"details" | "specs" | "reviews">(
+    "specs",
+  );
   const [selectedColor, setSelectedColor] = useState(
-  product.variants?.[0]?.color || ''
-);
-const selectedVariant = product.variants?.find(
-  (variant:any) => variant.color === selectedColor
-);
-
-const variantImages = selectedVariant?.images || [];
-useEffect(() => {
-  setActiveImage(0);
-}, [selectedColor]);  
-const handleAddToCart = () => {
-  if (!selectedVariant) return;
-
-  dispatch(
-    addToCart({
-      product,
-      color: selectedVariant.color,
-    })
+    product.variants?.[0]?.color || "",
+  );
+  const selectedVariant = product.variants?.find(
+    (variant: any) => variant.color === selectedColor,
   );
 
-  setAdded(true);
+  const variantImages = selectedVariant?.images || [];
+  useEffect(() => {
+    setActiveImage(0);
+  }, [selectedColor]);
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
 
-  setTimeout(() => setAdded(false), 2000);
-};
+    dispatch(
+      addToCart({
+        product,
+        color: selectedVariant.color,
+      }),
+    );
+
+    setAdded(true);
+
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -63,7 +62,16 @@ const handleAddToCart = () => {
           href="/"
           className="flex items-center gap-2 text-[#666] hover:text-white transition-colors text-sm"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Back
@@ -72,20 +80,33 @@ const handleAddToCart = () => {
 
       {/* Image Gallery */}
       <div className="relative bg-[#0e0e0e] aspect-square">
-       <Image
-  src={variantImages[activeImage] || selectedVariant?.image || product.image}
-  alt={`${product.name} - ${selectedColor}`}
-  fill
-  priority
-  sizes="(max-width: 640px) 100vw, 512px"
-  className="object-cover"
-/>
+        <Image
+          src={
+            variantImages[activeImage] ||
+            selectedVariant?.image ||
+            product.image
+          }
+          alt={`${product.name} - ${selectedColor}`}
+          fill
+          priority
+          sizes="(max-width: 640px) 100vw, 512px"
+          className="object-cover"
+        />
         {/* Wishlist */}
         <button
           onClick={() => dispatch(toggleWishlist(product))}
           className="absolute top-4 right-4 p-2.5 rounded-full bg-[#080808]/70 backdrop-blur-sm hover:bg-[#1a1a1a] transition-colors"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill={inWishlist ? 'white' : 'none'} stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill={inWishlist ? "white" : "none"}
+            stroke="white"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
         </button>
@@ -93,22 +114,26 @@ const handleAddToCart = () => {
         {/* Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-1">
           {product.isNew && (
-            <span className="bg-white text-black text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">New</span>
+            <span className="bg-white text-black text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">
+              New
+            </span>
           )}
           {product.isBestseller && (
-            <span className="bg-[#1a1a1a] border border-[#333] text-white text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">Bestseller</span>
+            <span className="bg-[#1a1a1a] border border-[#333] text-white text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">
+              Bestseller
+            </span>
           )}
         </div>
 
         {/* Image Dots */}
         {variantImages.length > 1 && (
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5">
-            {variantImages.map((_:any, i:number) => (
+            {variantImages.map((_: any, i: number) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(i)}
                 className={`w-1.5 rounded-full transition-all duration-200 ${
-                  activeImage === i ? 'bg-white w-4 h-1.5' : 'bg-[#555] h-1.5'
+                  activeImage === i ? "bg-white w-4 h-1.5" : "bg-[#555] h-1.5"
                 }`}
               />
             ))}
@@ -119,15 +144,21 @@ const handleAddToCart = () => {
       {/* Thumbnail Strip */}
       {variantImages.length > 1 && (
         <div className="flex gap-2 px-4 mt-3">
-          {variantImages.map((img:any, i:number) => (
+          {variantImages.map((img: any, i: number) => (
             <button
               key={i}
               onClick={() => setActiveImage(i)}
               className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
-                activeImage === i ? 'border-white' : 'border-[#222] opacity-50'
+                activeImage === i ? "border-white" : "border-[#222] opacity-50"
               }`}
             >
-              <Image src={img} alt="" fill sizes="64px" className="object-cover" />
+              <Image
+                src={img}
+                alt=""
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
             </button>
           ))}
         </div>
@@ -137,13 +168,21 @@ const handleAddToCart = () => {
       <div className="px-4 mt-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium">{product.brand}</p>
-            <h1 className="text-white font-['Fraunces'] text-2xl leading-tight mt-0.5">{product.name}</h1>
+            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium">
+              {product.brand}
+            </p>
+            <h1 className="text-white font-['Fraunces'] text-2xl leading-tight mt-0.5">
+              {product.name}
+            </h1>
           </div>
           <div className="text-right">
-            <p className="text-white text-2xl font-semibold">PKR {product.price}</p>
+            <p className="text-white text-2xl font-semibold">
+              PKR {product.price}
+            </p>
             {product.originalPrice && (
-              <p className="text-[#444] text-sm line-through">PKR {product.originalPrice}</p>
+              <p className="text-[#444] text-sm line-through">
+                PKR {product.originalPrice}
+              </p>
             )}
           </div>
         </div>
@@ -152,39 +191,51 @@ const handleAddToCart = () => {
         <div className="flex items-center gap-2 mt-2">
           <div className="flex">
             {stars.map((s) => (
-              <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill={s <= Math.round(product.rating) ? 'white' : '#2a2a2a'}>
+              <svg
+                key={s}
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill={s <= Math.round(product.rating) ? "white" : "#2a2a2a"}
+              >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             ))}
           </div>
-          <span className="text-white text-sm font-medium">{product.rating}</span>
-          <span className="text-[#555] text-xs">({product.reviewCount} reviews)</span>
+          <span className="text-white text-sm font-medium">
+            {product.rating}
+          </span>
+          <span className="text-[#555] text-xs">
+            ({product.reviewCount} reviews)
+          </span>
         </div>
 
         {/* Color Selection */}
         <div className="mt-5">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[#aaa] text-xs font-medium tracking-wide uppercase">Frame Color</p>
+            <p className="text-[#aaa] text-xs font-medium tracking-wide uppercase">
+              Frame Color
+            </p>
             <p className="text-white text-xs">{selectedColor}</p>
           </div>
-         <div className="flex gap-2 flex-wrap">
-  {product.variants?.map((variant:any) => (
-    <button
-      key={variant.id}
-      onClick={() => {
-        setSelectedColor(variant.color);
-        setActiveImage(0);
-      }}
-      className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
-        selectedColor === variant.color
-          ? 'border-white text-white bg-[#1a1a1a]'
-          : 'border-[#222] text-[#666] hover:border-[#444]'
-      }`}
-    >
-      {variant.color}
-    </button>
-  ))}
-</div>
+          <div className="flex gap-2 flex-wrap">
+            {product.variants?.map((variant: any) => (
+              <button
+                key={variant.id}
+                onClick={() => {
+                  setSelectedColor(variant.color);
+                  setActiveImage(0);
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
+                  selectedColor === variant.color
+                    ? "border-white text-white bg-[#1a1a1a]"
+                    : "border-[#222] text-[#666] hover:border-[#444]"
+                }`}
+              >
+                {variant.color}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* CTA Buttons */}
@@ -193,21 +244,30 @@ const handleAddToCart = () => {
             onClick={handleAddToCart}
             className={`flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300 ${
               inCart
-                ? 'bg-[#1a1a1a] border border-[#333] text-[#888]'
-                : 'bg-white text-black hover:bg-[#e0e0e0] active:scale-95'
+                ? "bg-[#1a1a1a] border border-[#333] text-[#888]"
+                : "bg-white text-black hover:bg-[#e0e0e0] active:scale-95"
             }`}
           >
-            {inCart ? '✓ Added to Cart' : 'Add to Cart'}
+            {inCart ? "✓ Added to Cart" : "Add to Cart"}
           </button>
           <button
             onClick={() => dispatch(toggleWishlist(product))}
             className={`p-4 rounded-2xl border transition-all ${
               inWishlist
-                ? 'border-white bg-[#1a1a1a] text-white'
-                : 'border-[#222] text-[#666] hover:border-[#444]'
+                ? "border-white bg-[#1a1a1a] text-white"
+                : "border-[#222] text-[#666] hover:border-[#444]"
             }`}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill={inWishlist ? 'white' : 'none'} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill={inWishlist ? "white" : "none"}
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </button>
@@ -216,14 +276,14 @@ const handleAddToCart = () => {
         {/* Tabs */}
         <div className="mt-7">
           <div className="flex border-b border-[#1c1c1c]">
-            {([ 'specs', 'reviews'] as const).map((tab) => (
+            {(["specs", "reviews"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 pb-2.5 text-xs font-medium tracking-wide uppercase transition-all border-b-2 -mb-px ${
                   activeTab === tab
-                    ? 'border-white text-white'
-                    : 'border-transparent text-[#444] hover:text-[#888]'
+                    ? "border-white text-white"
+                    : "border-transparent text-[#444] hover:text-[#888]"
                 }`}
               >
                 {tab}
@@ -232,7 +292,7 @@ const handleAddToCart = () => {
           </div>
 
           <div className="mt-4">
-            {activeTab === 'details' && (
+            {activeTab === "details" && (
               <div>
                 {/* <p className="text-[#aaa] text-sm leading-relaxed">{product.description}</p>
                 <ul className="mt-4 space-y-2">
@@ -250,46 +310,79 @@ const handleAddToCart = () => {
               </div>
             )}
 
-            {activeTab === 'specs' && (
+            {activeTab === "specs" && (
               <div className="space-y-0">
                 {[
-                  ['Frame Shape', product.frameShape],
-                  ['Frame Material', product.frameMaterial],
-                  ['Lens Width', product.lensWidth],
-                  ['Bridge Width', product.bridgeWidth],
-                  ['Temple Length', product.templeLength],
-                  ['Category', product.category],
+                  ["Frame Shape", product.frameShape],
+                  ["Frame Material", product.frameMaterial],
+                  ["Lens Width", product.lensWidth],
+                  ["Bridge Width", product.bridgeWidth],
+                  ["Temple Length", product.templeLength],
+                  ["Category", product.category],
                 ].map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between py-3 border-b border-[#151515]">
-                    <span className="text-[#555] text-xs uppercase tracking-wide">{label}</span>
+                  <div
+                    key={label}
+                    className="flex items-center justify-between py-3 border-b border-[#151515]"
+                  >
+                    <span className="text-[#555] text-xs uppercase tracking-wide">
+                      {label}
+                    </span>
                     <span className="text-[#ccc] text-sm">{value}</span>
                   </div>
                 ))}
               </div>
             )}
 
-            {activeTab === 'reviews' && (
+            {activeTab === "reviews" && (
               <div>
                 <div className="flex items-center gap-4 mb-5">
                   <div className="text-center">
-                    <p className="text-white text-4xl font-['Fraunces']">{product.rating}</p>
+                    <p className="text-white text-4xl font-['Fraunces']">
+                      {product.rating}
+                    </p>
                     <div className="flex justify-center mt-1">
                       {stars.map((s) => (
-                        <svg key={s} width="11" height="11" viewBox="0 0 24 24" fill={s <= Math.round(product.rating) ? 'white' : '#2a2a2a'}>
+                        <svg
+                          key={s}
+                          width="11"
+                          height="11"
+                          viewBox="0 0 24 24"
+                          fill={
+                            s <= Math.round(product.rating)
+                              ? "white"
+                              : "#2a2a2a"
+                          }
+                        >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
                     </div>
-                    <p className="text-[#555] text-[10px] mt-1">{product.reviewCount} reviews</p>
+                    <p className="text-[#555] text-[10px] mt-1">
+                      {product.reviewCount} reviews
+                    </p>
                   </div>
                   <div className="flex-1 space-y-1">
                     {[5, 4, 3, 2, 1].map((star) => {
-                      const pct = star === 5 ? 70 : star === 4 ? 20 : star === 3 ? 7 : star === 2 ? 2 : 1;
+                      const pct =
+                        star === 5
+                          ? 70
+                          : star === 4
+                            ? 20
+                            : star === 3
+                              ? 7
+                              : star === 2
+                                ? 2
+                                : 1;
                       return (
                         <div key={star} className="flex items-center gap-2">
-                          <span className="text-[#555] text-[10px] w-2">{star}</span>
+                          <span className="text-[#555] text-[10px] w-2">
+                            {star}
+                          </span>
                           <div className="flex-1 h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
-                            <div className="h-full bg-white rounded-full" style={{ width: `${pct}%` }} />
+                            <div
+                              className="h-full bg-white rounded-full"
+                              style={{ width: `${pct}%` }}
+                            />
                           </div>
                         </div>
                       );
@@ -299,23 +392,51 @@ const handleAddToCart = () => {
 
                 {/* Sample Reviews */}
                 {[
-                  { name: 'Marcus T.', date: 'Jul 2026', text: 'Incredible build quality. The titanium feels solid yet lightweight.', rating: 5 },
-                  { name: 'Priya S.', date: 'Jun 2026', text: 'Exactly as described. Polarization is excellent.', rating: 5 },
-                  { name: 'James H.', date: 'Jun 2026', text: 'Great frames, delivery was fast. Would buy again.', rating: 4 },
+                  {
+                    name: "Marcus T.",
+                    date: "Jul 2026",
+                    text: "Incredible build quality. The titanium feels solid yet lightweight.",
+                    rating: 5,
+                  },
+                  {
+                    name: "Priya S.",
+                    date: "Jun 2026",
+                    text: "Exactly as described. Polarization is excellent.",
+                    rating: 5,
+                  },
+                  {
+                    name: "James H.",
+                    date: "Jun 2026",
+                    text: "Great frames, delivery was fast. Would buy again.",
+                    rating: 4,
+                  },
                 ].map((review) => (
-                  <div key={review.name} className="py-4 border-b border-[#151515]">
+                  <div
+                    key={review.name}
+                    className="py-4 border-b border-[#151515]"
+                  >
                     <div className="flex items-center justify-between">
-                      <p className="text-white text-sm font-medium">{review.name}</p>
+                      <p className="text-white text-sm font-medium">
+                        {review.name}
+                      </p>
                       <p className="text-[#444] text-[10px]">{review.date}</p>
                     </div>
                     <div className="flex mt-1">
                       {stars.map((s) => (
-                        <svg key={s} width="10" height="10" viewBox="0 0 24 24" fill={s <= review.rating ? 'white' : '#222'}>
+                        <svg
+                          key={s}
+                          width="10"
+                          height="10"
+                          viewBox="0 0 24 24"
+                          fill={s <= review.rating ? "white" : "#222"}
+                        >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
                     </div>
-                    <p className="text-[#777] text-sm mt-1.5 leading-relaxed">{review.text}</p>
+                    <p className="text-[#777] text-sm mt-1.5 leading-relaxed">
+                      {review.text}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -326,7 +447,9 @@ const handleAddToCart = () => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-8">
-            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">You Might Also Like</p>
+            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
+              You Might Also Like
+            </p>
             <div className="flex gap-3 overflow-x-auto pb-2">
               {relatedProducts.map((p) => (
                 <Link
@@ -335,10 +458,18 @@ const handleAddToCart = () => {
                   className="shrink-0 w-36 bg-[#111] rounded-xl overflow-hidden border border-[#1c1c1c] hover:border-[#333] transition-all text-left block"
                 >
                   <div className="relative aspect-square bg-[#0e0e0e]">
-                    <Image src={p.image} alt={p.name} fill sizes="144px" className="object-cover" />
+                    <Image
+                      src={p.image}
+                      alt={p.name}
+                      fill
+                      sizes="144px"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="p-2.5">
-                    <p className="text-white font-['Fraunces'] text-sm leading-tight truncate">{p.name}</p>
+                    <p className="text-white font-['Fraunces'] text-sm leading-tight truncate">
+                      {p.name}
+                    </p>
                     <p className="text-[#888] text-xs mt-1">${p.price}</p>
                   </div>
                 </Link>

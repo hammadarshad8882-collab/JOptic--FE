@@ -1,248 +1,44 @@
-// import { useEffect, useState } from 'react';
-// import type { Order, OrderStatus } from '@/types';
+"use client";
 
-// const STATUS_COLORS: Record<OrderStatus, string> = {
-//   pending:   'bg-[#2a2000] text-[#f0b429] border-[#4a3800]',
-//   confirmed: 'bg-[#001a2a] text-[#4fc3f7] border-[#003a5a]',
-//   shipped:   'bg-[#1a0030] text-[#ce93d8] border-[#3a0060]',
-//   delivered: 'bg-[#001a00] text-[#81c784] border-[#003a00]',
-//   cancelled: 'bg-[#2a0000] text-[#ef9a9a] border-[#5a0000]',
-// };
+import { fetchWithAuth } from "@/api/fetchWithAuth";
 
-// const STATUS_NEXT: Record<OrderStatus, OrderStatus | null> = {
-//   pending:   'confirmed',
-//   confirmed: 'shipped',
-//   shipped:   'delivered',
-//   delivered: null,
-//   cancelled: null,
-// };
-
-
-// export default function OrdersTab({ orders, onUpdateOrderStatus }:any) {
-//   const [orderFilter, setOrderFilter] = useState<OrderStatus | 'all'>('all');
-//   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
-//   const [initialOrders, setInitialOrders] = useState([]);
-
- 
-//  useEffect(() =>{
-//     const getOrders = async () => {
-//     const res = await fetch("http://localhost:5000/api/orders/getall",
-//     {
-//       credentials:'include'
-//     }
-//     )
-//     const data = await res.json()
-//    setInitialOrders(data.orders)
-//   }
-//     getOrders()
-//  },[])
-//   return (
-//     <div>
-//       <div className="flex items-baseline justify-between mb-4">
-//         <div>
-//           <h2 className="text-white font-['Fraunces'] text-2xl">Orders</h2>
-//           <p className="text-[#444] text-xs mt-0.5">{orders.length} total orders</p>
-//         </div>
-//       </div>
-
-//       {/* Status filter */}
-//       <div className="flex gap-2 overflow-x-auto pb-1 mb-4">
-//         {(['all', 'pending', 'confirmed', 'shipped', 'delivered', 'cancelled'] as const).map((s) => (
-//           <button
-//             key={s}
-//             onClick={() => setOrderFilter(s)}
-//             className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize ${
-//               orderFilter === s
-//                 ? 'bg-white text-black border-white'
-//                 : 'border-[#1c1c1c] text-[#555] hover:border-[#333] hover:text-[#aaa]'
-//             }`}
-//           >
-//             {s === 'all' ? `All (${orders.length})` : `${s} (${orders.filter((o:any) => o.status === s).length})`}
-//           </button>
-//         ))}
-//       </div>
-
-//       <div className="space-y-3">
-//         {initialOrders.map((order:any) => (
-//           <div key={order.orderNumber} className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl overflow-hidden hover:border-[#2a2a2a] transition-all">
-//             <button
-//               className="w-full p-4 text-left"
-//               onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
-//             >
-//               <div className="flex items-start justify-between gap-3">
-//                 <div className="min-w-0">
-//                   <div className="flex items-center gap-2 flex-wrap">
-//                     <span className="text-white text-sm font-medium">{order.customerName}</span>
-//                     <span className={`text-[9px] px-2 py-0.5 rounded-full border capitalize ${STATUS_COLORS[order.status as OrderStatus]}`}>
-//                       {order.status}
-//                     </span>
-//                   </div>
-//                   <p className="text-[#444] text-[10px] mt-0.5 font-mono">{order.orderNumber}</p>
-//                   <p className="text-[#333] text-[10px] mt-0.5">
-//                     {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-//                   </p>
-//                 </div>
-//                 <div className="text-right shrink-0">
-//                   <p className="text-white font-semibold">PKR {order.totalAmount}</p>
-//                   <p className="text-[#444] text-[10px]">{order.items.reduce((s: number, i: { quantity: number; }) => s + i.quantity, 0)} item{order.items.reduce((s: number, i: { quantity: number; }) => s + i.quantity, 0) !== 1 ? 's' : ''}</p>
-//                 </div>
-//               </div>
-//               <div className="flex items-center justify-between mt-3">
-//                 <div className="flex -space-x-1.5">
-//                   {order.items.slice(0, 3).map((item: any, i: any) => (
-//                     <div key={i} className="w-7 h-7 rounded-lg overflow-hidden border border-[#1a1a1a] bg-[#111]">
-//                       <img src={item.product.variants[0].image || item.product.image} alt="" className="w-full h-full object-cover" />
-//                     </div>
-//                   ))}
-//                   {order.items.length > 3 && (
-//                     <div className="w-7 h-7 rounded-lg bg-[#1a1a1a] border border-[#222] flex items-center justify-center text-[9px] text-[#555]">
-//                       +{order.items.length - 3}
-//                     </div>
-//                   )}
-//                 </div>
-//                 <svg
-//                   width="14"
-//                   height="14"
-//                   viewBox="0 0 24 24"
-//                   fill="none"
-//                   stroke="#444"
-//                   strokeWidth="2"
-//                   strokeLinecap="round"
-//                   strokeLinejoin="round"
-//                   className={`transition-transform duration-200 ${expandedOrder === order.id ? 'rotate-180' : ''}`}
-//                 >
-//                   <polyline points="6 9 12 15 18 9" />
-//                 </svg>
-//               </div>
-//             </button>
-
-//             {expandedOrder === order.id && (
-//               <div className="border-t border-[#1a1a1a] p-4 space-y-4">
-//                 {/* Customer info */}
-//                 <div className="grid grid-cols-2 gap-3">
-//                   {[
-//                     { label: 'Email', value: order.email },
-//                     { label: 'Phone', value: order.phone },
-//                     { label: 'Address', value: order.address },
-//                     { label: 'City', value: order.city },
-//                   ].map((f) => (
-//                     <div key={f.label}>
-//                       <p className="text-[#333] text-[10px] uppercase tracking-wide">{f.label}</p>
-//                       <p className="text-[#aaa] text-xs mt-0.5">{f.value}</p>
-//                     </div>
-//                   ))}
-//                 </div>
-
-//                 {/* Items */}
-//                 <div>
-//                   <p className="text-[#333] text-[10px] uppercase tracking-wide mb-2">Items</p>
-//                   <div className="space-y-2">
-//                     {order.items.map((item: any, i: any) => (
-//                       <div key={i} className="flex items-center gap-3">
-//                         <div className="w-10 h-10 rounded-lg overflow-hidden bg-[#111] shrink-0">
-//                           <img src={item.product.image} alt="" className="w-full h-full object-cover" />
-//                         </div>
-//                         <div className="flex-1 min-w-0">
-//                           <p className="text-white text-sm truncate">{item.product.name}</p>
-//                           <p className="text-[#444] text-[10px]">{item.color} · Qty {item.quantity}</p>
-//                         </div>
-//                         <p className="text-[#aaa] text-sm shrink-0">${item.product.price * item.quantity}</p>
-//                       </div>
-//                     ))}
-//                   </div>
-//                 </div>
-
-//                 {/* Status actions */}
-//                 {order.status !== 'delivered' && order.status !== 'cancelled' && (
-//                   <div className="flex gap-2 pt-1">
-//                     {STATUS_NEXT[order.status as  OrderStatus] && (
-//                       <button
-//                         onClick={() => onUpdateOrderStatus(order.id, STATUS_NEXT[order.status as OrderStatus])}
-//                         className="flex-1 py-2.5 bg-white text-black text-xs font-semibold rounded-xl hover:bg-[#e0e0e0] transition-all capitalize"
-//                       >
-//                         Mark as {STATUS_NEXT[order.status as OrderStatus]}
-//                       </button>
-//                     )}
-//                     <button
-//                       onClick={() => onUpdateOrderStatus(order.id, 'cancelled')}
-//                       className="py-2.5 px-4 border border-[#2a0000] text-[#ef9a9a] text-xs rounded-xl hover:bg-[#2a0000]/40 transition-all"
-//                     >
-//                       Cancel
-//                     </button>
-//                   </div>
-//                 )}
-
-//                 {(order.status === 'delivered' || order.status === 'cancelled') && (
-//                   <p className={`text-xs px-3 py-2 rounded-xl border text-center ${STATUS_COLORS[order.status as OrderStatus]}`}>
-//                     Order {order.status}
-//                   </p>
-//                 )}
-//               </div>
-//             )}
-//           </div>
-//         ))}
-
-//         {initialOrders.length === 0 && (
-//           <div className="text-center py-16">
-//             <p className="text-[#333] font-['Fraunces'] text-lg">No orders found</p>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-'use client';
-
-import { useEffect, useState } from 'react';
-import type { Order, OrderStatus } from '@/types';
+import { useEffect, useState } from "react";
+import type { Order, OrderStatus } from "@/types";
 
 const STATUS_COLORS: Record<OrderStatus, string> = {
-  Pending:
-    'bg-[#2a2000] text-[#f0b429] border-[#4a3800]',
-  Confirmed:
-    'bg-[#001a2a] text-[#4fc3f7] border-[#003a5a]',
-  Shipped:
-    'bg-[#1a0030] text-[#ce93d8] border-[#3a0060]',
-  Delivered:
-    'bg-[#001a00] text-[#81c784] border-[#003a00]',
-  Cancelled:
-    'bg-[#2a0000] text-[#ef9a9a] border-[#5a0000]',
+  Pending: "bg-[#2a2000] text-[#f0b429] border-[#4a3800]",
+  Confirmed: "bg-[#001a2a] text-[#4fc3f7] border-[#003a5a]",
+  Shipped: "bg-[#1a0030] text-[#ce93d8] border-[#3a0060]",
+  Delivered: "bg-[#001a00] text-[#81c784] border-[#003a00]",
+  Cancelled: "bg-[#2a0000] text-[#ef9a9a] border-[#5a0000]",
 };
 
 const STATUS_DOT_COLORS: Record<OrderStatus, string> = {
-  Pending: 'bg-[#f0b429]',
-  Confirmed: 'bg-[#4fc3f7]',
-  Shipped: 'bg-[#ce93d8]',
-  Delivered: 'bg-[#81c784]',
-  Cancelled: 'bg-[#ef9a9a]',
+  Pending: "bg-[#f0b429]",
+  Confirmed: "bg-[#4fc3f7]",
+  Shipped: "bg-[#ce93d8]",
+  Delivered: "bg-[#81c784]",
+  Cancelled: "bg-[#ef9a9a]",
 };
 
 const STATUSES: OrderStatus[] = [
-  'Pending',
-  'Confirmed',
-  'Shipped',
-  'Delivered',
-  'Cancelled',
+  "Pending",
+  "Confirmed",
+  "Shipped",
+  "Delivered",
+  "Cancelled",
 ];
 
-export default function OrdersTab({
-  orders,
-  onUpdateOrderStatus,
-}: any) {
-  const [orderFilter, setOrderFilter] =
-    useState<OrderStatus | 'all'>('all');
+export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
+  const [orderFilter, setOrderFilter] = useState<OrderStatus | "all">("all");
 
-  const [expandedOrder, setExpandedOrder] =
-    useState<string | null>(null);
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
-  const [initialOrders, setInitialOrders] =
-    useState<Order[]>([]);
+  const [initialOrders, setInitialOrders] = useState<Order[]>([]);
 
-  const [statusMenuOpen, setStatusMenuOpen] =
-    useState<string | null>(null);
+  const [statusMenuOpen, setStatusMenuOpen] = useState<string | null>(null);
 
-  const [updatingOrderId, setUpdatingOrderId] =
-    useState<string | null>(null);
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
   // =====================================================
   // GET ORDERS
@@ -251,27 +47,19 @@ export default function OrdersTab({
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await fetch(
+        const res = await fetchWithAuth(
           `${process.env.NEXT_PUBLIC_API_URL}/api/orders/getall`,
-          {
-            credentials: 'include',
-          }
         );
 
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(
-            data.message || 'Failed to fetch orders'
-          );
+          throw new Error(data.message || "Failed to fetch orders");
         }
 
         setInitialOrders(data.orders || []);
       } catch (error) {
-        console.error(
-          'Error fetching orders:',
-          error
-        );
+        console.error("Error fetching orders:", error);
       }
     };
 
@@ -282,34 +70,27 @@ export default function OrdersTab({
   // UPDATE ORDER STATUS
   // =====================================================
 
-  const updateOrderStatus = async (
-    orderId: string,
-    newStatus: OrderStatus
-  ) => {
+  const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     try {
       setUpdatingOrderId(orderId);
 
-      const res = await fetch(
+      const res = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/api/orders/updateStatus/${orderId}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include',
           body: JSON.stringify({
             status: newStatus,
           }),
-        }
+        },
       );
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(
-          data.message ||
-            'Failed to update order status'
-        );
+        throw new Error(data.message || "Failed to update order status");
       }
 
       // Update local state
@@ -320,8 +101,8 @@ export default function OrdersTab({
                 ...order,
                 status: newStatus,
               }
-            : order
-        )
+            : order,
+        ),
       );
 
       // Close status popup
@@ -329,17 +110,10 @@ export default function OrdersTab({
 
       // Update parent state if function exists
       if (onUpdateOrderStatus) {
-        onUpdateOrderStatus(
-          orderId,
-          newStatus
-        );
+        onUpdateOrderStatus(orderId, newStatus);
       }
-
     } catch (error) {
-      console.error(
-        'Error updating order status:',
-        error
-      );
+      console.error("Error updating order status:", error);
     } finally {
       setUpdatingOrderId(null);
     }
@@ -349,26 +123,20 @@ export default function OrdersTab({
   // FILTER ORDERS
   // =====================================================
 
-  const filteredOrders = initialOrders.filter(
-    (order: any) => {
-      if (orderFilter === 'all') {
-        return true;
-      }
-
-      return order.status === orderFilter;
+  const filteredOrders = initialOrders.filter((order: any) => {
+    if (orderFilter === "all") {
+      return true;
     }
-  );
+
+    return order.status === orderFilter;
+  });
 
   // =====================================================
   // TOGGLE ORDER
   // =====================================================
 
   const toggleOrder = (orderId: string) => {
-    setExpandedOrder((current) =>
-      current === orderId
-        ? null
-        : orderId
-    );
+    setExpandedOrder((current) => (current === orderId ? null : orderId));
 
     // Close status menu when changing order
     setStatusMenuOpen(null);
@@ -376,60 +144,46 @@ export default function OrdersTab({
 
   return (
     <div>
-
       {/* =================================================
           HEADER
       ================================================= */}
 
       <div className="flex items-baseline justify-between mb-4">
-
         <div>
-
-          <h2 className="text-white font-['Fraunces'] text-2xl">
-            Orders
-          </h2>
+          <h2 className="text-white font-['Fraunces'] text-2xl">Orders</h2>
 
           <p className="text-[#444] text-xs mt-0.5">
             {initialOrders.length} total orders
           </p>
-
         </div>
-
       </div>
-
 
       {/* =================================================
           FILTER
       ================================================= */}
 
       <div className="flex gap-2 overflow-x-auto pb-1 mb-4">
-
         {(
           [
-            'all',
-            'Pending',
-            'Confirmed',
-            'Shipped',
-            'Delivered',
-            'Cancelled',
+            "all",
+            "Pending",
+            "Confirmed",
+            "Shipped",
+            "Delivered",
+            "Cancelled",
           ] as const
         ).map((status) => {
-
           const count =
-            status === 'all'
+            status === "all"
               ? initialOrders.length
-              : initialOrders.filter(
-                  (order: any) =>
-                    order.status === status
-                ).length;
+              : initialOrders.filter((order: any) => order.status === status)
+                  .length;
 
           return (
             <button
               key={status}
               type="button"
-              onClick={() =>
-                setOrderFilter(status as any)
-              }
+              onClick={() => setOrderFilter(status as any)}
               className={`
                 shrink-0
                 px-3
@@ -443,55 +197,39 @@ export default function OrdersTab({
 
                 ${
                   orderFilter === status
-                    ? 'bg-white text-black border-white'
-                    : 'border-[#1c1c1c] text-[#555] hover:border-[#333] hover:text-[#aaa]'
+                    ? "bg-white text-black border-white"
+                    : "border-[#1c1c1c] text-[#555] hover:border-[#333] hover:text-[#aaa]"
                 }
               `}
             >
-              {status === 'all'
-                ? `All (${count})`
-                : `${status} (${count})`}
+              {status === "all" ? `All (${count})` : `${status} (${count})`}
             </button>
           );
         })}
-
       </div>
-
 
       {/* =================================================
           ORDERS LIST
       ================================================= */}
 
       <div className="space-y-3">
+        {filteredOrders.map((order: any) => {
+          const totalItems =
+            order.items?.reduce(
+              (total: number, item: any) => total + item.quantity,
+              0,
+            ) || 0;
 
-        {filteredOrders.map(
-          (order: any) => {
+          const isExpanded = expandedOrder === order.id;
 
-            const totalItems =
-              order.items?.reduce(
-                (
-                  total: number,
-                  item: any
-                ) =>
-                  total +
-                  item.quantity,
-                0
-              ) || 0;
+          const isStatusOpen = statusMenuOpen === order.id;
 
-            const isExpanded =
-              expandedOrder === order.id;
+          const isUpdating = updatingOrderId === order.id;
 
-            const isStatusOpen =
-              statusMenuOpen === order.id;
-
-            const isUpdating =
-              updatingOrderId === order.id;
-
-            return (
-
-              <div
-                key={order.orderNumber}
-                className="
+          return (
+            <div
+              key={order.orderNumber}
+              className="
                   relative
                   bg-[#0e0e0e]
                   border
@@ -500,116 +238,81 @@ export default function OrdersTab({
                   hover:border-[#2a2a2a]
                   transition-all
                 "
-              >
-
-                {/* =================================================
+            >
+              {/* =================================================
                     ORDER HEADER
                 ================================================= */}
 
-                <button
-                  type="button"
-                  className="
+              <button
+                type="button"
+                className="
                     w-full
                     p-4
                     text-left
                   "
-                  onClick={() =>
-                    toggleOrder(order.id)
-                  }
-                >
+                onClick={() => toggleOrder(order.id)}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  {/* CUSTOMER */}
 
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-white text-sm font-medium">
+                        {order.customerName}
+                      </span>
 
-                    {/* CUSTOMER */}
-
-                    <div className="min-w-0">
-
-                      <div className="flex items-center gap-2 flex-wrap">
-
-                        <span className="text-white text-sm font-medium">
-                          {order.customerName}
-                        </span>
-
-                        <span
-                          className={`
+                      <span
+                        className={`
                             text-[9px]
                             px-2
                             py-0.5
                             rounded-full
                             border
                             capitalize
-                            ${
-                              STATUS_COLORS[
-                                order.status as OrderStatus
-                              ]
-                            }
+                            ${STATUS_COLORS[order.status as OrderStatus]}
                           `}
-                        >
-                          {order.status}
-                        </span>
-
-                      </div>
-
-                      <p className="text-[#444] text-[10px] mt-0.5 font-mono">
-                        {order.orderNumber}
-                      </p>
-
-                      <p className="text-[#333] text-[10px] mt-0.5">
-
-                        {new Date(
-                          order.createdAt
-                        ).toLocaleDateString(
-                          'en-US',
-                          {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          }
-                        )}
-
-                      </p>
-
+                      >
+                        {order.status}
+                      </span>
                     </div>
 
+                    <p className="text-[#444] text-[10px] mt-0.5 font-mono">
+                      {order.orderNumber}
+                    </p>
 
-                    {/* TOTAL */}
-
-                    <div className="text-right shrink-0">
-
-                      <p className="text-white font-semibold">
-                        PKR {order.totalAmount}
-                      </p>
-
-                      <p className="text-[#444] text-[10px]">
-                        {totalItems}{' '}
-                        item
-                        {totalItems !== 1
-                          ? 's'
-                          : ''}
-                      </p>
-
-                    </div>
-
+                    <p className="text-[#333] text-[10px] mt-0.5">
+                      {new Date(order.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
 
+                  {/* TOTAL */}
 
-                  {/* PRODUCT IMAGES */}
+                  <div className="text-right shrink-0">
+                    <p className="text-white font-semibold">
+                      PKR {order.totalAmount}
+                    </p>
 
-                  <div className="flex items-center justify-between mt-3">
+                    <p className="text-[#444] text-[10px]">
+                      {totalItems} item
+                      {totalItems !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+                </div>
 
-                    <div className="flex -space-x-1.5">
+                {/* PRODUCT IMAGES */}
 
-                      {order.items
-                        ?.slice(0, 3)
-                        .map(
-                          (
-                            item: any,
-                            index: number
-                          ) => (
-
-                            <div
-                              key={index}
-                              className="
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex -space-x-1.5">
+                    {order.items
+                      ?.slice(0, 3)
+                      .map((item: any, index: number) => (
+                        <div
+                          key={index}
+                          className="
                                 w-7
                                 h-7
                                 rounded-lg
@@ -618,35 +321,26 @@ export default function OrdersTab({
                                 border-[#1a1a1a]
                                 bg-[#111]
                               "
-                            >
-
-                              <img
-                                src={
-                                  item.product
-                                    ?.variants?.[0]
-                                    ?.image ||
-                                  item.product
-                                    ?.image ||
-                                  ''
-                                }
-                                alt=""
-                                className="
+                        >
+                          <img
+                            src={
+                              item.product?.variants?.[0]?.image ||
+                              item.product?.image ||
+                              ""
+                            }
+                            alt=""
+                            className="
                                   w-full
                                   h-full
                                   object-cover
                                 "
-                              />
+                          />
+                        </div>
+                      ))}
 
-                            </div>
-
-                          )
-                        )}
-
-                      {order.items?.length >
-                        3 && (
-
-                        <div
-                          className="
+                    {order.items?.length > 3 && (
+                      <div
+                        className="
                             w-7
                             h-7
                             rounded-lg
@@ -659,162 +353,126 @@ export default function OrdersTab({
                             text-[9px]
                             text-[#555]
                           "
-                        >
-                          +
-                          {order.items.length -
-                            3}
-                        </div>
-
-                      )}
-
-                    </div>
-
-
-                    {/* ARROW */}
-
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#444"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`
-                        transition-transform
-                        duration-200
-                        ${
-                          isExpanded
-                            ? 'rotate-180'
-                            : ''
-                        }
-                      `}
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-
+                      >
+                        +{order.items.length - 3}
+                      </div>
+                    )}
                   </div>
 
-                </button>
+                  {/* ARROW */}
 
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#444"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`
+                        transition-transform
+                        duration-200
+                        ${isExpanded ? "rotate-180" : ""}
+                      `}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </button>
 
-                {/* =================================================
+              {/* =================================================
                     EXPANDED ORDER
                 ================================================= */}
 
-                {isExpanded && (
-
-                  <div
-                    className="
+              {isExpanded && (
+                <div
+                  className="
                       border-t
                       border-[#1a1a1a]
                       p-4
                       space-y-4
                     "
-                  >
-
-                    {/* =================================================
+                >
+                  {/* =================================================
                         CUSTOMER INFO
                     ================================================= */}
 
-                    <div className="grid grid-cols-2 gap-3">
-
-                      {[
-                        {
-                          label: 'Email',
-                          value: order.email,
-                        },
-                        {
-                          label: 'Phone',
-                          value: order.phone,
-                        },
-                        {
-                          label: 'Address',
-                          value: order.address,
-                        },
-                        {
-                          label: 'City',
-                          value: order.city,
-                        },
-                      ].map(
-                        (field) => (
-
-                          <div
-                            key={
-                              field.label
-                            }
-                          >
-
-                            <p
-                              className="
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      {
+                        label: "Email",
+                        value: order.email,
+                      },
+                      {
+                        label: "Phone",
+                        value: order.phone,
+                      },
+                      {
+                        label: "Address",
+                        value: order.address,
+                      },
+                      {
+                        label: "City",
+                        value: order.city,
+                      },
+                    ].map((field) => (
+                      <div key={field.label}>
+                        <p
+                          className="
                                 text-[#333]
                                 text-[10px]
                                 uppercase
                                 tracking-wide
                               "
-                            >
-                              {field.label}
-                            </p>
+                        >
+                          {field.label}
+                        </p>
 
-                            <p
-                              className="
+                        <p
+                          className="
                                 text-[#aaa]
                                 text-xs
                                 mt-0.5
                               "
-                            >
-                              {field.value ||
-                                '-'}
-                            </p>
+                        >
+                          {field.value || "-"}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
 
-                          </div>
-
-                        )
-                      )}
-
-                    </div>
-
-
-                    {/* =================================================
+                  {/* =================================================
                         ITEMS
                     ================================================= */}
 
-                    <div>
-
-                      <p
-                        className="
+                  <div>
+                    <p
+                      className="
                           text-[#333]
                           text-[10px]
                           uppercase
                           tracking-wide
                           mb-2
                         "
-                      >
-                        Items
-                      </p>
+                    >
+                      Items
+                    </p>
 
-                      <div className="space-y-2">
-
-                        {order.items?.map(
-                          (
-                            item: any,
-                            index: number
-                          ) => (
-
-                            <div
-                              key={index}
-                              className="
+                    <div className="space-y-2">
+                      {order.items?.map((item: any, index: number) => (
+                        <div
+                          key={index}
+                          className="
                                 flex
                                 items-center
                                 gap-3
                               "
-                            >
+                        >
+                          {/* IMAGE */}
 
-                              {/* IMAGE */}
-
-                              <div
-                                className="
+                          <div
+                            className="
                                   w-10
                                   h-10
                                   rounded-lg
@@ -822,129 +480,94 @@ export default function OrdersTab({
                                   bg-[#111]
                                   shrink-0
                                 "
-                              >
-
-                                <img
-                                  src={
-                                    item.product.variants[0].image ||
-                                    ''
-                                  }
-                                  alt=""
-                                  className="
+                          >
+                            <img
+                              src={item.product.variants[0].image || ""}
+                              alt=""
+                              className="
                                     w-full
                                     h-full
                                     object-cover
                                   "
-                                />
+                            />
+                          </div>
 
-                              </div>
+                          {/* PRODUCT */}
 
-
-                              {/* PRODUCT */}
-
-                              <div
-                                className="
+                          <div
+                            className="
                                   flex-1
                                   min-w-0
                                 "
-                              >
-
-                                <p
-                                  className="
+                          >
+                            <p
+                              className="
                                     text-white
                                     text-sm
                                     truncate
                                   "
-                                >
-                                  {
-                                    item.product
-                                      ?.name
-                                  }
-                                </p>
+                            >
+                              {item.product?.name}
+                            </p>
 
-                                <p
-                                  className="
+                            <p
+                              className="
                                     text-[#444]
                                     text-[10px]
                                   "
-                                >
-                                  {item.color ||
-                                    'Default'}
-                                  {' · '}
-                                  Qty{' '}
-                                  {
-                                    item.quantity
-                                  }
-                                </p>
+                            >
+                              {item.color || "Default"}
+                              {" · "}
+                              Qty {item.quantity}
+                            </p>
+                          </div>
 
-                              </div>
+                          {/* PRICE */}
 
-
-                              {/* PRICE */}
-
-                              <p
-                                className="
+                          <p
+                            className="
                                   text-[#aaa]
                                   text-sm
                                   shrink-0
                                 "
-                              >
-                                PKR{' '}
-                                {(
-                                  Number(
-                                    item.product
-                                      ?.price ||
-                                      0
-                                  ) *
-                                  Number(
-                                    item.quantity ||
-                                      0
-                                  )
-                                ).toLocaleString()}
-                              </p>
-
-                            </div>
-
-                          )
-                        )}
-
-                      </div>
-
+                          >
+                            PKR{" "}
+                            {(
+                              Number(item.product?.price || 0) *
+                              Number(item.quantity || 0)
+                            ).toLocaleString()}
+                          </p>
+                        </div>
+                      ))}
                     </div>
+                  </div>
 
-
-                    {/* =================================================
+                  {/* =================================================
                         STATUS
                     ================================================= */}
 
-                    <div className="relative pt-1">
-
-                      <p
-                        className="
+                  <div className="relative pt-1">
+                    <p
+                      className="
                           text-[#333]
                           text-[10px]
                           uppercase
                           tracking-wide
                           mb-2
                         "
-                      >
-                        Order Status
-                      </p>
+                    >
+                      Order Status
+                    </p>
 
+                    {/* CURRENT STATUS */}
 
-                      {/* CURRENT STATUS */}
-
-                      <button
-                        type="button"
-                        disabled={isUpdating}
-                        onClick={() =>
-                          setStatusMenuOpen(
-                            isStatusOpen
-                              ? null
-                              : order.id
-                          )
-                        }
-                        className={`
+                    <button
+                      type="button"
+                      disabled={isUpdating}
+                      onClick={() =>
+                        setStatusMenuOpen(isStatusOpen ? null : order.id)
+                      }
+                      className={`
                           w-full
                           flex
                           items-center
@@ -954,75 +577,52 @@ export default function OrdersTab({
                           rounded-xl
                           border
                           transition-all
-                          ${
-                            STATUS_COLORS[
-                              order.status as OrderStatus
-                            ]
-                          }
+                          ${STATUS_COLORS[order.status as OrderStatus]}
                           disabled:opacity-50
                           disabled:cursor-not-allowed
                         `}
-                      >
-
-                        <div className="flex items-center gap-2">
-
-                          <span
-                            className={`
+                    >
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`
                               w-1.5
                               h-1.5
                               rounded-full
-                              ${
-                                STATUS_DOT_COLORS[
-                                  order.status as OrderStatus
-                                ]
-                              }
+                              ${STATUS_DOT_COLORS[order.status as OrderStatus]}
                             `}
-                          />
+                        />
 
-                          <span className="text-xs capitalize">
+                        <span className="text-xs capitalize">
+                          {isUpdating ? "Updating..." : order.status}
+                        </span>
+                      </div>
 
-                            {isUpdating
-                              ? 'Updating...'
-                              : order.status}
-
-                          </span>
-
-                        </div>
-
-
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className={`
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={`
                             transition-transform
                             duration-200
-                            ${
-                              isStatusOpen
-                                ? 'rotate-180'
-                                : ''
-                            }
+                            ${isStatusOpen ? "rotate-180" : ""}
                           `}
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
 
-                      </button>
-
-
-                      {/* =================================================
+                    {/* =================================================
                           CUSTOM STATUS POPUP
                       ================================================= */}
 
-                      {isStatusOpen && (
-
-                        <div
-                          className="
+                    {isStatusOpen && (
+                      <div
+                        className="
                             absolute
                             left-0
                             right-0
@@ -1038,24 +638,14 @@ export default function OrdersTab({
                             overflow-y-auto
                           
                           "
-                        >
-
-                          {STATUSES.map(
-                            (status) => (
-
-                              <button
-                                key={status}
-                                type="button"
-                                disabled={
-                                  isUpdating
-                                }
-                                onClick={() =>
-                                  updateOrderStatus(
-                                    order.id,
-                                    status
-                                  )
-                                }
-                                className="
+                      >
+                        {STATUSES.map((status) => (
+                          <button
+                            key={status}
+                            type="button"
+                            disabled={isUpdating}
+                            onClick={() => updateOrderStatus(order.id, status)}
+                            className="
                                   w-full
                                   flex
                                   items-center
@@ -1068,116 +658,82 @@ export default function OrdersTab({
                                   transition-all
                                   disabled:opacity-50
                                 "
-                              >
-
-                                <div className="flex items-center gap-2.5">
-
-                                  <span
-                                    className={`
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <span
+                                className={`
                                       w-2
                                       h-2
                                       rounded-full
-                                      ${
-                                        STATUS_DOT_COLORS[
-                                          status
-                                        ]
-                                      }
+                                      ${STATUS_DOT_COLORS[status]}
                                     `}
-                                  />
+                              />
 
-                                  <span
-                                    className="
+                              <span
+                                className="
                                       text-[#aaa]
                                       text-xs
                                       capitalize
                                     "
-                                  >
-                                    {status}
-                                  </span>
+                              >
+                                {status}
+                              </span>
+                            </div>
 
-                                </div>
+                            {/* SELECTED */}
 
+                            {order.status === status && (
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="#fff"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-                                {/* SELECTED */}
-
-                                {order.status ===
-                                  status && (
-
-                                  <svg
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="#fff"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  >
-                                    <polyline points="20 6 9 17 4 12" />
-                                  </svg>
-
-                                )}
-
-                              </button>
-
-                            )
-                          )}
-
-                        </div>
-
-                      )}
-
-                    </div>
-
-
-                    {/* =================================================
+                  {/* =================================================
                         FINAL STATUS
                     ================================================= */}
 
-                    {(order.status ===
-                      'delivered' ||
-                      order.status ===
-                        'cancelled') && (
-
-                      <p
-                        className={`
+                  {(order.status === "delivered" ||
+                    order.status === "cancelled") && (
+                    <p
+                      className={`
                           text-xs
                           px-3
                           py-2
                           rounded-xl
                           border
                           text-center
-                          ${
-                            STATUS_COLORS[
-                              order.status as OrderStatus
-                            ]
-                          }
+                          ${STATUS_COLORS[order.status as OrderStatus]}
                         `}
-                      >
-                        Order {order.status}
-                      </p>
-
-                    )}
-
-                  </div>
-
-                )}
-
-              </div>
-            );
-          }
-        )}
-
+                    >
+                      Order {order.status}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
 
         {/* =================================================
             EMPTY
         ================================================= */}
 
-        {filteredOrders.length ===
-          0 && (
-
+        {filteredOrders.length === 0 && (
           <div className="text-center py-16">
-
             <p
               className="
                 text-[#333]
@@ -1185,18 +741,13 @@ export default function OrdersTab({
                 text-lg
               "
             >
-              {initialOrders.length ===
-              0
-                ? 'No orders found'
+              {initialOrders.length === 0
+                ? "No orders found"
                 : `No ${orderFilter} orders found`}
             </p>
-
           </div>
-
         )}
-
       </div>
-
     </div>
   );
 }

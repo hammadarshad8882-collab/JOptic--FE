@@ -44,7 +44,7 @@ npm start
   `images.unsplash.com` (the domain used by the product photos in
   `data/products.ts`) via `images.remotePatterns`.
 
-- **Server vs. client components**: Pages that only need to *render* data
+- **Server vs. client components**: Pages that only need to _render_ data
   (`app/product/[id]/page.tsx`) are plain server components that look up the
   product and pass it to a client component for the interactive bits (image
   gallery, color picker, tabs). The home page is split the same way

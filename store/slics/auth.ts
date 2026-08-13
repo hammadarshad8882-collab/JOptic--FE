@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type UserRole = 'CUSTOMER' | 'ADMIN';
+export type UserRole = "CUSTOMER" | "ADMIN";
 
 export interface User {
   id: string;
@@ -21,7 +21,7 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
 
   reducers: {

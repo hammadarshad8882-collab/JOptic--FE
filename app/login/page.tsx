@@ -32,7 +32,7 @@
 //       );
 
 //       const data = await response.json();
-           
+
 //       if (!data.success) {
 //         toast.error(data.message);
 //         return;
@@ -70,36 +70,36 @@
 //     </Suspense>
 //   );
 // }
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import GoogleLoginButton from '@/components/googleLoginButton';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/store/slics/auth';
-import toast from 'react-hot-toast';
-import { Suspense } from 'react';
+import { useRouter, useSearchParams } from "next/navigation";
+import GoogleLoginButton from "@/components/googleLoginButton";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slics/auth";
+import toast from "react-hot-toast";
+import { Suspense } from "react";
 
 function LoginPageContent() {
   const router = useRouter();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
 
-  const redirect = searchParams.get('redirect');
+  const redirect = searchParams.get("redirect");
 
   const handleGoogleLogin = async (credential: string) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include',
+          credentials: "include",
           body: JSON.stringify({
             credential,
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -111,24 +111,21 @@ function LoginPageContent() {
 
       dispatch(setUser(data.user));
 
-      router.push(redirect || '/');
+      router.push(redirect || "/");
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Something went wrong. Please try again.');
+      console.error("Login error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
   return (
     <main className="min-h-screen bg-[#050505] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
-
         {/* Logo / Brand */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center mb-5">
             <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg shadow-white/10">
-              <span className="text-black text-2xl font-bold">
-                J
-              </span>
+              <span className="text-black text-2xl font-bold">J</span>
             </div>
           </div>
 
@@ -143,14 +140,10 @@ function LoginPageContent() {
 
         {/* Login Card */}
         <div className="bg-[#0d0d0d] border border-white/10 rounded-2xl p-7 sm:p-9 shadow-2xl">
-
           <div className="space-y-6">
-
             {/* Google Login */}
-            <div className='flex justify-center items-center'>
-              <GoogleLoginButton
-                onSuccess={handleGoogleLogin}
-              />
+            <div className="flex justify-center items-center">
+              <GoogleLoginButton onSuccess={handleGoogleLogin} />
             </div>
 
             {/* Divider */}
@@ -175,32 +168,22 @@ function LoginPageContent() {
                   stroke="currentColor"
                   strokeWidth="1.8"
                 >
-                  <rect
-                    x="3"
-                    y="11"
-                    width="18"
-                    height="10"
-                    rx="2"
-                  />
+                  <rect x="3" y="11" width="18" height="10" rx="2" />
                   <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
               </div>
 
               <div>
-                <p className="text-sm text-gray-300">
-                  Your login is secure
-                </p>
+                <p className="text-sm text-gray-300">Your login is secure</p>
 
                 <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                  We use Google authentication to keep your account
-                  safe and secure.
+                  We use Google authentication to keep your account safe and
+                  secure.
                 </p>
               </div>
             </div>
           </div>
         </div>
-
-        
       </div>
     </main>
   );

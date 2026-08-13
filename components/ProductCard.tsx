@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import type { Product } from '@/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleWishlist } from '@/store/slics/wishlist';
-import type { RootState } from '@/store/store';
+import Image from "next/image";
+import Link from "next/link";
+import type { Product } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleWishlist } from "@/store/slics/wishlist";
+import type { RootState } from "@/store/store";
 
 interface ProductCardProps {
   product: Product;
@@ -23,14 +23,17 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="group relative bg-[#111111] rounded-2xl overflow-hidden border border-[#1c1c1c] hover:border-[#333] transition-all duration-300">
       <button
         className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[#080808]/70 backdrop-blur-sm hover:bg-[#1a1a1a] transition-colors"
-        onClick={(e) => { e.preventDefault(); handleWishlist();}}
-        aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+        onClick={(e) => {
+          e.preventDefault();
+          handleWishlist();
+        }}
+        aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
       >
         <svg
           width="16"
           height="16"
           viewBox="0 0 24 24"
-          fill={inWishlist ? 'white' : 'none'}
+          fill={inWishlist ? "white" : "none"}
           stroke="white"
           strokeWidth="1.8"
           strokeLinecap="round"
@@ -72,22 +75,39 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="p-3">
-          <p className="text-[#555] text-[10px] tracking-widest uppercase font-medium">{product.brand}</p>
-          <h3 className="text-white font-['Fraunces'] text-base leading-tight mt-0.5">{product.name}</h3>
+          <p className="text-[#555] text-[10px] tracking-widest uppercase font-medium">
+            {product.brand}
+          </p>
+          <h3 className="text-white font-['Fraunces'] text-base leading-tight mt-0.5">
+            {product.name}
+          </h3>
           <div className="flex items-center gap-1 mt-1.5">
             <div className="flex">
               {[1, 2, 3, 4, 5].map((star) => (
-                <svg key={star} width="10" height="10" viewBox="0 0 24 24" fill={star <= Math.round(product.rating) ? 'white' : '#333'} className="shrink-0">
+                <svg
+                  key={star}
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill={star <= Math.round(product.rating) ? "white" : "#333"}
+                  className="shrink-0"
+                >
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
               ))}
             </div>
-            <span className="text-[#666] text-[10px]">({product.reviewCount})</span>
+            <span className="text-[#666] text-[10px]">
+              ({product.reviewCount})
+            </span>
           </div>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-white font-semibold text-base">PKR {product.price}</span>
+            <span className="text-white font-semibold text-base">
+              PKR {product.price}
+            </span>
             {product.originalPrice && (
-              <span className="text-[#444] text-xs line-through">PKR {product.originalPrice}</span>
+              <span className="text-[#444] text-xs line-through">
+                PKR {product.originalPrice}
+              </span>
             )}
           </div>
         </div>

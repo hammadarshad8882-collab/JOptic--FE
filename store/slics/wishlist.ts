@@ -14,21 +14,17 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     addToWishlist(state, action: PayloadAction<Product>) {
-      const exists = state.items.find(
-        (item) => item.id === action.payload.id
-      );
+      const exists = state.items.find((item) => item.id === action.payload.id);
       if (!exists) {
         state.items.push(action.payload);
       }
     },
     removeFromWishlist(state, action: PayloadAction<string>) {
-      state.items = state.items.filter(
-        (item) => item.id !== action.payload
-      );
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
     toggleWishlist(state, action: PayloadAction<Product>) {
       const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
       if (index >= 0) {
         state.items.splice(index, 1);

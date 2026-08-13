@@ -26,6 +26,7 @@ export const products: Product[] = [
     templeLength: '140mm',
     isBestseller: true,
     discount: 24,
+    variants: undefined
   },
   {
     id: '2',
@@ -48,6 +49,7 @@ export const products: Product[] = [
     bridgeWidth: '20mm',
     templeLength: '145mm',
     isNew: true,
+    variants: undefined
   },
   {
     id: '3',
@@ -72,6 +74,7 @@ export const products: Product[] = [
     templeLength: '140mm',
     isBestseller: true,
     discount: 22,
+    variants: undefined
   },
   {
     id: '4',
@@ -94,6 +97,7 @@ export const products: Product[] = [
     bridgeWidth: '18mm',
     templeLength: '145mm',
     isNew: false,
+    variants: undefined
   },
   {
     id: '5',
@@ -118,6 +122,7 @@ export const products: Product[] = [
     templeLength: '130mm',
     isNew: true,
     discount: 19,
+    variants: undefined
   },
   {
     id: '6',
@@ -140,6 +145,7 @@ export const products: Product[] = [
     bridgeWidth: '16mm',
     templeLength: '140mm',
     isNew: true,
+    variants: undefined
   },
   {
     id: '7',
@@ -164,6 +170,7 @@ export const products: Product[] = [
     templeLength: '140mm',
     isBestseller: false,
     discount: 20,
+    variants: undefined
   },
   {
     id: '8',
@@ -188,6 +195,7 @@ export const products: Product[] = [
     templeLength: '145mm',
     isBestseller: true,
     discount: 20,
+    variants: undefined
   },
   {
     id: '9',
@@ -210,6 +218,7 @@ export const products: Product[] = [
     bridgeWidth: '17mm',
     templeLength: '140mm',
     isNew: false,
+    variants: undefined
   },
   {
     id: '10',
@@ -233,6 +242,7 @@ export const products: Product[] = [
     bridgeWidth: '18mm',
     templeLength: '145mm',
     discount: 22,
+    variants: undefined
   },
   {
     id: '11',
@@ -255,6 +265,7 @@ export const products: Product[] = [
     bridgeWidth: '10mm',
     templeLength: '125mm',
     isNew: true,
+    variants: undefined
   },
   {
     id: '12',
@@ -279,5 +290,6 @@ export const products: Product[] = [
     templeLength: '140mm',
     isBestseller: true,
     discount: 18,
+    variants: undefined
   },
 ];

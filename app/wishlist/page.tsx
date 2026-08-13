@@ -85,7 +85,7 @@ export default function WishlistPage() {
       <div className="mt-5 mb-4">
         <button
           onClick={() => {
-            wishlist.forEach((p) => dispatch(addToCart({ product: p, color: 'Matte Black' })));
+            wishlist.forEach((p) => dispatch(addToCart({ product: p, color: p.variants[0].color })));
           }}
           className="w-full py-4 border border-[#2a2a2a] text-[#888] text-sm font-medium rounded-2xl hover:border-[#444] hover:text-white transition-all"
         >

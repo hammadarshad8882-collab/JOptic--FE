@@ -31,6 +31,11 @@ const [user, setUser] = useState<any>(null);
 
 useEffect(() => {
   const checkAdmin = async () => {
+    console.log(user);
+    if(!user){
+    router.push('/');
+    return;
+    }
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,

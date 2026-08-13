@@ -24,6 +24,10 @@ export default function CheckoutPage() {
 useEffect(() => {
   const checkUser = async () => {
     try {
+      if(!User) {
+        router.replace('/');
+        return;
+      }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
         {

@@ -6,7 +6,9 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '@/store/slics/auth';
 import toast from 'react-hot-toast';
 import { useSearchParams} from 'next/navigation';
-export default function LoginPage() {
+import { Suspense } from 'react';
+
+function LoginPageContent() {
   const router = useRouter();
 const dispatch = useDispatch();
 const searchParams = useSearchParams();
@@ -54,5 +56,17 @@ const redirect = searchParams.get('redirect');
         />
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#050505]">
+        <div className="w-8 h-8 border-2 border-[#333] border-t-white rounded-full animate-spin" />
+      </div>
+    }>
+      <LoginPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import Image from 'next/image';
 import type { Product } from '@/types';
 import { categories } from '@/data/products';
@@ -11,6 +11,8 @@ export default function HomeClient() {
   const [sort, setSort] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
   const [products, setProducts] = useState<Product[]>([]);
    const[isLoading, setIsLoading] = useState(true);
+   const [sortOpen, setSortOpen] = useState(false);
+const sortRef = useRef<HTMLDivElement>(null);
   const filtered = products
     .filter((p) => selectedCategory === 'All' || p.category === selectedCategory)
     .sort((a, b) => {
@@ -46,7 +48,22 @@ export default function HomeClient() {
         }   
         getProducts();
       }, []);
-    
+    useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      sortRef.current &&
+      !sortRef.current.contains(event.target as Node)
+    ) {
+      setSortOpen(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
 
   return (
     <div className="max-w-lg mx-auto">
@@ -94,24 +111,90 @@ export default function HomeClient() {
       </div>
 
       {/* Sort Row */}
-      <div className="mt-5 px-4 flex items-center justify-between">
-        <p className="text-[#888] text-xs">
-          <span className="text-white font-semibold">{filtered.length}</span> items
-        </p>
-        <div className="flex items-center gap-2">
-          <span className="text-[#555] text-[10px] tracking-wide uppercase">Sort</span>
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as typeof sort)}
-            className="bg-[#111] border border-[#222] text-[#aaa] text-xs rounded-lg px-2 py-1.5 outline-none focus:border-[#444]"
-          >
-            <option value="featured">Featured</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="rating">Top Rated</option>
-          </select>
+    <div className="mt-5 px-4 flex items-center justify-between">
+  <p className="text-[#888] text-xs">
+    <span className="text-white font-semibold">
+      {filtered.length}
+    </span>{" "}
+    items
+  </p>
+
+  <div className="flex items-center gap-2">
+    <span className="text-[#555] text-[10px] tracking-wide uppercase">
+      Sort
+    </span>
+
+    <div className="relative" ref={sortRef}>
+      <button
+        onClick={() => setSortOpen((prev) => !prev)}
+        className="flex items-center gap-2 bg-[#111] border border-[#222] text-[#aaa] text-xs rounded-lg px-3 py-2 hover:border-[#444] transition-colors"
+      >
+        <span>
+          {sort === "featured"
+            ? "Featured"
+            : sort === "price-asc"
+            ? "Price: Low to High"
+            : sort === "price-desc"
+            ? "Price: High to Low"
+            : "Top Rated"}
+        </span>
+
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className={`transition-transform duration-200 ${
+            sortOpen ? "rotate-180" : ""
+          }`}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {sortOpen && (
+        <div className="absolute right-0 top-full mt-2 z-50 w-44 rounded-xl border border-[#2a2a2a] bg-[#111] shadow-2xl overflow-hidden">
+          {[
+            // { value: "featured", label: "Featured" },
+            { value: "price-asc", label: "Price: Low to High" },
+            { value: "price-desc", label: "Price: High to Low" },
+            // { value: "rating", label: "Top Rated" },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() => {
+                setSort(option.value as typeof sort);
+                setSortOpen(false);
+              }}
+              className={`w-full flex items-center justify-between px-4 py-3 text-xs text-left transition-colors ${
+                sort === option.value
+                  ? "bg-[#1c1c1c] text-white"
+                  : "text-[#777] hover:bg-[#181818] hover:text-[#bbb]"
+              }`}
+            >
+              <span>{option.label}</span>
+
+              {sort === option.value && (
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="m5 12 4 4L19 6" />
+                </svg>
+              )}
+            </button>
+          ))}
         </div>
-      </div>
+      )}
+    </div>
+  </div>
+</div>
       {/* Product Grid / Loader */}
 {/* Product Grid / Loader */}
 

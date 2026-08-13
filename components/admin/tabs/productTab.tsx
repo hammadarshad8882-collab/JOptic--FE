@@ -29,7 +29,7 @@ const [isloading, setIsloading] = useState<boolean>(false);
     const getProducts = async () => {
       try{
          setIsloading(true);
-        const response = await fetch("http://localhost:5000/api/products/getProducts",
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/getProducts`,
         {
           method: "GET",
           headers: {
@@ -55,7 +55,7 @@ const [isloading, setIsloading] = useState<boolean>(false);
   }, []);
  const handleDelete = async(id: string) => {
     try{
-      const response = await fetch(`http://localhost:5000/api/products/deleteProduct/${id}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/deleteProduct/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -177,7 +177,7 @@ const [isloading, setIsloading] = useState<boolean>(false);
     // ==========================================
 
     const response = await fetch(
-      `http://localhost:5000/api/products/updateProduct/${productToUpdate.id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products/updateProduct/${productToUpdate.id}`,
       {
         method: "PUT",
         body: formData,

@@ -127,7 +127,7 @@ export default function OrdersPage() {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:5000/api/orders/getOrderbyUserId/${user?.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/getOrderbyUserId/${user?.id}`,
         {
           credentials: 'include',
         }
@@ -165,7 +165,7 @@ export default function OrdersPage() {
       setCancellingOrderId(orderId);
 
       const res = await fetch(
-        `http://localhost:5000/api/orders/cancel/${orderId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/cancel/${orderId}`,
         {
           method: 'PATCH',
           credentials: 'include',

@@ -29,7 +29,7 @@ export default function Navbar() {
     const fetchMyOrders = async () => {
       if (!user) return;
       try {
-        const res = await fetch(`http://localhost:5000/api/orders/getOrderbyUserId/${user.id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/getOrderbyUserId/${user.id}`, {
           credentials: 'include',
         });
         const data = await res.json();
@@ -45,7 +45,7 @@ export default function Navbar() {
  const handleLogout = async () => {
   try {
     const response = await fetch(
-      'http://localhost:5000/api/auth/logout',
+      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
       {
         method: 'POST',
         credentials: 'include',

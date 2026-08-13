@@ -25,7 +25,7 @@ useEffect(() => {
   const checkUser = async () => {
     try {
       const response = await fetch(
-        'http://localhost:5000/api/auth/me',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
         {
           credentials: 'include',
         }
@@ -113,7 +113,7 @@ useEffect(() => {
     };
 
      const placeOrder = await fetch(
-  "http://localhost:5000/api/orders/createOrder",
+  `${process.env.NEXT_PUBLIC_API_URL}/api/orders/createOrder`,
   {
     method: "POST",
     headers: {

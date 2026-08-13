@@ -18,7 +18,7 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:5000/api/products/getProductbyId/${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/getProductbyId/${id}`);
         const data = await response.json();
         if (data.success) {
           setProduct(data.product);

@@ -252,7 +252,7 @@ export default function OrdersTab({
     const getOrders = async () => {
       try {
         const res = await fetch(
-          'http://localhost:5000/api/orders/getall',
+          `${process.env.NEXT_PUBLIC_API_URL}/api/orders/getall`,
           {
             credentials: 'include',
           }
@@ -290,7 +290,7 @@ export default function OrdersTab({
       setUpdatingOrderId(orderId);
 
       const res = await fetch(
-        `http://localhost:5000/api/orders/updateStatus/${orderId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/updateStatus/${orderId}`,
         {
           method: 'PATCH',
           headers: {

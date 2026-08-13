@@ -23,7 +23,7 @@ export default function HomeClient() {
         const getProducts = async () => {
           try{
             setIsLoading(true);
-            const response = await fetch("http://localhost:5000/api/products/getProducts",
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/getProducts`,
             {
               method: "GET",
               headers: {

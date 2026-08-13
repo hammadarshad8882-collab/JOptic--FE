@@ -53,7 +53,9 @@ export default function GoogleLoginButton({
           size: 'large',
           width: 300,
           text: 'continue_with',
+          
         }
+
       );
     };
 

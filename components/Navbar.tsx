@@ -42,6 +42,26 @@ export default function Navbar() {
     };
     fetchMyOrders();
   }, [user, dispatch]);
+
+// Close menu when clicking outside
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target as Node)
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
  const handleLogout = async () => {
   try {
     const response = await fetch(

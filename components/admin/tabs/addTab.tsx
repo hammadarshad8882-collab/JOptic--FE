@@ -65,6 +65,22 @@ export default function AddTab() {
   ]);
 
   // ----------------------------------------
+  // Add "mm" only when sending to API
+  // ----------------------------------------
+
+  const addMm = (value: string) => {
+    const trimmed = value.trim();
+
+    if (!trimmed) return "";
+
+    // Remove any existing mm first
+    const withoutMm = trimmed.replace(/mm$/i, "").trim();
+
+    // Add exactly one lowercase "mm"
+    return `${withoutMm}mm`;
+  };
+
+  // ----------------------------------------
   // Update normal product fields
   // ----------------------------------------
 
@@ -135,7 +151,10 @@ export default function AddTab() {
   // Handle images for each color
   // ----------------------------------------
 
-  const handleVariantImages = (index: number, files: FileList | null) => {
+  const handleVariantImages = (
+    index: number,
+    files: FileList | null,
+  ) => {
     if (!files || files.length === 0) return;
 
     const selectedFiles = Array.from(files);
@@ -158,7 +177,9 @@ export default function AddTab() {
   // General product images
   // ----------------------------------------
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     if (e.target.files) {
       setImages(Array.from(e.target.files));
       setFormError("");
@@ -170,14 +191,19 @@ export default function AddTab() {
   // ----------------------------------------
 
   const removeGeneralImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) =>
+      prev.filter((_, i) => i !== index),
+    );
   };
 
   // ----------------------------------------
   // Remove variant image
   // ----------------------------------------
 
-  const removeVariantImage = (variantIndex: number, imageIndex: number) => {
+  const removeVariantImage = (
+    variantIndex: number,
+    imageIndex: number,
+  ) => {
     setVariants((prev) =>
       prev.map((variant, i) =>
         i === variantIndex
@@ -226,12 +252,16 @@ export default function AddTab() {
       const variant = variants[i];
 
       if (!variant.color.trim()) {
-        setFormError(`Please enter a color for Color ${i + 1}.`);
+        setFormError(
+          `Please enter a color for Color ${i + 1}.`,
+        );
         return;
       }
 
       if (variant.images.length === 0) {
-        setFormError(`Please upload at least one image for ${variant.color}.`);
+        setFormError(
+          `Please upload at least one image for ${variant.color}.`,
+        );
         return;
       }
     }
@@ -242,16 +272,45 @@ export default function AddTab() {
 
     const formData = new FormData();
 
+    // ----------------------------------------
     // Normal fields
-    Object.entries(form).forEach(([key, value]) => {
-      formData.append(key, String(value));
-    });
+    //
+    // IMPORTANT:
+    // Add mm ONLY here, not in the input.
+    // ----------------------------------------
+
+    formData.append("name", form.name);
+    formData.append("category", form.category);
+    formData.append("price", form.price);
+    formData.append("originalPrice", form.originalPrice);
+    formData.append("description", form.description);
+    formData.append("frameShape", form.frameShape);
+    formData.append("frameMaterial", form.frameMaterial);
+
+    // Measurements
+    formData.append(
+      "lensWidth",
+      addMm(form.lensWidth),
+    );
+
+    formData.append(
+      "bridgeWidth",
+      addMm(form.bridgeWidth),
+    );
+
+    formData.append(
+      "templeLength",
+      addMm(form.templeLength),
+    );
+
+    formData.append("isNew", String(form.isNew));
+    formData.append(
+      "isBestseller",
+      String(form.isBestseller),
+    );
 
     // ----------------------------------------
     // Variant information
-    //
-    // We send the variant data separately
-    // from the actual files.
     // ----------------------------------------
 
     const variantData = variants.map((variant) => ({
@@ -259,12 +318,13 @@ export default function AddTab() {
       stock: variant.stock,
     }));
 
-    formData.append("variants", JSON.stringify(variantData));
+    formData.append(
+      "variants",
+      JSON.stringify(variantData),
+    );
 
     // ----------------------------------------
     // Variant images
-    //
-    // Each variant gets its own field:
     //
     // variantImages_0
     // variantImages_1
@@ -273,7 +333,10 @@ export default function AddTab() {
 
     variants.forEach((variant, variantIndex) => {
       variant.images.forEach((file) => {
-        formData.append(`variantImages_${variantIndex}`, file);
+        formData.append(
+          `variantImages_${variantIndex}`,
+          file,
+        );
       });
     });
 
@@ -287,7 +350,6 @@ export default function AddTab() {
         {
           method: "POST",
           credentials: "include",
-
           body: formData,
         },
       );
@@ -313,12 +375,16 @@ export default function AddTab() {
           },
         ]);
       } else {
-        setFormError(data.message || "Failed to add product");
+        setFormError(
+          data.message || "Failed to add product",
+        );
       }
     } catch (error) {
       console.error("Create product error:", error);
 
-      setFormError("Network error or server is down");
+      setFormError(
+        "Network error or server is down",
+      );
     }
   };
 
@@ -333,10 +399,14 @@ export default function AddTab() {
       </h2>
 
       <p className="text-[#444] text-xs mb-6">
-        Fill in the details below to add a new product to your catalogue.
+        Fill in the details below to add a new product to
+        your catalogue.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+      >
         {/* =====================================
             BASIC INFO
         ====================================== */}
@@ -347,10 +417,18 @@ export default function AddTab() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <Field label="Product Name" required>
+            <Field
+              label="Product Name"
+              required
+            >
               <input
                 value={form.name}
-                onChange={(e) => handleFormChange("name", e.target.value)}
+                onChange={(e) =>
+                  handleFormChange(
+                    "name",
+                    e.target.value,
+                  )
+                }
                 placeholder="e.g. Eclipse Pro"
                 className={inputCls}
               />
@@ -359,13 +437,23 @@ export default function AddTab() {
             <Field label="Category">
               <select
                 value={form.category}
-                onChange={(e) => handleFormChange("category", e.target.value)}
+                onChange={(e) =>
+                  handleFormChange(
+                    "category",
+                    e.target.value,
+                  )
+                }
                 className={inputCls}
               >
                 {categories
-                  .filter((c: string) => c !== "All")
+                  .filter(
+                    (c: string) => c !== "All",
+                  )
                   .map((c: string) => (
-                    <option key={c} value={c}>
+                    <option
+                      key={c}
+                      value={c}
+                    >
                       {c}
                     </option>
                   ))}
@@ -375,7 +463,12 @@ export default function AddTab() {
             <Field label="Frame Shape">
               <input
                 value={form.frameShape}
-                onChange={(e) => handleFormChange("frameShape", e.target.value)}
+                onChange={(e) =>
+                  handleFormChange(
+                    "frameShape",
+                    e.target.value,
+                  )
+                }
                 placeholder="e.g. Aviator"
                 className={inputCls}
               />
@@ -383,11 +476,17 @@ export default function AddTab() {
           </div>
 
           <div className="mt-3">
-            <Field label="Description" required>
+            <Field
+              label="Description"
+              required
+            >
               <textarea
                 value={form.description}
                 onChange={(e) =>
-                  handleFormChange("description", e.target.value)
+                  handleFormChange(
+                    "description",
+                    e.target.value,
+                  )
                 }
                 placeholder="Describe the product..."
                 rows={3}
@@ -407,13 +506,21 @@ export default function AddTab() {
           </p>
 
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Sale Price PKR)" required>
+            <Field
+              label="Sale Price (PKR)"
+              required
+            >
               <input
                 type="number"
                 min="0"
                 step="0.01"
                 value={form.price}
-                onChange={(e) => handleFormChange("price", e.target.value)}
+                onChange={(e) =>
+                  handleFormChange(
+                    "price",
+                    e.target.value,
+                  )
+                }
                 placeholder="189"
                 className={inputCls}
               />
@@ -426,7 +533,10 @@ export default function AddTab() {
                 step="0.01"
                 value={form.originalPrice}
                 onChange={(e) =>
-                  handleFormChange("originalPrice", e.target.value)
+                  handleFormChange(
+                    "originalPrice",
+                    e.target.value,
+                  )
                 }
                 placeholder="249 (optional)"
                 className={inputCls}
@@ -447,7 +557,8 @@ export default function AddTab() {
               </p>
 
               <p className="text-[#555] text-xs mt-1">
-                Add colors and upload images for each color.
+                Add colors and upload images for each
+                color.
               </p>
             </div>
 
@@ -461,121 +572,157 @@ export default function AddTab() {
           </div>
 
           <div className="space-y-4">
-            {variants.map((variant, index) => (
-              <div
-                key={index}
-                className="border border-[#222] rounded-xl p-4 space-y-4"
-              >
-                {/* Color Header */}
+            {variants.map(
+              (variant, index) => (
+                <div
+                  key={index}
+                  className="border border-[#222] rounded-xl p-4 space-y-4"
+                >
+                  {/* Color Header */}
 
-                <div className="flex items-center justify-between">
-                  <h3 className="text-white font-medium text-sm">
-                    Color {index + 1}
-                    {variant.color ? ` — ${variant.color}` : ""}
-                  </h3>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-medium text-sm">
+                      Color {index + 1}
+                      {variant.color
+                        ? ` — ${variant.color}`
+                        : ""}
+                    </h3>
 
-                  {variants.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeVariant(index)}
-                      className="text-red-500 text-xs hover:text-red-400"
+                    {variants.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          removeVariant(index)
+                        }
+                        className="text-red-500 text-xs hover:text-red-400"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Color + Stock */}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Field
+                      label="Color Name"
+                      required
                     >
-                      Remove
-                    </button>
+                      <input
+                        type="text"
+                        placeholder="e.g. Red"
+                        value={variant.color}
+                        onChange={(e) =>
+                          updateVariant(
+                            index,
+                            "color",
+                            e.target.value,
+                          )
+                        }
+                        className={inputCls}
+                      />
+                    </Field>
+
+                    <Field label="Stock">
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="10"
+                        value={variant.stock}
+                        onChange={(e) =>
+                          updateVariant(
+                            index,
+                            "stock",
+                            Number(
+                              e.target.value,
+                            ),
+                          )
+                        }
+                        className={inputCls}
+                      />
+                    </Field>
+                  </div>
+
+                  {/* Images */}
+
+                  <Field
+                    label={`${variant.color || "Color"} Images`}
+                    required
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={(e) =>
+                        handleVariantImages(
+                          index,
+                          e.target.files,
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </Field>
+
+                  {/* Image previews */}
+
+                  {variant.images.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-[#555] text-[10px] uppercase tracking-wide">
+                        Selected Images
+                      </p>
+
+                      <div className="flex gap-3 overflow-x-auto pb-1">
+                        {variant.images.map(
+                          (
+                            file,
+                            imageIndex,
+                          ) => (
+                            <div
+                              key={imageIndex}
+                              className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-[#222] bg-[#111]"
+                            >
+                              <img
+                                src={URL.createObjectURL(
+                                  file,
+                                )}
+                                alt={`${variant.color} image ${
+                                  imageIndex + 1
+                                }`}
+                                className="w-full h-full object-cover"
+                              />
+
+                              {/* Remove image */}
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  removeVariantImage(
+                                    index,
+                                    imageIndex,
+                                  )
+                                }
+                                className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/80 text-white text-xs flex items-center justify-center hover:bg-red-600"
+                              >
+                                ×
+                              </button>
+
+                              {/* Main image label */}
+
+                              {imageIndex ===
+                                0 && (
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[9px] text-center py-1">
+                                  Main
+                                </div>
+                              )}
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
-
-                {/* Color + Stock */}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <Field label="Color Name" required>
-                    <input
-                      type="text"
-                      placeholder="e.g. Red"
-                      value={variant.color}
-                      onChange={(e) =>
-                        updateVariant(index, "color", e.target.value)
-                      }
-                      className={inputCls}
-                    />
-                  </Field>
-
-                  <Field label="Stock">
-                    <input
-                      type="number"
-                      min="0"
-                      placeholder="10"
-                      value={variant.stock}
-                      onChange={(e) =>
-                        updateVariant(index, "stock", Number(e.target.value))
-                      }
-                      className={inputCls}
-                    />
-                  </Field>
-                </div>
-
-                {/* =================================
-                      IMAGES FOR THIS COLOR
-                  ================================== */}
-
-                <Field label={`${variant.color || "Color"} Images`} required>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={(e) => handleVariantImages(index, e.target.files)}
-                    className={inputCls}
-                  />
-                </Field>
-
-                {/* =================================
-                      IMAGE PREVIEWS
-                  ================================== */}
-
-                {variant.images.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-[#555] text-[10px] uppercase tracking-wide">
-                      Selected Images
-                    </p>
-
-                    <div className="flex gap-3 overflow-x-auto pb-1">
-                      {variant.images.map((file, imageIndex) => (
-                        <div
-                          key={imageIndex}
-                          className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-[#222] bg-[#111]"
-                        >
-                          <img
-                            src={URL.createObjectURL(file)}
-                            alt={`${variant.color} image ${imageIndex + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-
-                          {/* Remove image */}
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              removeVariantImage(index, imageIndex)
-                            }
-                            className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/80 text-white text-xs flex items-center justify-center hover:bg-red-600"
-                          >
-                            ×
-                          </button>
-
-                          {/* Main image label */}
-
-                          {imageIndex === 0 && (
-                            <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[9px] text-center py-1">
-                              Main
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+              ),
+            )}
           </div>
         </div>
 
@@ -593,7 +740,10 @@ export default function AddTab() {
               <input
                 value={form.frameMaterial}
                 onChange={(e) =>
-                  handleFormChange("frameMaterial", e.target.value)
+                  handleFormChange(
+                    "frameMaterial",
+                    e.target.value,
+                  )
                 }
                 placeholder="Titanium"
                 className={inputCls}
@@ -603,7 +753,12 @@ export default function AddTab() {
             <Field label="Lens Width">
               <input
                 value={form.lensWidth}
-                onChange={(e) => handleFormChange("lensWidth", e.target.value)}
+                onChange={(e) =>
+                  handleFormChange(
+                    "lensWidth",
+                    e.target.value,
+                  )
+                }
                 placeholder="54mm"
                 className={inputCls}
               />
@@ -613,7 +768,10 @@ export default function AddTab() {
               <input
                 value={form.bridgeWidth}
                 onChange={(e) =>
-                  handleFormChange("bridgeWidth", e.target.value)
+                  handleFormChange(
+                    "bridgeWidth",
+                    e.target.value,
+                  )
                 }
                 placeholder="16mm"
                 className={inputCls}
@@ -624,7 +782,10 @@ export default function AddTab() {
               <input
                 value={form.templeLength}
                 onChange={(e) =>
-                  handleFormChange("templeLength", e.target.value)
+                  handleFormChange(
+                    "templeLength",
+                    e.target.value,
+                  )
                 }
                 placeholder="140mm"
                 className={inputCls}
@@ -647,9 +808,16 @@ export default function AddTab() {
 
             <label className="flex items-center gap-2.5 cursor-pointer">
               <div
-                onClick={() => handleFormChange("isNew", !form.isNew)}
+                onClick={() =>
+                  handleFormChange(
+                    "isNew",
+                    !form.isNew,
+                  )
+                }
                 className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                  form.isNew ? "bg-white border-white" : "border-[#2a2a2a]"
+                  form.isNew
+                    ? "bg-white border-white"
+                    : "border-[#2a2a2a]"
                 }`}
               >
                 {form.isNew && (
@@ -668,7 +836,9 @@ export default function AddTab() {
                 )}
               </div>
 
-              <span className="text-[#888] text-sm">Mark as New</span>
+              <span className="text-[#888] text-sm">
+                Mark as New
+              </span>
             </label>
 
             {/* BESTSELLER */}
@@ -676,7 +846,10 @@ export default function AddTab() {
             <label className="flex items-center gap-2.5 cursor-pointer">
               <div
                 onClick={() =>
-                  handleFormChange("isBestseller", !form.isBestseller)
+                  handleFormChange(
+                    "isBestseller",
+                    !form.isBestseller,
+                  )
                 }
                 className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
                   form.isBestseller
@@ -700,7 +873,9 @@ export default function AddTab() {
                 )}
               </div>
 
-              <span className="text-[#888] text-sm">Mark as Bestseller</span>
+              <span className="text-[#888] text-sm">
+                Mark as Bestseller
+              </span>
             </label>
           </div>
         </div>
@@ -721,7 +896,8 @@ export default function AddTab() {
 
         {formSuccess && (
           <p className="text-[#81c784] text-sm bg-[#001a00] border border-[#003a00] rounded-xl px-4 py-3">
-            ✓ Product added to catalogue successfully!
+            ✓ Product added to catalogue
+            successfully!
           </p>
         )}
 

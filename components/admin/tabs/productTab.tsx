@@ -316,7 +316,7 @@ export default function ProductTab({
 
                     { label: "Frame Shape", value: product.frameShape || "-" },
                     { label: "Material", value: product.frameMaterial || "-" },
-                    { label: "Lens Width", value: product.lensWidth || "-" },
+                    { label: "Lens Thickness", value: product.lensWidth || "-" },
                     {
                       label: "Bridge Width",
                       value: product.bridgeWidth || "-",
@@ -593,7 +593,7 @@ export default function ProductTab({
                   {/* Lens Width */}
                   <div>
                     <label className="block text-[#888] text-xs mb-1.5">
-                      Lens Width
+                      Lens Thickness
                     </label>
 
                     <input

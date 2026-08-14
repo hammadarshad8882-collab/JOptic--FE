@@ -40,6 +40,8 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
+ const [isLoading, setIsLoading] = useState(true);
+
   // =====================================================
   // GET ORDERS
   // =====================================================
@@ -47,6 +49,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
   useEffect(() => {
     const getOrders = async () => {
       try {
+        setIsLoading(true);
         const res = await fetchWithAuth(
           `${process.env.NEXT_PUBLIC_API_URL}/api/orders/getall`,
         );
@@ -60,6 +63,8 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
         setInitialOrders(data.orders || []);
       } catch (error) {
         console.error("Error fetching orders:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -141,6 +146,14 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
     // Close status menu when changing order
     setStatusMenuOpen(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#333] border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -706,8 +719,8 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                         FINAL STATUS
                     ================================================= */}
 
-                  {(order.status === "delivered" ||
-                    order.status === "cancelled") && (
+                  {(order.status === "Delivered" ||
+                    order.status === "Cancelled") && (
                     <p
                       className={`
                           text-xs
@@ -732,7 +745,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
             EMPTY
         ================================================= */}
 
-        {filteredOrders.length === 0 && (
+        {!isLoading && filteredOrders.length === 0 && (
           <div className="text-center py-16">
             <p
               className="

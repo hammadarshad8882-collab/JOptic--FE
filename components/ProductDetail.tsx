@@ -329,7 +329,7 @@ export default function ProductDetail({
                 {[
                   ["Frame Shape", product.frameShape],
                   ["Frame Material", product.frameMaterial],
-                  ["Lens Width", product.lensWidth],
+                  ["Lens Thickness", product.lensWidth],
                   ["Bridge Width", product.bridgeWidth],
                   ["Temple Length", product.templeLength],
                   ["Category", product.category],
@@ -341,7 +341,7 @@ export default function ProductDetail({
                     <span className="text-[#555] text-xs uppercase tracking-wide">
                       {label}
                     </span>
-                    <span className="text-[#ccc] text-sm">{value}</span>
+                    <span className="text-[#ccc] text-sm">{`${value}`}</span>
                   </div>
                 ))}
               </div>

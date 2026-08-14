@@ -5,28 +5,46 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "@/store/store";
+
 import { clearUser } from "@/store/slics/auth";
 import { clearCart } from "@/store/slics/cart";
 import { clearWishlist } from "@/store/slics/wishlist";
 import { clearOrders, setInitialOrders } from "@/store/slics/orders";
 
+import {
+  FiHeart,
+  FiShoppingCart,
+  FiPackage,
+  FiLogIn,
+  FiLogOut,
+  FiUser,
+  FiMenu,
+  FiShield,
+} from "react-icons/fi";
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+
   const cart = useSelector((state: RootState) => state.cart.items);
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
   const user = useSelector((state: RootState) => state.auth.user);
   const orders = useSelector((state: RootState) => state.orders.items);
+
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const wishlistCount = wishlist.length;
   const ordersCount = orders.length;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
   const dispatch = useDispatch<AppDispatch>();
 
+  // Fetch user's orders
   useEffect(() => {
     const fetchMyOrders = async () => {
       if (!user) return;
+
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/orders/getOrderbyUserId/${user.id}`,
@@ -34,7 +52,9 @@ export default function Navbar() {
             credentials: "include",
           },
         );
+
         const data = await res.json();
+
         if (res.ok) {
           dispatch(setInitialOrders(data.orders || []));
         }
@@ -42,13 +62,17 @@ export default function Navbar() {
         console.error("Failed to fetch navbar orders:", error);
       }
     };
+
     fetchMyOrders();
   }, [user, dispatch]);
 
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
         setMenuOpen(false);
       }
     };
@@ -60,6 +84,7 @@ export default function Navbar() {
     };
   }, []);
 
+  // Logout
   const handleLogout = async () => {
     try {
       const response = await fetch(
@@ -74,24 +99,31 @@ export default function Navbar() {
 
       if (data.success) {
         localStorage.clear();
+
         dispatch(clearUser());
+        dispatch(clearCart());
+        dispatch(clearWishlist());
+        dispatch(clearOrders());
+
         localStorage.removeItem("lensco:cart");
         localStorage.removeItem("lensco:wishlist");
         localStorage.removeItem("lensco:orders");
         localStorage.removeItem("lensco:auth");
-        dispatch(clearCart());
-        dispatch(clearWishlist());
-        dispatch(clearOrders());
+
         setMenuOpen(false);
+
         router.push("/");
       }
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
+
   return (
     <header className="sticky top-0 z-50 bg-[#080808]/95 backdrop-blur-md border-b border-[#1c1c1c]">
       <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+        
+        {/* Logo */}
         <Link
           href="/"
           className="text-white font-['Fraunces'] text-xl font-semibold tracking-tight leading-none"
@@ -99,41 +131,38 @@ export default function Navbar() {
           J<span className="text-[#888]">Optics</span>
         </Link>
 
+        {/* Menu */}
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="relative p-2 rounded-full hover:bg-[#1a1a1a] transition-colors"
             aria-label="Menu"
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="4" y1="6" x2="20" y2="6" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="18" x2="20" y2="18" />
-            </svg>
+            <FiMenu
+              size={21}
+              strokeWidth={1.5}
+              className="text-white"
+            />
           </button>
 
           {/* MENU POPUP */}
           {menuOpen && (
-            <div className="absolute right-0 top-11 z-50 w-44 rounded-lg border border-[#2a2a2a] bg-[#111] shadow-lg">
+            <div className="absolute right-0 top-11 z-50 w-52 rounded-lg border border-[#2a2a2a] bg-[#111] shadow-lg overflow-hidden">
+
               {/* Wishlist */}
               <Link
                 href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors"
               >
-                <span>Wishlist</span>
+                <FiHeart size={18} />
+
+                <span className="flex-1">
+                  Wishlist
+                </span>
 
                 {wishlistCount > 0 && (
-                  <span className="bg-white text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="bg-white text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -143,25 +172,35 @@ export default function Navbar() {
               <Link
                 href="/cart"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors"
               >
-                <span>Cart</span>
+                <FiShoppingCart size={18} />
+
+                <span className="flex-1">
+                  Cart
+                </span>
 
                 {cartCount > 0 && (
-                  <span className="bg-white text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="bg-white text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
               </Link>
+
+              {/* Orders */}
               <Link
                 href="/order"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors"
               >
-                <span>My Orders</span>
+                <FiPackage size={18} />
+
+                <span className="flex-1">
+                  My Orders
+                </span>
 
                 {ordersCount > 0 && (
-                  <span className="bg-white text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="bg-white text-black text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                     {ordersCount}
                   </span>
                 )}
@@ -172,27 +211,39 @@ export default function Navbar() {
                 <Link
                   href="/admin"
                   onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors"
                 >
-                  Admin
+                  <FiShield size={18} />
+
+                  <span>
+                    Admin
+                  </span>
                 </Link>
               )}
 
-              {/* Logout */}
+              {/* Login / Logout */}
               {user ? (
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors border-t border-[#2a2a2a]"
+                  className="w-full flex items-center gap-3 text-left px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors border-t border-[#2a2a2a]"
                 >
-                  Logout
+                  <FiLogOut size={18} />
+
+                  <span>
+                    Logout
+                  </span>
                 </button>
               ) : (
                 <Link
                   href="/login?redirect=/"
                   onClick={() => setMenuOpen(false)}
-                  className="block px-4 py-3 text-sm hover:bg-[#1a1a1a] transition-colors border-t border-[#2a2a2a]"
+                  className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-[#1a1a1a] transition-colors border-t border-[#2a2a2a]"
                 >
-                  Login
+                  <FiLogIn size={18} />
+
+                  <span>
+                    Login
+                  </span>
                 </Link>
               )}
             </div>

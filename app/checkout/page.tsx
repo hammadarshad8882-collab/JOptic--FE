@@ -7,7 +7,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { RootState } from "@/store/store";
 import { clearCart } from "@/store/slics/cart";
-import { setUser } from "@/store/slics/auth";
 import { addOrder } from "@/store/slics/orders";
 import toast from "react-hot-toast";
 import { fetchWithAuth } from "@/api/fetchWithAuth";

@@ -37,20 +37,34 @@ export default function ProductDetail({
   useEffect(() => {
     setActiveImage(0);
   }, [selectedColor]);
-  const handleAddToCart = () => {
-    if (!selectedVariant) return;
+ const handleAddToCart = () => {
+  if (!selectedVariant) return;
 
-    dispatch(
-      addToCart({
-        product,
-        color: selectedVariant.color,
-      }),
-    );
+  dispatch(
+    addToCart({
+      product,
+      color: selectedVariant.color,
+    }),
+  );
 
-    setAdded(true);
+  // Meta Pixel - AddToCart
+  if (
+    typeof window !== "undefined" &&
+    typeof window.fbq === "function"
+  ) {
+    window.fbq("track", "AddToCart", {
+      content_ids: [product.id],
+      content_type: "product",
+      content_name: product.name,
+      value: Number(product.price),
+      currency: "PKR",
+    });
+  }
 
-    setTimeout(() => setAdded(false), 2000);
-  };
+  setAdded(true);
+
+  setTimeout(() => setAdded(false), 2000);
+};
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 

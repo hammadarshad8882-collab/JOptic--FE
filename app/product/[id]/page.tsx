@@ -3,13 +3,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import ProductDetail from "@/components/ProductDetail";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 
 export default function ProductPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const trackedProductId = useRef<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,7 +34,23 @@ export default function ProductPage() {
       fetchProduct();
     }
   }, [id]);
+  useEffect(() => {
+  if (!product) return;
 
+  if (trackedProductId.current === product.id) return;
+
+  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+    window.fbq("track", "ViewContent", {
+      content_ids: [product.id],
+      content_type: "product",
+      content_name: product.name,
+      value: Number(product.price),
+      currency: "PKR",
+    });
+
+    trackedProductId.current = product.id;
+  }
+}, [product]);
   if (isLoading) {
     return (
       <div className="mx-auto flex h-full items-center justify-center min-h-screen px-6 text-center">

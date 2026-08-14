@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -19,6 +19,7 @@ export default function CheckoutPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const User = useSelector((state: RootState) => state.auth.user);
+  const checkoutTracked = useRef(false);
 
   useEffect(() => {
     // Check role
@@ -37,6 +38,7 @@ export default function CheckoutPage() {
       }));
     }
   }, [User]);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -54,6 +56,27 @@ export default function CheckoutPage() {
   );
   const shipping = subtotal > 200 ? 0 : 15;
   const total = subtotal + shipping;
+ useEffect(() => {
+  if (!User || cart.length === 0 || checkoutTracked.current) return;
+
+  if (
+    typeof window !== "undefined" &&
+    typeof window.fbq === "function"
+  ) {
+    window.fbq("track", "InitiateCheckout", {
+      content_ids: cart.map((item) => item.product.id),
+      content_type: "product",
+      num_items: cart.reduce(
+        (sum, item) => sum + item.quantity,
+        0,
+      ),
+      value: Number(total.toFixed(2)),
+      currency: "PKR",
+    });
+
+    checkoutTracked.current = true;
+  }
+}, [User, cart, total]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -117,12 +140,29 @@ export default function CheckoutPage() {
       const data = await placeOrder.json();
 
       if (data.success) {
-        dispatch(addOrder(newOrder));
-        dispatch(clearCart());
-        setCreatedOrderId(orderId);
-        setIsSuccess(true);
-        setIsLoading(false);
-      } else {
+  // Meta Pixel - Purchase
+  if (
+    typeof window !== "undefined" &&
+    typeof window.fbq === "function"
+  ) {
+    window.fbq("track", "Purchase", {
+      content_ids: cart.map((item) => item.product.id),
+      content_type: "product",
+      num_items: cart.reduce(
+        (sum, item) => sum + item.quantity,
+        0,
+      ),
+      value: Number(total.toFixed(2)),
+      currency: "PKR",
+    });
+  }
+
+  dispatch(addOrder(newOrder));
+  dispatch(clearCart());
+  setCreatedOrderId(orderId);
+  setIsSuccess(true);
+  setIsLoading(false);
+}else {
         console.log(data);
         setIsLoading(false);
       }

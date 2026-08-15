@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { RootState } from "@/store/store";
-import { clearCart } from "@/store/slics/cart";
+import { clearCart, clearBuyNow } from "@/store/slics/cart";
 import { addOrder } from "@/store/slics/orders";
 import toast from "react-hot-toast";
 import { fetchWithAuth } from "@/api/fetchWithAuth";
@@ -14,7 +14,10 @@ import { fetchWithAuth } from "@/api/fetchWithAuth";
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const buyNowItem = useSelector((state: RootState) => state.cart.buyNowItem);
+  const isBuyNow = !!buyNowItem;
+  const cart = isBuyNow ? [buyNowItem] : cartItems;
   const [isLoading, setIsLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const User = useSelector((state: RootState) => state.auth.user);
@@ -157,7 +160,11 @@ export default function CheckoutPage() {
   }
 
   dispatch(addOrder(newOrder));
-  dispatch(clearCart());
+  if (isBuyNow) {
+    dispatch(clearBuyNow());
+  } else {
+    dispatch(clearCart());
+  }
   setCreatedOrderId(orderId);
   setIsSuccess(true);
   setIsLoading(false);
@@ -213,7 +220,7 @@ export default function CheckoutPage() {
     <div className="max-w-lg mx-auto px-4 pt-5 pb-6">
       <div className="flex items-center gap-2 mb-5">
         <Link
-          href="/cart"
+          href={isBuyNow ? "/" : "/cart"}
           className="text-[#374151] hover:text-[#111827] transition-colors"
         >
           <svg

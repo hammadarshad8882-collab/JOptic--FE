@@ -3,10 +3,12 @@ import type { CartItem, Product } from "@/types";
 
 interface CartState {
   items: CartItem[];
+  buyNowItem: CartItem | null;
 }
 
 const initialState: CartState = {
   items: [],
+  buyNowItem: null,
 };
 
 const cartSlice = createSlice({
@@ -67,6 +69,16 @@ const cartSlice = createSlice({
     setInitialCart(state, action: PayloadAction<CartItem[]>) {
       state.items = action.payload;
     },
+    setBuyNowItem(
+      state,
+      action: PayloadAction<{ product: Product; color: string }>,
+    ) {
+      const { product, color } = action.payload;
+      state.buyNowItem = { product, quantity: 1, selectedColor: color };
+    },
+    clearBuyNow(state) {
+      state.buyNowItem = null;
+    },
   },
 });
 
@@ -76,5 +88,7 @@ export const {
   updateQuantity,
   clearCart,
   setInitialCart,
+  setBuyNowItem,
+  clearBuyNow,
 } = cartSlice.actions;
 export default cartSlice.reducer;

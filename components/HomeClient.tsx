@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { Product } from "@/types";
 import { categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import Loader from "./loader";
 
 export default function HomeClient() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -201,7 +202,7 @@ export default function HomeClient() {
 
       {isLoading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="w-8 h-8 border-2 border-[#cbd5e1] border-t-[#111827] rounded-full animate-spin" />
+          <Loader/>
         </div>
       ) : filtered.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 px-4 mt-4 pb-6">

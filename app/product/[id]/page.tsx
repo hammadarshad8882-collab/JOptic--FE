@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import ProductDetail from "@/components/ProductDetail";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
+import Loader from "@/components/loader";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ export default function ProductPage() {
   if (isLoading) {
     return (
       <div className="mx-auto flex h-full items-center justify-center min-h-screen px-6 text-center">
-        <div className="w-8 h-8 border-2 border-[#cbd5e1] border-t-[#111827] rounded-full animate-spin" />
+       <Loader/>
       </div>
     );
   }

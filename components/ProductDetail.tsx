@@ -1,11 +1,12 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { Product } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "@/store/slics/cart";
+import { addToCart, setBuyNowItem } from "@/store/slics/cart";
 import { toggleWishlist } from "@/store/slics/wishlist";
 import type { RootState } from "@/store/store";
 
@@ -17,7 +18,9 @@ export default function ProductDetail({
   relatedProducts: Product[];
 }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
+  const user = useSelector((state: RootState) => state.auth.user);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const inWishlist = wishlist.some((item) => item.id === product.id);
   const inCart = cartItems.some((item) => item.product.id === product.id);
@@ -64,6 +67,24 @@ export default function ProductDetail({
   setAdded(true);
 
   setTimeout(() => setAdded(false), 2000);
+};
+
+ const handleBuyNow = () => {
+  if (!selectedVariant) return;
+
+  dispatch(
+    setBuyNowItem({
+      product,
+      color: selectedVariant.color,
+    }),
+  );
+
+  if (!user) {
+    router.push("/login?redirect=/checkout");
+    return;
+  }
+
+  router.push("/checkout");
 };
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -255,14 +276,49 @@ export default function ProductDetail({
         {/* CTA Buttons */}
         <div className="flex gap-3 mt-6">
           <button
-            onClick={handleAddToCart}
-            className={`flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300 ${
-              inCart
-                ? "bg-[#f3f4f6] border border-[#cbd5e1] text-[#4b5563]"
-                : "bg-[#111827] text-white hover:bg-[#374151] active:scale-95"
-            }`}
+            onClick={handleBuyNow}
+            className="flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300 bg-[#111827] text-white hover:bg-[#374151] active:scale-95"
           >
-            {inCart ? "✓ Added to Cart" : "Add to Cart"}
+            Buy Now
+          </button>
+          <button
+            onClick={handleAddToCart}
+            className={`p-4 rounded-2xl border transition-all duration-300 ${
+              inCart
+                ? "border-[#111827] bg-[#f3f4f6] text-[#111827]"
+                : "border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]"
+            }`}
+            title={inCart ? "Added to Cart" : "Add to Cart"}
+          >
+            {inCart ? (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            )}
           </button>
           <button
             onClick={() => dispatch(toggleWishlist(product))}

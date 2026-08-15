@@ -1,10 +1,11 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "@/store/slics/wishlist";
+import { addToCart } from "@/store/slics/cart";
 import type { RootState } from "@/store/store";
 
 interface ProductCardProps {
@@ -14,10 +15,37 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const dispatch = useDispatch();
   const wishlist = useSelector((state: RootState) => state.wishlist.items);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
   const inWishlist = wishlist.some((item) => item.id === product.id);
+  const inCart = cartItems.some((item) => item.product.id === product.id);
 
   const handleWishlist = () => {
     dispatch(toggleWishlist(product));
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      addToCart({
+        product,
+        color: product.variants?.[0]?.color || "Matte Black",
+      }),
+    );
+
+    // Meta Pixel - AddToCart
+    if (
+      typeof window !== "undefined" &&
+      typeof window.fbq === "function"
+    ) {
+      window.fbq("track", "AddToCart", {
+        content_ids: [product.id],
+        content_type: "product",
+        content_name: product.name,
+        value: Number(product.price),
+        currency: "PKR",
+      });
+    }
   };
   return (
     <div className="group relative bg-[#ffffff] rounded-2xl overflow-hidden border border-[#e5e7eb] hover:border-[#cbd5e1] transition-all duration-300 shadow-sm">
@@ -100,15 +128,56 @@ export default function ProductCard({ product }: ProductCardProps) {
               ({product.reviewCount})
             </span>
           </div>
-          <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-[#111827] font-semibold text-base">
-              PKR {product.price}
-            </span>
-            {product.originalPrice && (
-              <span className="text-[#4b5563] text-xs line-through">
-                PKR {product.originalPrice}
+          <div className="flex items-center justify-between mt-2">
+            <div className="flex items-baseline gap-2">
+              <span className="text-[#111827] font-semibold text-base">
+                PKR {product.price}
               </span>
-            )}
+              {product.originalPrice && (
+                <span className="text-[#4b5563] text-xs line-through">
+                  PKR {product.originalPrice}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={handleAddToCart}
+              className={`p-1.5 rounded-lg border transition-all duration-200 ${
+                inCart
+                  ? "border-[#111827] bg-[#111827] text-white"
+                  : "border-[#d1d5db] text-[#374151] hover:border-[#111827] hover:text-[#111827]"
+              }`}
+              title={inCart ? "Added to Cart" : "Add to Cart"}
+            >
+              {inCart ? (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              ) : (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </Link>

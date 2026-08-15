@@ -42,7 +42,9 @@ export default function ProductDetail({
   }, [selectedColor]);
  const handleAddToCart = () => {
   if (!selectedVariant) return;
-
+ if(inCart){
+  return;
+ }
   dispatch(
     addToCart({
       product,

@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
 import Navbar from "@/components/Navbar";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 import { Toaster } from "react-hot-toast";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
             }}
           />
           <Navbar />
+          <WhatsAppButton />
           <main className="">{children}</main>
         </ReduxProvider>
       </body>

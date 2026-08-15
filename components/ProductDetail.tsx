@@ -266,11 +266,7 @@ export default function ProductDetail({
           </button>
           <button
             onClick={handleAddToCart}
-            className={`p-4 rounded-2xl border transition-all duration-300 ${
-              inCart
-                ? "border-[#111827] bg-[#f3f4f6] text-[#111827]"
-                : "border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]"
-            }`}
+            className={`p-4 rounded-2xl border transition-all duration-300 border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]`}
             title={inCart ? "Added to Cart" : "Add to Cart"}
           >
             {inCart ? (
@@ -305,24 +301,20 @@ export default function ProductDetail({
           </button>
           <button
             onClick={() => dispatch(toggleWishlist(product))}
-            className={`p-4 rounded-2xl border transition-all ${
-              inWishlist
-                ? "border-[#111827] bg-[#f3f4f6] text-[#111827]"
-                : "border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]"
-            }`}
+            className={`p-4 rounded-2xl border transition-all border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]`}
           >
             <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill={inWishlist ? "white" : "none"}
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill={inWishlist ? "#111827" : "none"}
+            stroke="#111827"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
           </button>
         </div>
 

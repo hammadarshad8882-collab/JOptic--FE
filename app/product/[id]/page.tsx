@@ -14,6 +14,10 @@ export default function ProductPage() {
   const trackedProductId = useRef<string | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);

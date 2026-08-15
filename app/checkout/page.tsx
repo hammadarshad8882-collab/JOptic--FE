@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -94,10 +94,10 @@ export default function CheckoutPage() {
     ) {
       toast.error("Please fill all the fields", {
         style: {
-          background: "#111",
-          color: "#fff",
+          background: "#ffffff",
+          color: "#111827",
           borderRadius: "8px",
-          border: "1px solid #1a1a1a",
+          border: "1px solid #e5e7eb",
         },
       });
       return;
@@ -178,13 +178,13 @@ export default function CheckoutPage() {
   if (isSuccess) {
     return (
       <div className="max-w-lg mx-auto flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-5">
+        <div className="w-16 h-16 rounded-full bg-[#111827] flex items-center justify-center mb-5">
           <svg
             width="28"
             height="28"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="black"
+            stroke="white"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -192,16 +192,16 @@ export default function CheckoutPage() {
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </div>
-        <h2 className="text-white font-['Fraunces'] text-2xl mb-2">
+        <h2 className="text-[#111827] font-medium text-2xl mb-2">
           Order Placed Successfully!
         </h2>
-        <p className="text-[#888] text-sm mb-1">Thank you for your order.</p>
-        <p className="text-[#aaa] font-mono text-xs bg-[#111] px-3 py-1.5 rounded-lg border border-[#1a1a1a] mb-6">
+        <p className="text-[#4b5563] text-sm mb-1">Thank you for your order.</p>
+        <p className="text-[#374151] font-mono text-xs bg-[#ffffff] px-3 py-1.5 rounded-lg border border-[#e5e7eb] mb-6">
           Order ID: {createdOrderId}
         </p>
         <Link
           href="/"
-          className="px-8 py-3 bg-white text-black text-sm font-semibold rounded-2xl hover:bg-[#e0e0e0] transition-colors"
+          className="px-8 py-3 bg-[#111827] text-white text-sm font-semibold rounded-2xl hover:bg-[#374151] transition-colors"
         >
           Back to Home
         </Link>
@@ -214,7 +214,7 @@ export default function CheckoutPage() {
       <div className="flex items-center gap-2 mb-5">
         <Link
           href="/cart"
-          className="text-[#666] hover:text-white transition-colors"
+          className="text-[#374151] hover:text-[#111827] transition-colors"
         >
           <svg
             width="18"
@@ -229,12 +229,12 @@ export default function CheckoutPage() {
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </Link>
-        <h1 className="text-white font-['Fraunces'] text-2xl">Checkout</h1>
+        <h1 className="text-[#111827] font-medium text-2xl">Checkout</h1>
       </div>
 
       {/* Cart Summary */}
-      <div className="bg-[#111] border border-[#1a1a1a] rounded-2xl p-4 mb-5">
-        <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium mb-3">
+      <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4 mb-5">
+        <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium mb-3">
           Items Summary
         </p>
         <div className="space-y-3 max-h-48 overflow-y-auto mb-3 pr-1">
@@ -243,7 +243,7 @@ export default function CheckoutPage() {
               key={`${item.product.id}-${item.selectedColor}`}
               className="flex items-center gap-3"
             >
-              <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#0e0e0e] shrink-0 border border-[#1c1c1c]">
+              <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#f3f4f6] shrink-0 border border-[#e5e7eb]">
                 <Image
                   src={
                     item.product.variants.find(
@@ -257,34 +257,34 @@ export default function CheckoutPage() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-xs font-medium truncate">
+                <p className="text-[#111827] text-xs font-medium truncate">
                   {item.product.name}
                 </p>
-                <p className="text-[#555] text-[9px]">
+                <p className="text-[#374151] text-[9px]">
                   {item.selectedColor} · Qty {item.quantity}
                 </p>
               </div>
-              <p className="text-white text-xs font-semibold shrink-0">
+              <p className="text-[#111827] text-xs font-semibold shrink-0">
                 PKR {(item.product.price * item.quantity).toFixed(2)}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="border-t border-[#1c1c1c] pt-3 space-y-2 text-xs">
-          <div className="flex justify-between text-[#777]">
+        <div className="border-t border-[#e5e7eb] pt-3 space-y-2 text-xs">
+          <div className="flex justify-between text-[#4b5563]">
             <span>Subtotal</span>
-            <span className="text-white">PKR {subtotal.toFixed(2)}</span>
+            <span className="text-[#111827]">PKR {subtotal.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-[#777]">
+          <div className="flex justify-between text-[#4b5563]">
             <span>Shipping</span>
-            <span className="text-white">
+            <span className="text-[#111827]">
               {shipping === 0 ? "Free" : `PKR${shipping.toFixed(2)}`}
             </span>
           </div>
-          <div className="border-t border-[#1c1c1c] pt-2 flex justify-between text-sm font-semibold">
-            <span className="text-white">Total</span>
-            <span className="text-white text-base">PKR {total.toFixed(2)}</span>
+          <div className="border-t border-[#e5e7eb] pt-2 flex justify-between text-sm font-semibold">
+            <span className="text-[#111827]">Total</span>
+            <span className="text-[#111827] text-base">PKR {total.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -294,7 +294,7 @@ export default function CheckoutPage() {
         <div>
           <label
             htmlFor="email"
-            className="block text-[#777] text-[10px] uppercase tracking-wide mb-1.5"
+            className="block text-[#4b5563] text-[10px] uppercase tracking-wide mb-1.5"
           >
             Email Address
           </label>
@@ -305,14 +305,14 @@ export default function CheckoutPage() {
             value={formData.email}
             onChange={handleChange}
             placeholder="yourname@example.com"
-            className="w-full bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white placeholder-[#444] focus:border-[#444] focus:outline-none transition-colors"
+            className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-4 py-3 text-sm text-[#111827] placeholder-[#6b7280] focus:border-[#9ca3af] focus:outline-none transition-colors"
           />
         </div>
 
         <div>
           <label
             htmlFor="name"
-            className="block text-[#777] text-[10px] uppercase tracking-wide mb-1.5"
+            className="block text-[#4b5563] text-[10px] uppercase tracking-wide mb-1.5"
           >
             Full Name
           </label>
@@ -323,14 +323,14 @@ export default function CheckoutPage() {
             value={formData.name}
             onChange={handleChange}
             placeholder="John Doe"
-            className="w-full bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white placeholder-[#444] focus:border-[#444] focus:outline-none transition-colors"
+            className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-4 py-3 text-sm text-[#111827] placeholder-[#6b7280] focus:border-[#9ca3af] focus:outline-none transition-colors"
           />
         </div>
 
         <div>
           <label
             htmlFor="phone"
-            className="block text-[#777] text-[10px] uppercase tracking-wide mb-1.5"
+            className="block text-[#4b5563] text-[10px] uppercase tracking-wide mb-1.5"
           >
             Phone Number
           </label>
@@ -341,14 +341,14 @@ export default function CheckoutPage() {
             value={formData.phone}
             onChange={handleChange}
             placeholder="+1 (555) 000-0000"
-            className="w-full bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white placeholder-[#444] focus:border-[#444] focus:outline-none transition-colors"
+            className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-4 py-3 text-sm text-[#111827] placeholder-[#6b7280] focus:border-[#9ca3af] focus:outline-none transition-colors"
           />
         </div>
 
         <div>
           <label
             htmlFor="address"
-            className="block text-[#777] text-[10px] uppercase tracking-wide mb-1.5"
+            className="block text-[#4b5563] text-[10px] uppercase tracking-wide mb-1.5"
           >
             Address
           </label>
@@ -359,14 +359,14 @@ export default function CheckoutPage() {
             value={formData.address}
             onChange={handleChange}
             placeholder="123 Main St, Apt 4B"
-            className="w-full bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white placeholder-[#444] focus:border-[#444] focus:outline-none transition-colors"
+            className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-4 py-3 text-sm text-[#111827] placeholder-[#6b7280] focus:border-[#9ca3af] focus:outline-none transition-colors"
           />
         </div>
 
         <div>
           <label
             htmlFor="city"
-            className="block text-[#777] text-[10px] uppercase tracking-wide mb-1.5"
+            className="block text-[#4b5563] text-[10px] uppercase tracking-wide mb-1.5"
           >
             City
           </label>
@@ -377,14 +377,14 @@ export default function CheckoutPage() {
             value={formData.city}
             onChange={handleChange}
             placeholder="New York"
-            className="w-full bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white placeholder-[#444] focus:border-[#444] focus:outline-none transition-colors"
+            className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-4 py-3 text-sm text-[#111827] placeholder-[#6b7280] focus:border-[#9ca3af] focus:outline-none transition-colors"
           />
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-2 py-4 bg-white text-black font-semibold text-sm rounded-2xl hover:bg-[#e0e0e0] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-2 py-4 bg-[#111827] text-white font-semibold text-sm rounded-2xl hover:bg-[#374151] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading
             ? "Placing Order..."

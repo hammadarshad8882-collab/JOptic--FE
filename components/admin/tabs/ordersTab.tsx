@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { fetchWithAuth } from "@/api/fetchWithAuth";
 import Loader from "@/components/loader";
@@ -6,19 +6,19 @@ import { useEffect, useState } from "react";
 import type { Order, OrderStatus } from "@/types";
 
 const STATUS_COLORS: Record<OrderStatus, string> = {
-  Pending: "bg-[#2a2000] text-[#f0b429] border-[#4a3800]",
-  Confirmed: "bg-[#001a2a] text-[#4fc3f7] border-[#003a5a]",
-  Shipped: "bg-[#1a0030] text-[#ce93d8] border-[#3a0060]",
-  Delivered: "bg-[#001a00] text-[#81c784] border-[#003a00]",
-  Cancelled: "bg-[#2a0000] text-[#ef9a9a] border-[#5a0000]",
+  Pending: "bg-[#fef3c7] text-[#b45309] border-[#fcd34d]",
+  Confirmed: "bg-[#dbeafe] text-[#1d4ed8] border-[#93c5fd]",
+  Shipped: "bg-[#f3e8ff] text-[#7c3aed] border-[#c4b5fd]",
+  Delivered: "bg-[#dcfce7] text-[#15803d] border-[#86efac]",
+  Cancelled: "bg-[#fee2e2] text-[#dc2626] border-[#fca5a5]",
 };
 
 const STATUS_DOT_COLORS: Record<OrderStatus, string> = {
-  Pending: "bg-[#f0b429]",
-  Confirmed: "bg-[#4fc3f7]",
-  Shipped: "bg-[#ce93d8]",
-  Delivered: "bg-[#81c784]",
-  Cancelled: "bg-[#ef9a9a]",
+  Pending: "bg-[#b45309]",
+  Confirmed: "bg-[#1d4ed8]",
+  Shipped: "bg-[#7c3aed]",
+  Delivered: "bg-[#15803d]",
+  Cancelled: "bg-[#dc2626]",
 };
 
 const STATUSES: OrderStatus[] = [
@@ -163,9 +163,9 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
       <div className="flex items-baseline justify-between mb-4">
         <div>
-          <h2 className="text-white font-['Fraunces'] text-2xl">Orders</h2>
+          <h2 className="text-[#111827] font-medium text-2xl">Orders</h2>
 
-          <p className="text-[#444] text-xs mt-0.5">
+          <p className="text-[#4b5563] text-xs mt-0.5">
             {initialOrders.length} total orders
           </p>
         </div>
@@ -210,8 +210,8 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                 ${
                   orderFilter === status
-                    ? "bg-white text-black border-white"
-                    : "border-[#1c1c1c] text-[#555] hover:border-[#333] hover:text-[#aaa]"
+                    ? "bg-[#111827] text-white border-[#111827]"
+                    : "border-[#e5e7eb] text-[#374151] hover:border-[#9ca3af] hover:text-[#111827]"
                 }
               `}
             >
@@ -244,11 +244,11 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
               key={order.orderNumber}
               className="
                   relative
-                  bg-[#0e0e0e]
+                  bg-[#ffffff]
                   border
-                  border-[#1a1a1a]
+                  border-[#e5e7eb]
                   rounded-2xl
-                  hover:border-[#2a2a2a]
+                  hover:border-[#d1d5db]
                   transition-all
                 "
             >
@@ -270,7 +270,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-white text-sm font-medium">
+                      <span className="text-[#111827] text-sm font-medium">
                         {order.customerName}
                       </span>
 
@@ -289,11 +289,11 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                       </span>
                     </div>
 
-                    <p className="text-[#444] text-[10px] mt-0.5 font-mono">
+                    <p className="text-[#4b5563] text-[10px] mt-0.5 font-mono">
                       {order.orderNumber}
                     </p>
 
-                    <p className="text-[#333] text-[10px] mt-0.5">
+                    <p className="text-[#374151] text-[10px] mt-0.5">
                       {new Date(order.createdAt).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -305,11 +305,11 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                   {/* TOTAL */}
 
                   <div className="text-right shrink-0">
-                    <p className="text-white font-semibold">
+                    <p className="text-[#111827] font-semibold">
                       PKR {order.totalAmount}
                     </p>
 
-                    <p className="text-[#444] text-[10px]">
+                    <p className="text-[#4b5563] text-[10px]">
                       {totalItems} item
                       {totalItems !== 1 ? "s" : ""}
                     </p>
@@ -331,8 +331,8 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                                 rounded-lg
                                 overflow-hidden
                                 border
-                                border-[#1a1a1a]
-                                bg-[#111]
+                                border-[#e5e7eb]
+                                bg-[#ffffff]
                               "
                         >
                           <img
@@ -357,14 +357,14 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                             w-7
                             h-7
                             rounded-lg
-                            bg-[#1a1a1a]
+                            bg-[#f3f4f6]
                             border
-                            border-[#222]
+                            border-[#d1d5db]
                             flex
                             items-center
                             justify-center
                             text-[9px]
-                            text-[#555]
+                            text-[#374151]
                           "
                       >
                         +{order.items.length - 3}
@@ -379,7 +379,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#444"
+                    stroke="#4b5563"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -402,7 +402,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                 <div
                   className="
                       border-t
-                      border-[#1a1a1a]
+                      border-[#e5e7eb]
                       p-4
                       space-y-4
                     "
@@ -433,7 +433,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                       <div key={field.label}>
                         <p
                           className="
-                                text-[#333]
+                                text-[#374151]
                                 text-[10px]
                                 uppercase
                                 tracking-wide
@@ -444,7 +444,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                         <p
                           className="
-                                text-[#aaa]
+                                text-[#374151]
                                 text-xs
                                 mt-0.5
                               "
@@ -462,7 +462,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                   <div>
                     <p
                       className="
-                          text-[#333]
+                          text-[#374151]
                           text-[10px]
                           uppercase
                           tracking-wide
@@ -490,7 +490,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                                   h-10
                                   rounded-lg
                                   overflow-hidden
-                                  bg-[#111]
+                                  bg-[#ffffff]
                                   shrink-0
                                 "
                           >
@@ -515,7 +515,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                           >
                             <p
                               className="
-                                    text-white
+                                    text-[#111827]
                                     text-sm
                                     truncate
                                   "
@@ -525,7 +525,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                             <p
                               className="
-                                    text-[#444]
+                                    text-[#4b5563]
                                     text-[10px]
                                   "
                             >
@@ -539,7 +539,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                           <p
                             className="
-                                  text-[#aaa]
+                                  text-[#374151]
                                   text-sm
                                   shrink-0
                                 "
@@ -562,7 +562,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                   <div className="relative pt-1">
                     <p
                       className="
-                          text-[#333]
+                          text-[#374151]
                           text-[10px]
                           uppercase
                           tracking-wide
@@ -644,10 +644,10 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                             z-[9999]
                             p-1.5
                             rounded-xl
-                            bg-[#111]
+                            bg-[#ffffff]
                             border
-                            border-[#252525]
-                            shadow-[0_15px_40px_rgba(0,0,0,0.6)]
+                            border-[#e5e7eb]
+                            shadow-[0_15px_40px_rgba(0,0,0,0.12)]
                             overflow-y-auto
                           
                           "
@@ -667,7 +667,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
                                   py-2.5
                                   rounded-lg
                                   text-left
-                                  hover:bg-[#1a1a1a]
+                                  hover:bg-[#f3f4f6]
                                   transition-all
                                   disabled:opacity-50
                                 "
@@ -684,7 +684,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
                               <span
                                 className="
-                                      text-[#aaa]
+                                      text-[#374151]
                                       text-xs
                                       capitalize
                                     "
@@ -749,7 +749,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
           <div className="text-center py-16">
             <p
               className="
-                text-[#333]
+                text-[#374151]
                 font-['Fraunces']
                 text-lg
               "

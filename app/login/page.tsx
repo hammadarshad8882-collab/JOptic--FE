@@ -119,27 +119,27 @@ function LoginPageContent() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo / Brand */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center mb-5">
-            <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg shadow-white/10">
-              <span className="text-black text-2xl font-bold">J</span>
+            <div className="w-14 h-14 rounded-2xl bg-[#111827] flex items-center justify-center shadow-lg shadow-black/10">
+              <span className="text-white text-2xl font-bold">J</span>
             </div>
           </div>
 
-          <h1 className="text-3xl font-semibold text-white tracking-tight">
+          <h1 className="text-3xl font-semibold text-[#111827] tracking-tight">
             Welcome Back
           </h1>
 
-          <p className="text-gray-400 mt-2 text-sm">
+          <p className="text-gray-600 mt-2 text-sm">
             Sign in to continue to your account
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-[#0d0d0d] border border-white/10 rounded-2xl p-7 sm:p-9 shadow-2xl">
+        <div className="bg-[#ffffff] border border-black/10 rounded-2xl p-7 sm:p-9 shadow-2xl">
           <div className="space-y-6">
             {/* Google Login */}
             <div className="flex justify-center items-center">
@@ -148,18 +148,18 @@ function LoginPageContent() {
 
             {/* Divider */}
             <div className="flex items-center gap-4">
-              <div className="h-px flex-1 bg-white/10" />
+              <div className="h-px flex-1 bg-black/10" />
 
-              <span className="text-xs text-gray-500 uppercase tracking-wider">
+              <span className="text-xs text-gray-600 uppercase tracking-wider">
                 Secure Login
               </span>
 
-              <div className="h-px flex-1 bg-white/10" />
+              <div className="h-px flex-1 bg-black/10" />
             </div>
 
             {/* Security Message */}
-            <div className="flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 p-4">
-              <div className="mt-0.5 text-gray-400">
+            <div className="flex items-start gap-3 rounded-xl bg-black/[0.03] border border-black/5 p-4">
+              <div className="mt-0.5 text-gray-600">
                 <svg
                   width="18"
                   height="18"
@@ -174,9 +174,9 @@ function LoginPageContent() {
               </div>
 
               <div>
-                <p className="text-sm text-gray-300">Your login is secure</p>
+                <p className="text-sm text-gray-700">Your login is secure</p>
 
-                <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                <p className="text-xs text-gray-600 mt-1 leading-relaxed">
                   We use Google authentication to keep your account safe and
                   secure.
                 </p>
@@ -193,8 +193,8 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#050505]">
-          <div className="w-8 h-8 border-2 border-[#333] border-t-white rounded-full animate-spin" />
+        <div className="min-h-screen flex items-center justify-center bg-[#f5f5f5]">
+          <div className="w-8 h-8 border-2 border-[#cbd5e1] border-t-[#111827] rounded-full animate-spin" />
         </div>
       }
     >

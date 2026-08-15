@@ -54,7 +54,7 @@ export default function ProductPage() {
   if (isLoading) {
     return (
       <div className="mx-auto flex h-full items-center justify-center min-h-screen px-6 text-center">
-        <div className="w-8 h-8 border-2 border-[#333] border-t-white rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#cbd5e1] border-t-[#111827] rounded-full animate-spin" />
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function ProductPage() {
   if (!product) {
     return (
       <div className="max-w-lg mx-auto flex items-center justify-center min-h-[60vh] px-6 text-center">
-        <p className="text-[#555] text-sm">Product not found</p>
+        <p className="text-[#374151] text-sm">Product not found</p>
       </div>
     );
   }

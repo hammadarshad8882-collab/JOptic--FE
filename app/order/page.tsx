@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -53,16 +53,16 @@ const STATUS_CONFIG: Record<
     message: "Your order has been received.",
     description:
       "We have received your order and it is waiting for confirmation.",
-    color: "bg-[#2a2000] text-[#f0b429] border-[#4a3800]",
-    dot: "bg-[#f0b429]",
+    color: "bg-[#fef3c7] text-[#b45309] border-[#fcd34d]",
+    dot: "bg-[#b45309]",
   },
 
   Confirmed: {
     label: "Confirmed",
     message: "Your order has been confirmed.",
     description: "Your order has been confirmed and is being prepared.",
-    color: "bg-[#001a2a] text-[#4fc3f7] border-[#003a5a]",
-    dot: "bg-[#4fc3f7]",
+    color: "bg-[#dbeafe] text-[#1d4ed8] border-[#93c5fd]",
+    dot: "bg-[#1d4ed8]",
   },
 
   Shipped: {
@@ -70,8 +70,8 @@ const STATUS_CONFIG: Record<
     message: "Your order is on its way.",
     description:
       "Your order has been shipped and is currently on its way to you.",
-    color: "bg-[#1a0030] text-[#ce93d8] border-[#3a0060]",
-    dot: "bg-[#ce93d8]",
+    color: "bg-[#f3e8ff] text-[#7c3aed] border-[#c4b5fd]",
+    dot: "bg-[#7c3aed]",
   },
 
   Delivered: {
@@ -79,16 +79,16 @@ const STATUS_CONFIG: Record<
     message: "Your order has been delivered.",
     description:
       "Your order was successfully delivered. We hope you enjoy your purchase.",
-    color: "bg-[#001a00] text-[#81c784] border-[#003a00]",
-    dot: "bg-[#81c784]",
+    color: "bg-[#dcfce7] text-[#15803d] border-[#86efac]",
+    dot: "bg-[#15803d]",
   },
 
   Cancelled: {
     label: "Cancelled",
     message: "Your order has been cancelled.",
     description: "This order has been cancelled and will not be processed.",
-    color: "bg-[#2a0000] text-[#ef9a9a] border-[#5a0000]",
-    dot: "bg-[#ef9a9a]",
+    color: "bg-[#fee2e2] text-[#dc2626] border-[#fca5a5]",
+    dot: "bg-[#dc2626]",
   },
 };
 
@@ -189,12 +189,12 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white px-4 py-10">
+      <div className="min-h-screen bg-[#f8f9fa] text-[#111827] px-4 py-10">
         <div className="max-w-[1000px] mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 w-40 bg-[#151515] rounded-lg mb-3" />
+            <div className="h-8 w-40 bg-[#f3f4f6] rounded-lg mb-3" />
 
-            <div className="h-4 w-64 bg-[#151515] rounded mb-8" />
+            <div className="h-4 w-64 bg-[#f3f4f6] rounded mb-8" />
 
             <div className="space-y-4">
               {[1, 2, 3].map((item) => (
@@ -202,9 +202,9 @@ export default function OrdersPage() {
                   key={item}
                   className="
                     h-64
-                    bg-[#0e0e0e]
+                    bg-[#f3f4f6]
                     border
-                    border-[#1a1a1a]
+                    border-[#e5e7eb]
                     rounded-2xl
                   "
                 />
@@ -217,16 +217,16 @@ export default function OrdersPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white px-4 py-10">
+    <main className="min-h-screen bg-[#f8f9fa] text-[#111827] px-4 py-10">
       <div className="max-w-[1000px] mx-auto">
         {/* =================================================
             HEADER
         ================================================= */}
 
         <div className="mb-8">
-          <h1 className="font-['Fraunces'] text-3xl">My Orders</h1>
+          <h1 className="font-medium text-3xl">My Orders</h1>
 
-          <p className="text-[#555] text-sm mt-1">
+          <p className="text-[#374151] text-sm mt-1">
             Track your orders and see their current status.
           </p>
         </div>
@@ -241,9 +241,9 @@ export default function OrdersPage() {
               text-center
               py-20
               border
-              border-[#1a1a1a]
+              border-[#e5e7eb]
               rounded-2xl
-              bg-[#0a0a0a]
+              bg-[#f3f4f6]
             "
           >
             <div
@@ -253,7 +253,7 @@ export default function OrdersPage() {
                 mx-auto
                 mb-4
                 rounded-full
-                bg-[#111]
+                bg-[#ffffff]
                 flex
                 items-center
                 justify-center
@@ -264,7 +264,7 @@ export default function OrdersPage() {
                 height="20"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#555"
+                stroke="#374151"
                 strokeWidth="1.5"
               >
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -273,11 +273,11 @@ export default function OrdersPage() {
               </svg>
             </div>
 
-            <h2 className="text-white font-['Fraunces'] text-lg">
+            <h2 className="text-[#111827] font-medium text-lg">
               {!user ? "Please log in" : "No orders yet"}
             </h2>
 
-            <p className="text-[#444] text-xs mt-1">
+            <p className="text-[#4b5563] text-xs mt-1">
               {!user
                 ? "You need to be logged in to view your orders."
                 : "Your orders will appear here after you make a purchase."}
@@ -306,9 +306,9 @@ export default function OrdersPage() {
               <div
                 key={order.id}
                 className="
-                  bg-[#0b0b0b]
+                  bg-[#ffffff]
                   border
-                  border-[#1a1a1a]
+                  border-[#e5e7eb]
                   rounded-2xl
                   overflow-hidden
                 "
@@ -317,18 +317,18 @@ export default function OrdersPage() {
                     ORDER HEADER
                 ================================================= */}
 
-                <div className="p-5 border-b border-[#1a1a1a]">
+                <div className="p-5 border-b border-[#e5e7eb]">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-[#444] text-[10px] uppercase tracking-wider">
+                      <p className="text-[#4b5563] text-[10px] uppercase tracking-wider">
                         Order
                       </p>
 
-                      <h2 className="text-white text-sm font-medium font-mono mt-1">
+                      <h2 className="text-[#111827] text-sm font-medium font-mono mt-1">
                         {order.orderNumber}
                       </h2>
 
-                      <p className="text-[#444] text-[10px] mt-1">
+                      <p className="text-[#4b5563] text-[10px] mt-1">
                         {new Date(order.createdAt).toLocaleDateString("en-US", {
                           month: "short",
                           day: "numeric",
@@ -432,7 +432,7 @@ export default function OrdersPage() {
                           right-[12px]
                           top-[12px]
                           h-px
-                          bg-[#222]
+                          bg-[#e5e7eb]
                         "
                       />
 
@@ -442,7 +442,7 @@ export default function OrdersPage() {
                           left-[12px]
                           top-[12px]
                           h-px
-                          bg-white
+                          bg-[#111827]
                           transition-all
                         "
                         style={{
@@ -486,8 +486,8 @@ export default function OrdersPage() {
                                     z-10
                                     ${
                                       completed
-                                        ? "bg-white border-white"
-                                        : "bg-[#0b0b0b] border-[#333]"
+                                        ? "bg-[#111827] border-[#111827]"
+                                        : "bg-[#ffffff] border-[#cbd5e1]"
                                     }
                                   `}
                               >
@@ -497,13 +497,13 @@ export default function OrdersPage() {
                                     height="11"
                                     viewBox="0 0 24 24"
                                     fill="none"
-                                    stroke="#000"
+                                    stroke="#fff"
                                     strokeWidth="3"
                                   >
                                     <polyline points="20 6 9 17 4 12" />
                                   </svg>
                                 ) : (
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#333]" />
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#cbd5e1]" />
                                 )}
                               </div>
 
@@ -511,7 +511,7 @@ export default function OrdersPage() {
                                 className={`
                                     text-[9px]
                                     capitalize
-                                    ${completed ? "text-[#aaa]" : "text-[#444]"}
+                                    ${completed ? "text-[#374151]" : "text-[#4b5563]"}
                                   `}
                               >
                                 {status}
@@ -531,16 +531,16 @@ export default function OrdersPage() {
                 {order.status === "Cancelled" && (
                   <div className="px-5 py-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#2a0000] border border-[#5a0000] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-[#fee2e2] border border-[#fca5a5] flex items-center justify-center">
                         <XIcon />
                       </div>
 
                       <div>
-                        <p className="text-[#ef9a9a] text-xs">
+                        <p className="text-[#dc2626] text-xs">
                           Order Cancelled
                         </p>
 
-                        <p className="text-[#444] text-[10px] mt-1">
+                        <p className="text-[#4b5563] text-[10px] mt-1">
                           This order will not be processed.
                         </p>
                       </div>
@@ -553,13 +553,13 @@ export default function OrdersPage() {
                 ================================================= */}
 
                 <div className="px-5 pb-5">
-                  <div className="border-t border-[#1a1a1a] pt-5">
+                  <div className="border-t border-[#e5e7eb] pt-5">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-[#444] text-[10px] uppercase tracking-wide">
+                      <p className="text-[#4b5563] text-[10px] uppercase tracking-wide">
                         Items
                       </p>
 
-                      <p className="text-[#444] text-[10px]">
+                      <p className="text-[#4b5563] text-[10px]">
                         {totalItems} {totalItems === 1 ? "item" : "items"}
                       </p>
                     </div>
@@ -580,9 +580,9 @@ export default function OrdersPage() {
                                 h-12
                                 rounded-xl
                                 overflow-hidden
-                                bg-[#111]
+                                bg-[#ffffff]
                                 border
-                                border-[#1a1a1a]
+                                border-[#e5e7eb]
                                 shrink-0
                               "
                           >
@@ -598,18 +598,18 @@ export default function OrdersPage() {
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <p className="text-white text-xs truncate">
+                            <p className="text-[#111827] text-xs truncate">
                               {item.product.name}
                             </p>
 
-                            <p className="text-[#444] text-[10px] mt-1">
+                            <p className="text-[#4b5563] text-[10px] mt-1">
                               {item.color || "Default"}
                               {" · "}
                               Qty {item.quantity}
                             </p>
                           </div>
 
-                          <p className="text-[#aaa] text-xs shrink-0">
+                          <p className="text-[#374151] text-xs shrink-0">
                             PKR{" "}
                             {(
                               item.product.price * item.quantity
@@ -630,7 +630,7 @@ export default function OrdersPage() {
                     px-5
                     py-4
                     border-t
-                    border-[#1a1a1a]
+                    border-[#e5e7eb]
                     flex
                     items-center
                     justify-between
@@ -638,9 +638,9 @@ export default function OrdersPage() {
                   "
                 >
                   <div>
-                    <p className="text-[#444] text-[10px]">Total</p>
+                    <p className="text-[#4b5563] text-[10px]">Total</p>
 
-                    <p className="text-white text-lg font-semibold mt-0.5">
+                    <p className="text-[#111827] text-lg font-semibold mt-0.5">
                       PKR {Number(order.totalAmount).toLocaleString()}
                     </p>
                   </div>

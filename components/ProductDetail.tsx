@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -74,7 +74,7 @@ export default function ProductDetail({
       <div className="px-4 py-3">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[#666] hover:text-white transition-colors text-sm"
+          className="flex items-center gap-2 text-[#374151] hover:text-[#111827] transition-colors text-sm"
         >
           <svg
             width="16"
@@ -93,7 +93,7 @@ export default function ProductDetail({
       </div>
 
       {/* Image Gallery */}
-      <div className="relative bg-[#0e0e0e] aspect-square">
+      <div className="relative bg-[#f3f4f6] aspect-square">
         <Image
           src={
             variantImages[activeImage] ||
@@ -109,14 +109,14 @@ export default function ProductDetail({
         {/* Wishlist */}
         <button
           onClick={() => dispatch(toggleWishlist(product))}
-          className="absolute top-4 right-4 p-2.5 rounded-full bg-[#080808]/70 backdrop-blur-sm hover:bg-[#1a1a1a] transition-colors"
+          className="absolute top-4 right-4 p-2.5 rounded-full bg-[#f8f9fa]/90 backdrop-blur-sm hover:bg-[#f3f4f6] transition-colors"
         >
           <svg
             width="20"
             height="20"
             viewBox="0 0 24 24"
-            fill={inWishlist ? "white" : "none"}
-            stroke="white"
+            fill={inWishlist ? "#111827" : "none"}
+            stroke="#111827"
             strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -128,12 +128,12 @@ export default function ProductDetail({
         {/* Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-1">
           {product.isNew && (
-            <span className="bg-white text-black text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">
+            <span className="bg-[#111827] text-white text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">
               New
             </span>
           )}
           {product.isBestseller && (
-            <span className="bg-[#1a1a1a] border border-[#333] text-white text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">
+            <span className="bg-[#f3f4f6] border border-[#cbd5e1] text-[#111827] text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">
               Bestseller
             </span>
           )}
@@ -147,7 +147,7 @@ export default function ProductDetail({
                 key={i}
                 onClick={() => setActiveImage(i)}
                 className={`w-1.5 rounded-full transition-all duration-200 ${
-                  activeImage === i ? "bg-white w-4 h-1.5" : "bg-[#555] h-1.5"
+                  activeImage === i ? "bg-[#111827] w-4 h-1.5" : "bg-[#6b7280] h-1.5"
                 }`}
               />
             ))}
@@ -163,7 +163,7 @@ export default function ProductDetail({
               key={i}
               onClick={() => setActiveImage(i)}
               className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
-                activeImage === i ? "border-white" : "border-[#222] opacity-50"
+                activeImage === i ? "border-[#111827]" : "border-[#d1d5db] opacity-50"
               }`}
             >
               <Image
@@ -182,19 +182,19 @@ export default function ProductDetail({
       <div className="px-4 mt-4">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium">
+            <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium">
               {product.brand}
             </p>
-            <h1 className="text-white font-['Fraunces'] text-2xl leading-tight mt-0.5">
+            <h1 className="text-[#111827] font-medium text-2xl leading-tight mt-0.5">
               {product.name}
             </h1>
           </div>
           <div className="text-right">
-            <p className="text-white text-2xl font-semibold">
+            <p className="text-[#111827] text-2xl font-semibold">
               PKR {product.price}
             </p>
             {product.originalPrice && (
-              <p className="text-[#444] text-sm line-through">
+              <p className="text-[#4b5563] text-sm line-through">
                 PKR {product.originalPrice}
               </p>
             )}
@@ -210,16 +210,16 @@ export default function ProductDetail({
                 width="12"
                 height="12"
                 viewBox="0 0 24 24"
-                fill={s <= Math.round(product.rating) ? "white" : "#2a2a2a"}
+                fill={s <= Math.round(product.rating) ? "#111827" : "#d1d5db"}
               >
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             ))}
           </div>
-          <span className="text-white text-sm font-medium">
+          <span className="text-[#111827] text-sm font-medium">
             {product.rating}
           </span>
-          <span className="text-[#555] text-xs">
+          <span className="text-[#374151] text-xs">
             ({product.reviewCount} reviews)
           </span>
         </div>
@@ -227,10 +227,10 @@ export default function ProductDetail({
         {/* Color Selection */}
         <div className="mt-5">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[#aaa] text-xs font-medium tracking-wide uppercase">
+            <p className="text-[#374151] text-xs font-medium tracking-wide uppercase">
               Frame Color
             </p>
-            <p className="text-white text-xs">{selectedColor}</p>
+            <p className="text-[#111827] text-xs">{selectedColor}</p>
           </div>
           <div className="flex gap-2 flex-wrap">
             {product.variants?.map((variant: any) => (
@@ -242,8 +242,8 @@ export default function ProductDetail({
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
                   selectedColor === variant.color
-                    ? "border-white text-white bg-[#1a1a1a]"
-                    : "border-[#222] text-[#666] hover:border-[#444]"
+                    ? "border-[#111827] text-[#111827] bg-[#f3f4f6]"
+                    : "border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]"
                 }`}
               >
                 {variant.color}
@@ -258,8 +258,8 @@ export default function ProductDetail({
             onClick={handleAddToCart}
             className={`flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300 ${
               inCart
-                ? "bg-[#1a1a1a] border border-[#333] text-[#888]"
-                : "bg-white text-black hover:bg-[#e0e0e0] active:scale-95"
+                ? "bg-[#f3f4f6] border border-[#cbd5e1] text-[#4b5563]"
+                : "bg-[#111827] text-white hover:bg-[#374151] active:scale-95"
             }`}
           >
             {inCart ? "✓ Added to Cart" : "Add to Cart"}
@@ -268,8 +268,8 @@ export default function ProductDetail({
             onClick={() => dispatch(toggleWishlist(product))}
             className={`p-4 rounded-2xl border transition-all ${
               inWishlist
-                ? "border-white bg-[#1a1a1a] text-white"
-                : "border-[#222] text-[#666] hover:border-[#444]"
+                ? "border-[#111827] bg-[#f3f4f6] text-[#111827]"
+                : "border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]"
             }`}
           >
             <svg
@@ -289,15 +289,15 @@ export default function ProductDetail({
 
         {/* Tabs */}
         <div className="mt-7">
-          <div className="flex border-b border-[#1c1c1c]">
+          <div className="flex border-b border-[#e5e7eb]">
             {(["specs", "reviews"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 pb-2.5 text-xs font-medium tracking-wide uppercase transition-all border-b-2 -mb-px ${
                   activeTab === tab
-                    ? "border-white text-white"
-                    : "border-transparent text-[#444] hover:text-[#888]"
+                    ? "border-[#111827] text-[#111827]"
+                    : "border-transparent text-[#4b5563] hover:text-[#111827]"
                 }`}
               >
                 {tab}
@@ -308,7 +308,7 @@ export default function ProductDetail({
           <div className="mt-4">
             {activeTab === "details" && (
               <div>
-                {/* <p className="text-[#aaa] text-sm leading-relaxed">{product.description}</p>
+                {/* <p className="text-[#374151] text-sm leading-relaxed">{product.description}</p>
                 <ul className="mt-4 space-y-2">
                   {product.features.map((feat) => (
                     <li key={feat} className="flex items-center gap-2.5 text-sm text-[#888]">
@@ -336,12 +336,12 @@ export default function ProductDetail({
                 ].map(([label, value]) => (
                   <div
                     key={label}
-                    className="flex items-center justify-between py-3 border-b border-[#151515]"
+                    className="flex items-center justify-between py-3 border-b border-[#f3f4f6]"
                   >
-                    <span className="text-[#555] text-xs uppercase tracking-wide">
+                    <span className="text-[#374151] text-xs uppercase tracking-wide">
                       {label}
                     </span>
-                    <span className="text-[#ccc] text-sm">{`${value}`}</span>
+                    <span className="text-[#374151] text-sm">{`${value}`}</span>
                   </div>
                 ))}
               </div>
@@ -351,7 +351,7 @@ export default function ProductDetail({
               <div>
                 <div className="flex items-center gap-4 mb-5">
                   <div className="text-center">
-                    <p className="text-white text-4xl font-['Fraunces']">
+                    <p className="text-[#111827] text-4xl font-['Fraunces']">
                       {product.rating}
                     </p>
                     <div className="flex justify-center mt-1">
@@ -364,14 +364,14 @@ export default function ProductDetail({
                           fill={
                             s <= Math.round(product.rating)
                               ? "white"
-                              : "#2a2a2a"
+                              : "#d1d5db"
                           }
                         >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
                     </div>
-                    <p className="text-[#555] text-[10px] mt-1">
+                    <p className="text-[#374151] text-[10px] mt-1">
                       {product.reviewCount} reviews
                     </p>
                   </div>
@@ -389,12 +389,12 @@ export default function ProductDetail({
                                 : 1;
                       return (
                         <div key={star} className="flex items-center gap-2">
-                          <span className="text-[#555] text-[10px] w-2">
+                          <span className="text-[#374151] text-[10px] w-2">
                             {star}
                           </span>
-                          <div className="flex-1 h-1 bg-[#1a1a1a] rounded-full overflow-hidden">
+                          <div className="flex-1 h-1 bg-[#e5e7eb] rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-white rounded-full"
+                              className="h-full bg-[#111827] rounded-full"
                               style={{ width: `${pct}%` }}
                             />
                           </div>
@@ -427,13 +427,13 @@ export default function ProductDetail({
                 ].map((review) => (
                   <div
                     key={review.name}
-                    className="py-4 border-b border-[#151515]"
+                    className="py-4 border-b border-[#f3f4f6]"
                   >
                     <div className="flex items-center justify-between">
-                      <p className="text-white text-sm font-medium">
+                      <p className="text-[#111827] text-sm font-medium">
                         {review.name}
                       </p>
-                      <p className="text-[#444] text-[10px]">{review.date}</p>
+                      <p className="text-[#4b5563] text-[10px]">{review.date}</p>
                     </div>
                     <div className="flex mt-1">
                       {stars.map((s) => (
@@ -442,13 +442,13 @@ export default function ProductDetail({
                           width="10"
                           height="10"
                           viewBox="0 0 24 24"
-                          fill={s <= review.rating ? "white" : "#222"}
+                          fill={s <= review.rating ? "#111827" : "#d1d5db"}
                         >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
                     </div>
-                    <p className="text-[#777] text-sm mt-1.5 leading-relaxed">
+                    <p className="text-[#4b5563] text-sm mt-1.5 leading-relaxed">
                       {review.text}
                     </p>
                   </div>
@@ -461,7 +461,7 @@ export default function ProductDetail({
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-8">
-            <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
+            <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
               You Might Also Like
             </p>
             <div className="flex gap-3 overflow-x-auto pb-2">
@@ -469,9 +469,9 @@ export default function ProductDetail({
                 <Link
                   key={p.id}
                   href={`/product/${p.id}`}
-                  className="shrink-0 w-36 bg-[#111] rounded-xl overflow-hidden border border-[#1c1c1c] hover:border-[#333] transition-all text-left block"
+                  className="shrink-0 w-36 bg-[#ffffff] rounded-xl overflow-hidden border border-[#e5e7eb] hover:border-[#cbd5e1] transition-all text-left block shadow-sm"
                 >
-                  <div className="relative aspect-square bg-[#0e0e0e]">
+                  <div className="relative aspect-square bg-[#f3f4f6]">
                     <Image
                       src={p.image}
                       alt={p.name}
@@ -481,10 +481,10 @@ export default function ProductDetail({
                     />
                   </div>
                   <div className="p-2.5">
-                    <p className="text-white font-['Fraunces'] text-sm leading-tight truncate">
+                    <p className="text-[#111827] font-medium text-sm leading-tight truncate">
                       {p.name}
                     </p>
-                    <p className="text-[#888] text-xs mt-1">${p.price}</p>
+                    <p className="text-[#4b5563] text-xs mt-1">${p.price}</p>
                   </div>
                 </Link>
               ))}

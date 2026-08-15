@@ -17,9 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <body
-        className="min-h-screen text-[#f0f0f0]"
+        className="min-h-screen text-[#111827] bg-[#f8f9fa]"
         style={{ fontFamily: "'Outfit', sans-serif" }}
       ><Script
   id="meta-pixel"
@@ -40,7 +40,16 @@ export default function RootLayout({
   `}
 </Script>
         <ReduxProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "#ffffff",
+                color: "#111827",
+                border: "1px solid #e5e7eb",
+                borderRadius: "12px",
+              },
+            }}
+          />
           <Navbar />
           <main className="">{children}</main>
         </ReduxProvider>

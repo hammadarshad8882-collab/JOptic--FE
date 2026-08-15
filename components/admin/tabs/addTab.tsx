@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { categories } from "@/data/products";
 
 const emptyForm = {
@@ -17,7 +17,7 @@ const emptyForm = {
 };
 
 const inputCls =
-  "w-full bg-[#111] border border-[#1a1a1a] rounded-xl px-3 py-2.5 text-sm text-white placeholder-[#333] outline-none focus:border-[#333] transition-colors";
+  "w-full bg-[#ffffff] border border-[#e5e7eb] rounded-xl px-3 py-2.5 text-sm text-[#111827] placeholder-[#6b7280] outline-none focus:border-[#9ca3af] transition-colors";
 
 function Field({
   label,
@@ -30,9 +30,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-[#555] text-[10px] uppercase tracking-wide mb-1.5">
+      <label className="block text-[#374151] text-[10px] uppercase tracking-wide mb-1.5">
         {label}
-        {required && <span className="text-[#666]"> *</span>}
+        {required && <span className="text-[#374151]"> *</span>}
       </label>
 
       {children}
@@ -380,11 +380,11 @@ export default function AddTab() {
 
   return (
     <div>
-      <h2 className="text-white font-['Fraunces'] text-2xl mb-1">
+      <h2 className="text-[#111827] font-medium text-2xl mb-1">
         Add New Glasses
       </h2>
 
-      <p className="text-[#444] text-xs mb-6">
+      <p className="text-[#4b5563] text-xs mb-6">
         Fill in the details below to add a new product to
         your catalogue.
       </p>
@@ -397,8 +397,8 @@ export default function AddTab() {
             BASIC INFO
         ====================================== */}
 
-        <div className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl p-4">
-          <p className="text-[#444] text-[10px] tracking-widest uppercase mb-4">
+        <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4">
+          <p className="text-[#4b5563] text-[10px] tracking-widest uppercase mb-4">
             Basic Info
           </p>
 
@@ -486,8 +486,8 @@ export default function AddTab() {
             PRICING
         ====================================== */}
 
-        <div className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl p-4">
-          <p className="text-[#444] text-[10px] tracking-widest uppercase mb-4">
+        <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4">
+          <p className="text-[#4b5563] text-[10px] tracking-widest uppercase mb-4">
             Pricing
           </p>
 
@@ -535,14 +535,14 @@ export default function AddTab() {
             FRAME COLORS
         ====================================== */}
 
-        <div className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl p-4">
+        <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-[#444] text-[10px] tracking-widest uppercase">
+              <p className="text-[#4b5563] text-[10px] tracking-widest uppercase">
                 Frame Colors
               </p>
 
-              <p className="text-[#555] text-xs mt-1">
+              <p className="text-[#374151] text-xs mt-1">
                 Add colors and upload images for each
                 color.
               </p>
@@ -551,7 +551,7 @@ export default function AddTab() {
             <button
               type="button"
               onClick={addVariant}
-              className="px-4 py-2 bg-white text-black rounded-lg text-sm font-medium hover:bg-[#e0e0e0] transition-colors"
+              className="px-4 py-2 bg-[#111827] text-white rounded-lg text-sm font-medium hover:bg-[#374151] transition-colors"
             >
               + Add Color
             </button>
@@ -562,12 +562,12 @@ export default function AddTab() {
               (variant, index) => (
                 <div
                   key={index}
-                  className="border border-[#222] rounded-xl p-4 space-y-4"
+                  className="border border-[#d1d5db] rounded-xl p-4 space-y-4"
                 >
                   {/* Color Header */}
 
                   <div className="flex items-center justify-between">
-                    <h3 className="text-white font-medium text-sm">
+                    <h3 className="text-[#111827] font-medium text-sm">
                       Color {index + 1}
                       {variant.color
                         ? ` — ${variant.color}`
@@ -653,7 +653,7 @@ export default function AddTab() {
 
                   {variant.images.length > 0 && (
                     <div className="space-y-2">
-                      <p className="text-[#555] text-[10px] uppercase tracking-wide">
+                      <p className="text-[#374151] text-[10px] uppercase tracking-wide">
                         Selected Images
                       </p>
 
@@ -665,7 +665,7 @@ export default function AddTab() {
                           ) => (
                             <div
                               key={imageIndex}
-                              className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-[#222] bg-[#111]"
+                              className="relative w-24 h-24 shrink-0 rounded-xl overflow-hidden border border-[#d1d5db] bg-[#ffffff]"
                             >
                               <img
                                 src={URL.createObjectURL(
@@ -687,7 +687,7 @@ export default function AddTab() {
                                     imageIndex,
                                   )
                                 }
-                                className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/80 text-white text-xs flex items-center justify-center hover:bg-red-600"
+                                className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/80 text-[#111827] text-xs flex items-center justify-center hover:bg-red-600"
                               >
                                 ×
                               </button>
@@ -696,7 +696,7 @@ export default function AddTab() {
 
                               {imageIndex ===
                                 0 && (
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[9px] text-center py-1">
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-[#111827] text-[9px] text-center py-1">
                                   Main
                                 </div>
                               )}
@@ -716,8 +716,8 @@ export default function AddTab() {
             FRAME SPECS
         ====================================== */}
 
-        <div className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl p-4">
-          <p className="text-[#444] text-[10px] tracking-widest uppercase mb-4">
+        <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4">
+          <p className="text-[#4b5563] text-[10px] tracking-widest uppercase mb-4">
             Frame Specs
           </p>
 
@@ -784,8 +784,8 @@ export default function AddTab() {
             LABELS
         ====================================== */}
 
-        <div className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl p-4">
-          <p className="text-[#444] text-[10px] tracking-widest uppercase mb-4">
+        <div className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl p-4">
+          <p className="text-[#4b5563] text-[10px] tracking-widest uppercase mb-4">
             Labels
           </p>
 
@@ -802,8 +802,8 @@ export default function AddTab() {
                 }
                 className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
                   form.isNew
-                    ? "bg-white border-white"
-                    : "border-[#2a2a2a]"
+                    ? "bg-[#111827] border-[#111827]"
+                    : "border-[#d1d5db]"
                 }`}
               >
                 {form.isNew && (
@@ -812,7 +812,7 @@ export default function AddTab() {
                     height="10"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="black"
+                    stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -822,7 +822,7 @@ export default function AddTab() {
                 )}
               </div>
 
-              <span className="text-[#888] text-sm">
+              <span className="text-[#4b5563] text-sm">
                 Mark as New
               </span>
             </label>
@@ -839,8 +839,8 @@ export default function AddTab() {
                 }
                 className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
                   form.isBestseller
-                    ? "bg-white border-white"
-                    : "border-[#2a2a2a]"
+                    ? "bg-[#111827] border-[#111827]"
+                    : "border-[#d1d5db]"
                 }`}
               >
                 {form.isBestseller && (
@@ -849,7 +849,7 @@ export default function AddTab() {
                     height="10"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="black"
+                    stroke="white"
                     strokeWidth="3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -859,7 +859,7 @@ export default function AddTab() {
                 )}
               </div>
 
-              <span className="text-[#888] text-sm">
+              <span className="text-[#4b5563] text-sm">
                 Mark as Bestseller
               </span>
             </label>
@@ -871,7 +871,7 @@ export default function AddTab() {
         ====================================== */}
 
         {formError && (
-          <p className="text-[#ef9a9a] text-sm bg-[#2a0000] border border-[#5a0000] rounded-xl px-4 py-3">
+          <p className="text-[#dc2626] text-sm bg-[#fee2e2] border border-[#fca5a5] rounded-xl px-4 py-3">
             {formError}
           </p>
         )}
@@ -881,7 +881,7 @@ export default function AddTab() {
         ====================================== */}
 
         {formSuccess && (
-          <p className="text-[#81c784] text-sm bg-[#001a00] border border-[#003a00] rounded-xl px-4 py-3">
+          <p className="text-[#15803d] text-sm bg-[#dcfce7] border border-[#86efac] rounded-xl px-4 py-3">
             ✓ Product added to catalogue
             successfully!
           </p>
@@ -893,10 +893,10 @@ export default function AddTab() {
 
         <button
           type="submit"
-          className="w-full py-4 bg-white text-black font-semibold text-sm rounded-2xl hover:bg-[#e0e0e0] active:scale-95 transition-all"
+          className="w-full py-4 bg-[#111827] text-white font-semibold text-sm rounded-2xl hover:bg-[#374151] active:scale-95 transition-all"
         >
           {isLoading ? (
-            <div className="w-6 h-6 border-2 border-[#333] border-t-white rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-[#cbd5e1] border-t-[#111827] rounded-full animate-spin mx-auto" />
           ) : (
             "Add Product"
           )}

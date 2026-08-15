@@ -1,4 +1,4 @@
-import type { Product } from "@/types";
+﻿import type { Product } from "@/types";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/api/fetchWithAuth";
 import toast from "react-hot-toast";
@@ -201,14 +201,14 @@ export default function ProductTab({
     <div>
       <div className="flex items-baseline justify-between mb-4">
         <div>
-          <h2 className="text-white font-['Fraunces'] text-2xl">Products</h2>
-          <p className="text-[#444] text-xs mt-0.5">
+          <h2 className="text-[#111827] font-medium text-2xl">Products</h2>
+          <p className="text-[#4b5563] text-xs mt-0.5">
             {products.length} items in catalogue
           </p>
         </div>
         <button
           onClick={() => setTab("add")}
-          className="flex items-center gap-1.5 bg-white text-black text-xs font-semibold px-3 py-2 rounded-xl hover:bg-[#e0e0e0] transition-colors"
+          className="flex items-center gap-1.5 bg-[#111827] text-white text-xs font-semibold px-3 py-2 rounded-xl hover:bg-[#374151] transition-colors"
         >
           <svg
             width="12"
@@ -229,7 +229,7 @@ export default function ProductTab({
 
       <div className="relative mb-4">
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#444]"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#4b5563]"
           width="14"
           height="14"
           viewBox="0 0 24 24"
@@ -246,7 +246,7 @@ export default function ProductTab({
           value={productSearch}
           onChange={(e) => setProductSearch(e.target.value)}
           placeholder="Search products..."
-          className="w-full bg-[#0e0e0e] border border-[#1a1a1a] rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-[#333] outline-none focus:border-[#333]"
+          className="w-full bg-[#ffffff] border border-[#e5e7eb] rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#111827] placeholder-[#6b7280] outline-none focus:border-[#9ca3af]"
         />
       </div>
 
@@ -254,7 +254,7 @@ export default function ProductTab({
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-[#0e0e0e] border border-[#1a1a1a] rounded-2xl overflow-hidden hover:border-[#2a2a2a] transition-all"
+            className="bg-[#ffffff] border border-[#e5e7eb] rounded-2xl overflow-hidden hover:border-[#d1d5db] transition-all"
           >
             <button
               className="w-full p-4 text-left flex items-center justify-between"
@@ -265,7 +265,7 @@ export default function ProductTab({
               }
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#111] shrink-0">
+                <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#ffffff] shrink-0">
                   <img
                     src={product.variants[0].image}
                     alt={product.name}
@@ -273,13 +273,13 @@ export default function ProductTab({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium truncate">
+                  <p className="text-[#111827] text-sm font-medium truncate">
                     {product.name}
                   </p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    {/* <span className="text-[#444] text-[10px]">{product.brand}</span> */}
-                    <span className="text-[#2a2a2a]">·</span>
-                    <span className="text-[#444] text-[10px]">
+                    {/* <span className="text-[#4b5563] text-[10px]">{product.brand}</span> */}
+                    <span className="text-[#d1d5db]">·</span>
+                    <span className="text-[#4b5563] text-[10px]">
                       {product.category}
                     </span>
                   </div>
@@ -287,11 +287,11 @@ export default function ProductTab({
               </div>
               <div className="flex items-center gap-4 shrink-0">
                 <div className="text-right">
-                  <p className="text-white text-sm font-semibold">
+                  <p className="text-[#111827] text-sm font-semibold">
                     PKR{product.price}
                   </p>
                   {product.isNew && (
-                    <span className="text-[#81c784] text-[9px] tracking-wide uppercase">
+                    <span className="text-[#15803d] text-[9px] tracking-wide uppercase">
                       New
                     </span>
                   )}
@@ -306,7 +306,7 @@ export default function ProductTab({
                   height="14"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#444"
+                  stroke="#4b5563"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -318,7 +318,7 @@ export default function ProductTab({
             </button>
 
             {expandedProduct === product.id && (
-              <div className="border-t border-[#1a1a1a] p-4 space-y-4">
+              <div className="border-t border-[#e5e7eb] p-4 space-y-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
                     {
@@ -341,27 +341,27 @@ export default function ProductTab({
                     },
                   ].map((f) => (
                     <div key={f.label}>
-                      <p className="text-[#333] text-[10px] uppercase tracking-wide">
+                      <p className="text-[#374151] text-[10px] uppercase tracking-wide">
                         {f.label}
                       </p>
-                      <p className="text-[#aaa] text-xs mt-0.5">{f.value}</p>
+                      <p className="text-[#374151] text-xs mt-0.5">{f.value}</p>
                     </div>
                   ))}
                 </div>
 
                 <div>
-                  <p className="text-[#333] text-[10px] uppercase tracking-wide mb-1">
+                  <p className="text-[#374151] text-[10px] uppercase tracking-wide mb-1">
                     Description
                   </p>
-                  <p className="text-[#aaa] text-xs leading-relaxed">
+                  <p className="text-[#374151] text-xs leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
-                <div className="flex pt-3 mt-1 border-t border-[#1a1a1a] justify-end gap-3">
+                <div className="flex pt-3 mt-1 border-t border-[#e5e7eb] justify-end gap-3">
                   <button
                     onClick={() => setEditingProduct(product)}
-                    className="py-2.5 px-4 border border-[#1a1a1a] text-white text-xs font-medium rounded-xl hover:bg-[#1a1a1a] transition-all flex items-center gap-1.5"
+                    className="py-2.5 px-4 border border-[#e5e7eb] text-[#111827] text-xs font-medium rounded-xl hover:bg-[#f3f4f6] transition-all flex items-center gap-1.5"
                   >
                     <svg
                       width="14"
@@ -382,7 +382,7 @@ export default function ProductTab({
                     onClick={() => {
                       setDeleteConfirm(product.id);
                      }}
-                    className="py-2.5 px-4 border border-[#2a0000] text-[#ef9a9a] text-xs font-medium rounded-xl hover:bg-[#2a0000]/40 transition-all flex items-center gap-1.5"
+                    className="py-2.5 px-4 border border-[#fecaca] text-[#dc2626] text-xs font-medium rounded-xl hover:bg-[#fee2e2] transition-all flex items-center gap-1.5"
                   >
                     <svg
                       width="14"
@@ -409,23 +409,23 @@ export default function ProductTab({
       {/* Delete confirm popover */}
       {deleteConfirm && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
           onClick={() => setDeleteConfirm(null)}
         >
           <div
-            className="bg-[#111] border border-[#2a2a2a] rounded-2xl p-5 w-full max-w-sm"
+            className="bg-[#ffffff] border border-[#d1d5db] rounded-2xl p-5 w-full max-w-sm"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-white font-['Fraunces'] text-lg mb-1">
+            <p className="text-[#111827] font-medium text-lg mb-1">
               Delete product?
             </p>
-            <p className="text-[#555] text-sm mb-5">
+            <p className="text-[#374151] text-sm mb-5">
               This will remove it from the catalogue. This cannot be undone.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="flex-1 py-3 border border-[#222] text-[#666] text-sm rounded-xl hover:border-[#333]"
+                className="flex-1 py-3 border border-[#d1d5db] text-[#374151] text-sm rounded-xl hover:border-[#9ca3af]"
               >
                 Cancel
               </button>
@@ -433,7 +433,7 @@ export default function ProductTab({
                 onClick={() => {
                   handleDelete(deleteConfirm);
                 }}
-                className="flex-1 py-3 bg-[#ef9a9a]/10 border border-[#ef9a9a]/30 text-[#ef9a9a] text-sm font-medium rounded-xl hover:bg-[#ef9a9a]/20"
+                className="flex-1 py-3 bg-[#fee2e2] border border-[#fca5a5] text-[#dc2626] text-sm font-medium rounded-xl hover:bg-[#fecaca]"
               >{isdeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
@@ -444,19 +444,19 @@ export default function ProductTab({
       {/* Edit Product Modal */}
       {editingProduct && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
           onClick={() => {
             setEditingProduct(null);
             setNewVariantImages({});
           }}
         >
           <div
-            className="bg-[#111] border border-[#2a2a2a] rounded-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            className="bg-[#ffffff] border border-[#d1d5db] rounded-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white text-lg font-medium">Edit Product</h2>
+              <h2 className="text-[#111827] text-lg font-medium">Edit Product</h2>
 
               <button
                 type="button"
@@ -464,7 +464,7 @@ export default function ProductTab({
                   setEditingProduct(null);
                   setNewVariantImages({});
                 }}
-                className="text-[#666] hover:text-white transition-colors"
+                className="text-[#374151] hover:text-[#111827] transition-colors"
               >
                 ✕
               </button>
@@ -482,14 +482,14 @@ export default function ProductTab({
               {/* ===================================== */}
 
               <div>
-                <h3 className="text-white text-sm font-medium mb-4">
+                <h3 className="text-[#111827] text-sm font-medium mb-4">
                   Product Information
                 </h3>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* Name */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Name
                     </label>
 
@@ -502,13 +502,13 @@ export default function ProductTab({
                           name: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Category */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Category
                     </label>
 
@@ -521,13 +521,13 @@ export default function ProductTab({
                           category: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Price */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Price
                     </label>
 
@@ -540,13 +540,13 @@ export default function ProductTab({
                           price: Number(e.target.value),
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Original Price */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Original Price
                     </label>
 
@@ -562,13 +562,13 @@ export default function ProductTab({
                               : Number(e.target.value),
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Frame Shape */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Frame Shape
                     </label>
 
@@ -581,13 +581,13 @@ export default function ProductTab({
                           frameShape: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Frame Material */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Frame Material
                     </label>
 
@@ -600,13 +600,13 @@ export default function ProductTab({
                           frameMaterial: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Lens Width */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Lens Thickness
                     </label>
 
@@ -619,13 +619,13 @@ export default function ProductTab({
                           lensWidth: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Bridge Width */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Bridge Width
                     </label>
 
@@ -638,13 +638,13 @@ export default function ProductTab({
                           bridgeWidth: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Temple Length */}
                   <div>
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Temple Length
                     </label>
 
@@ -657,13 +657,13 @@ export default function ProductTab({
                           templeLength: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                     />
                   </div>
 
                   {/* Description */}
                   <div className="col-span-2">
-                    <label className="block text-[#888] text-xs mb-1.5">
+                    <label className="block text-[#4b5563] text-xs mb-1.5">
                       Description
                     </label>
 
@@ -675,12 +675,12 @@ export default function ProductTab({
                           description: e.target.value,
                         })
                       }
-                      className="w-full bg-[#0e0e0e] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444] min-h-[100px]"
+                      className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af] min-h-[100px]"
                     />
                   </div>
 
                   {/* New */}
-                  <label className="flex items-center gap-2 text-sm text-[#aaa]">
+                  <label className="flex items-center gap-2 text-sm text-[#374151]">
                     <input
                       type="checkbox"
                       checked={!!editingProduct.isNew}
@@ -695,7 +695,7 @@ export default function ProductTab({
                   </label>
 
                   {/* Bestseller */}
-                  <label className="flex items-center gap-2 text-sm text-[#aaa]">
+                  <label className="flex items-center gap-2 text-sm text-[#374151]">
                     <input
                       type="checkbox"
                       checked={!!editingProduct.isBestseller}
@@ -715,14 +715,14 @@ export default function ProductTab({
               {/* VARIANTS                               */}
               {/* ===================================== */}
 
-              <div className="border-t border-[#222] pt-5">
+              <div className="border-t border-[#d1d5db] pt-5">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="text-white text-sm font-medium">
+                    <h3 className="text-[#111827] text-sm font-medium">
                       Frame Colors
                     </h3>
 
-                    <p className="text-[#666] text-xs mt-1">
+                    <p className="text-[#374151] text-xs mt-1">
                       Manage stock and images for each color.
                     </p>
                   </div>
@@ -744,7 +744,7 @@ export default function ProductTab({
                         ],
                       });
                     }}
-                    className="px-3 py-2 bg-white text-black rounded-lg text-xs font-medium hover:bg-[#ddd]"
+                    className="px-3 py-2 bg-[#111827] text-white rounded-lg text-xs font-medium hover:bg-[#374151]"
                   >
                     + Add Color
                   </button>
@@ -758,11 +758,11 @@ export default function ProductTab({
                       return (
                         <div
                           key={variant.id || variantIndex}
-                          className="border border-[#252525] bg-[#0d0d0d] rounded-xl p-4"
+                          className="border border-[#e5e7eb] bg-[#f9fafb] rounded-xl p-4"
                         >
                           {/* Variant Header */}
                           <div className="flex items-center justify-between mb-4">
-                            <span className="text-[#888] text-xs">
+                            <span className="text-[#4b5563] text-xs">
                               Color {variantIndex + 1}
                             </span>
 
@@ -797,7 +797,7 @@ export default function ProductTab({
                           <div className="grid grid-cols-2 gap-4 mb-4">
                             {/* Color */}
                             <div>
-                              <label className="block text-[#888] text-xs mb-1.5">
+                              <label className="block text-[#4b5563] text-xs mb-1.5">
                                 Frame Color
                               </label>
 
@@ -819,14 +819,14 @@ export default function ProductTab({
                                     variants: updatedVariants,
                                   });
                                 }}
-                                className="w-full bg-[#111] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                                className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                                 placeholder="e.g. Red"
                               />
                             </div>
 
                             {/* Stock */}
                             <div>
-                              <label className="block text-[#888] text-xs mb-1.5">
+                              <label className="block text-[#4b5563] text-xs mb-1.5">
                                 Stock
                               </label>
 
@@ -849,14 +849,14 @@ export default function ProductTab({
                                     variants: updatedVariants,
                                   });
                                 }}
-                                className="w-full bg-[#111] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                                className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                               />
                             </div>
                           </div>
 
                           {/* Existing Images */}
                           <div className="mb-4">
-                            <label className="block text-[#888] text-xs mb-2">
+                            <label className="block text-[#4b5563] text-xs mb-2">
                               Current Images
                             </label>
 
@@ -865,7 +865,7 @@ export default function ProductTab({
                                 (img: string, imageIndex: number) => (
                                   <div
                                     key={`${variant.id}-${imageIndex}`}
-                                    className="relative w-20 h-20 rounded-lg overflow-hidden bg-[#111] border border-[#222] group"
+                                    className="relative w-20 h-20 rounded-lg overflow-hidden bg-[#ffffff] border border-[#d1d5db] group"
                                   >
                                     <img
                                       src={img}
@@ -898,7 +898,7 @@ export default function ProductTab({
                                           variants: updatedVariants,
                                         });
                                       }}
-                                      className="absolute top-1 right-1 bg-black/70 p-1 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+                                      className="absolute top-1 right-1 bg-black/70 p-1 rounded-full text-[#111827] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
                                     >
                                       ✕
                                     </button>
@@ -910,7 +910,7 @@ export default function ProductTab({
                                 (file: File, imageIndex: number) => (
                                   <div
                                     key={`${file.name}-${imageIndex}`}
-                                    className="relative w-20 h-20 rounded-lg overflow-hidden bg-[#111] border border-[#444] border-dashed group"
+                                    className="relative w-20 h-20 rounded-lg overflow-hidden bg-[#ffffff] border border-[#9ca3af] border-dashed group"
                                   >
                                     <img
                                       src={URL.createObjectURL(file)}
@@ -933,7 +933,7 @@ export default function ProductTab({
                                           [variantIndex]: updatedFiles,
                                         });
                                       }}
-                                      className="absolute top-1 right-1 bg-black/70 p-1 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+                                      className="absolute top-1 right-1 bg-black/70 p-1 rounded-full text-[#111827] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
                                     >
                                       ✕
                                     </button>
@@ -943,7 +943,7 @@ export default function ProductTab({
 
                               {(variant.images || []).length === 0 &&
                                 newFiles.length === 0 && (
-                                  <p className="text-[#555] text-xs italic">
+                                  <p className="text-[#374151] text-xs italic">
                                     No images added yet.
                                   </p>
                                 )}
@@ -952,7 +952,7 @@ export default function ProductTab({
 
                           {/* Add Images */}
                           <div>
-                            <label className="block text-[#888] text-xs mb-2">
+                            <label className="block text-[#4b5563] text-xs mb-2">
                               Add Images
                             </label>
 
@@ -975,7 +975,7 @@ export default function ProductTab({
 
                                 e.target.value = "";
                               }}
-                              className="w-full bg-[#111] border border-[#222] rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-[#444]"
+                              className="w-full bg-[#ffffff] border border-[#d1d5db] rounded-xl px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#9ca3af]"
                             />
                           </div>
                         </div>
@@ -985,8 +985,8 @@ export default function ProductTab({
                 </div>
 
                 {(editingProduct.variants || []).length === 0 && (
-                  <div className="border border-dashed border-[#333] rounded-xl p-6 text-center">
-                    <p className="text-[#666] text-sm">
+                  <div className="border border-dashed border-[#cbd5e1] rounded-xl p-6 text-center">
+                    <p className="text-[#374151] text-sm">
                       No frame colors added.
                     </p>
                   </div>
@@ -997,21 +997,21 @@ export default function ProductTab({
               {/* BUTTONS                                */}
               {/* ===================================== */}
 
-              <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-[#222]">
+              <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-[#d1d5db]">
                 <button
                   type="button"
                   onClick={() => {
                     setEditingProduct(null);
                     setNewVariantImages({});
                   }}
-                  className="px-4 py-2 text-sm text-[#888] hover:text-white transition-colors"
+                  className="px-4 py-2 text-sm text-[#4b5563] hover:text-[#111827] transition-colors"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-white text-black text-sm font-medium rounded-xl hover:bg-[#e0e0e0] transition-colors"
+                  className="px-4 py-2 bg-[#111827] text-white text-sm font-medium rounded-xl hover:bg-[#374151] transition-colors"
                 >{isSaving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
@@ -1022,7 +1022,7 @@ export default function ProductTab({
 
       {filteredProducts.length === 0 && isloading === false && (
         <div className="text-center py-16">
-          <p className="text-[#333] font-['Fraunces'] text-lg">
+          <p className="text-[#374151] font-medium text-lg">
             No products found
           </p>
         </div>

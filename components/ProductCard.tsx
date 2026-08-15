@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -20,9 +20,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     dispatch(toggleWishlist(product));
   };
   return (
-    <div className="group relative bg-[#111111] rounded-2xl overflow-hidden border border-[#1c1c1c] hover:border-[#333] transition-all duration-300">
+    <div className="group relative bg-[#ffffff] rounded-2xl overflow-hidden border border-[#e5e7eb] hover:border-[#cbd5e1] transition-all duration-300 shadow-sm">
       <button
-        className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[#080808]/70 backdrop-blur-sm hover:bg-[#1a1a1a] transition-colors"
+        className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[#f8f9fa]/90 backdrop-blur-sm hover:bg-[#f3f4f6] transition-colors"
         onClick={(e) => {
           e.preventDefault();
           handleWishlist();
@@ -33,8 +33,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           width="16"
           height="16"
           viewBox="0 0 24 24"
-          fill={inWishlist ? "white" : "none"}
-          stroke="white"
+          fill={inWishlist ? "#111827" : "none"}
+          stroke="#111827"
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -46,17 +46,17 @@ export default function ProductCard({ product }: ProductCardProps) {
       {(product.isNew || product.isBestseller || product.discount) && (
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
           {product.isNew && (
-            <span className="bg-white text-black text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">
+            <span className="bg-[#111827] text-white text-[9px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">
               New
             </span>
           )}
           {product.isBestseller && !product.isNew && (
-            <span className="bg-[#1a1a1a] border border-[#333] text-white text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">
+            <span className="bg-[#f3f4f6] border border-[#cbd5e1] text-[#111827] text-[9px] font-medium px-2 py-0.5 rounded-full tracking-widest uppercase">
               Best
             </span>
           )}
           {product.discount && (
-            <span className="bg-[#1a1a1a] border border-[#333] text-[#aaa] text-[9px] font-medium px-2 py-0.5 rounded-full">
+            <span className="bg-[#f3f4f6] border border-[#cbd5e1] text-[#374151] text-[9px] font-medium px-2 py-0.5 rounded-full">
               -{product.discount}%
             </span>
           )}
@@ -64,7 +64,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       )}
 
       <Link href={`/product/${product.id}`} className="block w-full text-left">
-        <div className="aspect-square bg-[#0e0e0e] overflow-hidden relative">
+        <div className="aspect-square bg-[#f3f4f6] overflow-hidden relative">
           <Image
             src={product.variants[0].image}
             alt={product.name}
@@ -75,10 +75,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="p-3">
-          <p className="text-[#555] text-[10px] tracking-widest uppercase font-medium">
+          <p className="text-[#374151] text-[10px] tracking-widest uppercase font-medium">
             {product.brand}
           </p>
-          <h3 className="text-white font-['Fraunces'] text-base leading-tight mt-0.5">
+          <h3 className="text-[#111827] font-medium text-base leading-tight mt-0.5">
             {product.name}
           </h3>
           <div className="flex items-center gap-1 mt-1.5">
@@ -89,23 +89,23 @@ export default function ProductCard({ product }: ProductCardProps) {
                   width="10"
                   height="10"
                   viewBox="0 0 24 24"
-                  fill={star <= Math.round(product.rating) ? "white" : "#333"}
+                  fill={star <= Math.round(product.rating) ? "#111827" : "#cbd5e1"}
                   className="shrink-0"
                 >
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
               ))}
             </div>
-            <span className="text-[#666] text-[10px]">
+            <span className="text-[#374151] text-[10px]">
               ({product.reviewCount})
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-2">
-            <span className="text-white font-semibold text-base">
+            <span className="text-[#111827] font-semibold text-base">
               PKR {product.price}
             </span>
             {product.originalPrice && (
-              <span className="text-[#444] text-xs line-through">
+              <span className="text-[#4b5563] text-xs line-through">
                 PKR {product.originalPrice}
               </span>
             )}

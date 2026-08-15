@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -15,13 +15,13 @@ export default function WishlistPage() {
   if (wishlist.length === 0) {
     return (
       <div className="max-w-lg mx-auto flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-16 h-16 rounded-full border border-[#222] flex items-center justify-center mb-5">
+        <div className="w-16 h-16 rounded-full border border-[#d1d5db] flex items-center justify-center mb-5">
           <svg
             width="28"
             height="28"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#444"
+            stroke="#4b5563"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -29,10 +29,10 @@ export default function WishlistPage() {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
         </div>
-        <h2 className="text-white font-['Fraunces'] text-xl mb-2">
+        <h2 className="text-[#111827] font-medium text-xl mb-2">
           Your wishlist is empty
         </h2>
-        <p className="text-[#555] text-sm leading-relaxed">
+        <p className="text-[#374151] text-sm leading-relaxed">
           Save items you love by tapping the heart icon on any product.
         </p>
       </div>
@@ -42,8 +42,8 @@ export default function WishlistPage() {
   return (
     <div className="max-w-lg mx-auto px-4 pt-5">
       <div className="flex items-baseline justify-between mb-5">
-        <h1 className="text-white font-['Fraunces'] text-2xl">Wishlist</h1>
-        <span className="text-[#555] text-sm">
+        <h1 className="text-[#111827] font-medium text-2xl">Wishlist</h1>
+        <span className="text-[#374151] text-sm">
           {wishlist.length} {wishlist.length === 1 ? "item" : "items"}
         </span>
       </div>
@@ -52,10 +52,10 @@ export default function WishlistPage() {
         {wishlist.map((product: Product) => (
           <div
             key={product.id}
-            className="flex gap-3 bg-[#111111] rounded-2xl overflow-hidden border border-[#1c1c1c] p-3 hover:border-[#2a2a2a] transition-all"
+            className="flex gap-3 bg-[#ffffff] rounded-2xl overflow-hidden border border-[#e5e7eb] p-3 hover:border-[#d1d5db] transition-all shadow-sm"
           >
             <Link href={`/product/${product.id}`} className="shrink-0">
-              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#0e0e0e]">
+              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#f3f4f6]">
                 <Image
                   src={product.variants[0].image}
                   alt={product.name}
@@ -71,19 +71,19 @@ export default function WishlistPage() {
                 href={`/product/${product.id}`}
                 className="text-left w-full block"
               >
-                <p className="text-[#555] text-[10px] tracking-widest uppercase">
+                <p className="text-[#374151] text-[10px] tracking-widest uppercase">
                   {product.brand}
                 </p>
-                <p className="text-white font-['Fraunces'] text-base leading-tight truncate">
+                <p className="text-[#111827] font-medium text-base leading-tight truncate">
                   {product.name}
                 </p>
-                <p className="text-[#666] text-xs mt-0.5">{product.category}</p>
+                <p className="text-[#374151] text-xs mt-0.5">{product.category}</p>
                 <div className="flex items-baseline gap-2 mt-1.5">
-                  <span className="text-white font-semibold">
+                  <span className="text-[#111827] font-semibold">
                     PKR {product.price}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-[#444] text-xs line-through">
+                    <span className="text-[#4b5563] text-xs line-through">
                       PKR {product.originalPrice}
                     </span>
                   )}
@@ -95,20 +95,20 @@ export default function WishlistPage() {
                   onClick={() =>
                     dispatch(addToCart({ product, color: "Matte Black" }))
                   }
-                  className="flex-1 py-2 bg-white text-black text-xs font-semibold rounded-xl hover:bg-[#e0e0e0] active:scale-95 transition-all"
+                  className="flex-1 py-2 bg-[#111827] text-white text-xs font-semibold rounded-xl hover:bg-[#374151] active:scale-95 transition-all"
                 >
                   Add to Cart
                 </button>
                 <button
                   onClick={() => dispatch(removeFromWishlist(product.id))}
-                  className="p-2 border border-[#222] rounded-xl hover:border-[#444] transition-colors"
+                  className="p-2 border border-[#d1d5db] rounded-xl hover:border-[#9ca3af] transition-colors"
                 >
                   <svg
                     width="14"
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#666"
+                    stroke="#374151"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -130,7 +130,7 @@ export default function WishlistPage() {
               dispatch(addToCart({ product: p, color: p.variants[0].color })),
             );
           }}
-          className="w-full py-4 border border-[#2a2a2a] text-[#888] text-sm font-medium rounded-2xl hover:border-[#444] hover:text-white transition-all"
+          className="w-full py-4 border border-[#d1d5db] text-[#4b5563] text-sm font-medium rounded-2xl hover:border-[#9ca3af] hover:text-[#111827] transition-all"
         >
           Add All to Cart
         </button>

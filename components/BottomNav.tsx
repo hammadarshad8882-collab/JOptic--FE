@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,7 +10,7 @@ const HomeIcon = ({ filled }: { filled: boolean }) => (
     width="22"
     height="22"
     viewBox="0 0 24 24"
-    fill={filled ? "white" : "none"}
+    fill={filled ? "#111827" : "none"}
     stroke="currentColor"
     strokeWidth="1.5"
     strokeLinecap="round"
@@ -26,7 +26,7 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
     width="22"
     height="22"
     viewBox="0 0 24 24"
-    fill={filled ? "white" : "none"}
+    fill={filled ? "#111827" : "none"}
     stroke="currentColor"
     strokeWidth="1.5"
     strokeLinecap="round"
@@ -41,7 +41,7 @@ const BagIcon = ({ filled }: { filled: boolean }) => (
     width="22"
     height="22"
     viewBox="0 0 24 24"
-    fill={filled ? "white" : "none"}
+    fill={filled ? "#111827" : "none"}
     stroke="currentColor"
     strokeWidth="1.5"
     strokeLinecap="round"
@@ -65,18 +65,18 @@ export default function BottomNav() {
   const isCart = pathname === "/cart";
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#080808]/95 backdrop-blur-md border-t border-[#1c1c1c]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#f8f9fa]/95 backdrop-blur-md border-t border-[#e5e7eb]">
       <div className="max-w-lg mx-auto flex items-center justify-around h-16 px-4">
         <Link
           href="/"
           className="flex flex-col items-center gap-0.5 py-2 px-4"
           aria-label="Home"
         >
-          <span className={isHome ? "text-white" : "text-[#555]"}>
+          <span className={isHome ? "text-[#111827]" : "text-[#374151]"}>
             <HomeIcon filled={isHome} />
           </span>
           <span
-            className={`text-[10px] font-medium tracking-wide ${isHome ? "text-white" : "text-[#555]"}`}
+            className={`text-[10px] font-medium tracking-wide ${isHome ? "text-[#111827]" : "text-[#374151]"}`}
           >
             Home
           </span>
@@ -88,17 +88,17 @@ export default function BottomNav() {
           aria-label="Wishlist"
         >
           <span
-            className={`relative ${isWishlist ? "text-white" : "text-[#555]"}`}
+            className={`relative ${isWishlist ? "text-[#111827]" : "text-[#374151]"}`}
           >
             <HeartIcon filled={isWishlist} />
             {wishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-white text-black text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#111827] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
                 {wishlistCount}
               </span>
             )}
           </span>
           <span
-            className={`text-[10px] font-medium tracking-wide ${isWishlist ? "text-white" : "text-[#555]"}`}
+            className={`text-[10px] font-medium tracking-wide ${isWishlist ? "text-[#111827]" : "text-[#374151]"}`}
           >
             Wishlist
           </span>
@@ -109,16 +109,16 @@ export default function BottomNav() {
           className="flex flex-col items-center gap-0.5 py-2 px-4 relative"
           aria-label="Cart"
         >
-          <span className={`relative ${isCart ? "text-white" : "text-[#555]"}`}>
+          <span className={`relative ${isCart ? "text-[#111827]" : "text-[#374151]"}`}>
             <BagIcon filled={isCart} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-white text-black text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#111827] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
           </span>
           <span
-            className={`text-[10px] font-medium tracking-wide ${isCart ? "text-white" : "text-[#555]"}`}
+            className={`text-[10px] font-medium tracking-wide ${isCart ? "text-[#111827]" : "text-[#374151]"}`}
           >
             Cart
           </span>
@@ -128,16 +128,16 @@ export default function BottomNav() {
           className="flex flex-col items-center gap-0.5 py-2 px-4 relative"
           aria-label="Cart"
         >
-          <span className={`relative ${isCart ? "text-white" : "text-[#555]"}`}>
+          <span className={`relative ${isCart ? "text-[#111827]" : "text-[#374151]"}`}>
             <BagIcon filled={isCart} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-white text-black text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#111827] text-white text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
           </span>
           <span
-            className={`text-[10px] font-medium tracking-wide ${isCart ? "text-white" : "text-[#555]"}`}
+            className={`text-[10px] font-medium tracking-wide ${isCart ? "text-[#111827]" : "text-[#374151]"}`}
           >
             Admin
           </span>

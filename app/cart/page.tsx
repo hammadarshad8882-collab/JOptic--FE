@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -31,13 +31,13 @@ export default function CartPage() {
   if (cart.length === 0) {
     return (
       <div className="max-w-lg mx-auto flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-        <div className="w-16 h-16 rounded-full border border-[#222] flex items-center justify-center mb-5">
+        <div className="w-16 h-16 rounded-full border border-[#d1d5db] flex items-center justify-center mb-5">
           <svg
             width="28"
             height="28"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#444"
+            stroke="#4b5563"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -47,15 +47,15 @@ export default function CartPage() {
             <path d="M16 10a4 4 0 0 1-8 0" />
           </svg>
         </div>
-        <h2 className="text-white font-['Fraunces'] text-xl mb-2">
+        <h2 className="text-[#111827] font-medium text-xl mb-2">
           Your cart is empty
         </h2>
-        <p className="text-[#555] text-sm leading-relaxed mb-6">
+        <p className="text-[#374151] text-sm leading-relaxed mb-6">
           Browse our collection and add a pair you love.
         </p>
         <Link
           href="/"
-          className="px-8 py-3 bg-white text-black text-sm font-semibold rounded-2xl hover:bg-[#e0e0e0] transition-colors"
+          className="px-8 py-3 bg-[#111827] text-white text-sm font-semibold rounded-2xl hover:bg-[#374151] transition-colors"
         >
           Shop Now
         </Link>
@@ -66,8 +66,8 @@ export default function CartPage() {
   return (
     <div className="max-w-lg mx-auto px-4 pt-5 pb-6">
       <div className="flex items-baseline justify-between mb-5">
-        <h1 className="text-white font-['Fraunces'] text-2xl">Cart</h1>
-        <span className="text-[#555] text-sm">
+        <h1 className="text-[#111827] font-medium text-2xl">Cart</h1>
+        <span className="text-[#374151] text-sm">
           {cart.reduce((s, i) => s + i.quantity, 0)}{" "}
           {cart.reduce((s, i) => s + i.quantity, 0) === 1 ? "item" : "items"}
         </span>
@@ -75,18 +75,18 @@ export default function CartPage() {
 
       {/* Free shipping banner */}
       {/* {subtotal < 200 && (
-        <div className="bg-[#0e0e0e] border border-[#1c1c1c] rounded-xl p-3 mb-4 flex items-center gap-3">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <div className="bg-[#f3f4f6] border border-[#e5e7eb] rounded-xl p-3 mb-4 flex items-center gap-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <rect x="1" y="3" width="15" height="13" />
             <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
             <circle cx="5.5" cy="18.5" r="2.5" />
             <circle cx="18.5" cy="18.5" r="2.5" />
           </svg>
-          <p className="text-[#777] text-xs">
-            Add <span className="text-white font-medium">${(200 - subtotal).toFixed(0)}</span> more for free shipping
+          <p className="text-[#4b5563] text-xs">
+            Add <span className="text-[#111827] font-medium">${(200 - subtotal).toFixed(0)}</span> more for free shipping
           </p>
-          <div className="ml-auto h-1 w-16 bg-[#1a1a1a] rounded-full overflow-hidden">
-            <div className="h-full bg-white rounded-full transition-all" style={{ width: `${(subtotal / 200) * 100}%` }} />
+          <div className="ml-auto h-1 w-16 bg-[#e5e7eb] rounded-full overflow-hidden">
+            <div className="h-full bg-[#111827] rounded-full transition-all" style={{ width: `${(subtotal / 200) * 100}%` }} />
           </div>
         </div>
       )} */}
@@ -96,9 +96,9 @@ export default function CartPage() {
         {cart.map((item) => (
           <div
             key={`${item.product.id}-${item.selectedColor}`}
-            className="flex gap-3 bg-[#111111] rounded-2xl border border-[#1c1c1c] p-3"
+            className="flex gap-3 bg-[#ffffff] rounded-2xl border border-[#e5e7eb] p-3"
           >
-            <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#0e0e0e] shrink-0">
+            <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#f3f4f6] shrink-0">
               <Image
                 src={
                   item.product.variants.find(
@@ -115,13 +115,13 @@ export default function CartPage() {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[#555] text-[9px] tracking-widest uppercase">
+                  <p className="text-[#374151] text-[9px] tracking-widest uppercase">
                     {item.product.brand}
                   </p>
-                  <p className="text-white font-['Fraunces'] text-sm leading-tight">
+                  <p className="text-[#111827] font-medium text-sm leading-tight">
                     {item.product.name}
                   </p>
-                  <p className="text-[#555] text-[10px] mt-0.5">
+                  <p className="text-[#374151] text-[10px] mt-0.5">
                     {item.selectedColor}
                   </p>
                 </div>
@@ -134,7 +134,7 @@ export default function CartPage() {
                       }),
                     )
                   }
-                  className="p-1 text-[#444] hover:text-[#888] transition-colors ml-2 shrink-0"
+                  className="p-1 text-[#4b5563] hover:text-[#111827] transition-colors ml-2 shrink-0"
                 >
                   <svg
                     width="14"
@@ -153,7 +153,7 @@ export default function CartPage() {
               </div>
 
               <div className="flex items-center justify-between mt-2.5">
-                <div className="flex items-center gap-2 border border-[#222] rounded-xl overflow-hidden">
+                <div className="flex items-center gap-2 border border-[#d1d5db] rounded-xl overflow-hidden">
                   <button
                     onClick={() =>
                       dispatch(
@@ -164,11 +164,11 @@ export default function CartPage() {
                         }),
                       )
                     }
-                    className="w-8 h-8 flex items-center justify-center text-[#888] hover:text-white hover:bg-[#1a1a1a] transition-colors text-lg"
+                    className="w-8 h-8 flex items-center justify-center text-[#4b5563] hover:text-[#111827] hover:bg-[#f3f4f6] transition-colors text-lg"
                   >
                     −
                   </button>
-                  <span className="text-white text-sm w-5 text-center">
+                  <span className="text-[#111827] text-sm w-5 text-center">
                     {item.quantity}
                   </span>
                   <button
@@ -181,12 +181,12 @@ export default function CartPage() {
                         }),
                       )
                     }
-                    className="w-8 h-8 flex items-center justify-center text-[#888] hover:text-white hover:bg-[#1a1a1a] transition-colors text-lg"
+                    className="w-8 h-8 flex items-center justify-center text-[#4b5563] hover:text-[#111827] hover:bg-[#f3f4f6] transition-colors text-lg"
                   >
                     +
                   </button>
                 </div>
-                <p className="text-white font-semibold text-sm">
+                <p className="text-[#111827] font-semibold text-sm">
                   PKR {(item.product.price * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -196,24 +196,24 @@ export default function CartPage() {
       </div>
 
       {/* Order Summary */}
-      <div className="mt-5 bg-[#111111] rounded-2xl border border-[#1c1c1c] p-4">
-        <p className="text-[#555] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
+      <div className="mt-5 bg-[#ffffff] rounded-2xl border border-[#e5e7eb] p-4">
+        <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
           Order Summary
         </p>
         <div className="space-y-2.5">
           <div className="flex justify-between text-sm">
-            <span className="text-[#777]">Subtotal</span>
-            <span className="text-white">PKR {subtotal.toFixed(2)}</span>
+            <span className="text-[#4b5563]">Subtotal</span>
+            <span className="text-[#111827]">PKR {subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-[#777]">Shipping</span>
-            <span className="text-white">
+            <span className="text-[#4b5563]">Shipping</span>
+            <span className="text-[#111827]">
               {shipping === 0 ? "Free" : `PKR${shipping.toFixed(2)}`}
             </span>
           </div>
-          <div className="border-t border-[#1c1c1c] pt-2.5 flex justify-between">
-            <span className="text-white font-semibold">Total</span>
-            <span className="text-white font-semibold text-lg">
+          <div className="border-t border-[#e5e7eb] pt-2.5 flex justify-between">
+            <span className="text-[#111827] font-semibold">Total</span>
+            <span className="text-[#111827] font-semibold text-lg">
               PKR {total.toFixed(2)}
             </span>
           </div>
@@ -221,13 +221,13 @@ export default function CartPage() {
 
         <button
           onClick={handleCheckout}
-          className="w-full mt-4 py-4 bg-white text-black font-semibold text-sm rounded-2xl hover:bg-[#e0e0e0] active:scale-95 transition-all"
+          className="w-full mt-4 py-4 bg-[#111827] text-white font-semibold text-sm rounded-2xl hover:bg-[#374151] active:scale-95 transition-all"
         >
           Checkout
         </button>
         <Link
           href="/"
-          className="w-full mt-2.5 py-3 border border-[#222] text-[#666] text-sm rounded-2xl hover:border-[#333] hover:text-[#aaa] transition-all block text-center"
+          className="w-full mt-2.5 py-3 border border-[#d1d5db] text-[#374151] text-sm rounded-2xl hover:border-[#9ca3af] hover:text-[#111827] transition-all block text-center"
         >
           Continue Shopping
         </Link>
@@ -242,10 +242,10 @@ export default function CartPage() {
         ].map((badge) => (
           <div
             key={badge.label}
-            className="flex flex-col items-center gap-1 py-3 bg-[#0e0e0e] rounded-xl border border-[#1a1a1a]"
+            className="flex flex-col items-center gap-1 py-3 bg-[#f3f4f6] rounded-xl border border-[#e5e7eb]"
           >
             <span className="text-lg">{badge.icon}</span>
-            <span className="text-[#555] text-[10px] tracking-wide">
+            <span className="text-[#374151] text-[10px] tracking-wide">
               {badge.label}
             </span>
           </div>

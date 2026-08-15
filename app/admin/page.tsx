@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import type { OrderStatus } from "../../types";
 import { useRouter } from "next/navigation";
@@ -99,26 +99,26 @@ export default function AdminPage() {
 
   return (
     <div
-      className="min-h-screen bg-[#050505]"
+      className="min-h-screen bg-[#f5f5f5]"
       style={{ fontFamily: "'Outfit', sans-serif" }}
     >
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row min-h-[calc(100vh-56px)]">
         {/* Sidebar — desktop */}
-        <aside className="hidden md:flex flex-col w-52 shrink-0 border-r border-[#1a1a1a] pt-6 px-3 gap-1">
+        <aside className="hidden md:flex flex-col w-52 shrink-0 border-r border-[#e5e7eb] pt-6 px-3 gap-1">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all text-left ${
                 tab === t.id
-                  ? "bg-white text-black font-medium"
-                  : "text-[#555] hover:text-white hover:bg-[#111]"
+                  ? "bg-[#111827] text-white font-medium"
+                  : "text-[#374151] hover:text-[#111827] hover:bg-[#ffffff]"
               }`}
             >
               {t.icon}
               {t.label}
               {t.id === "orders" && pendingCount > 0 && (
-                <span className="ml-auto bg-[#f0b429] text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+                <span className="ml-auto bg-[#f0b429] text-[#111827] text-[9px] font-bold px-1.5 py-0.5 rounded-full">
                   {pendingCount}
                 </span>
               )}
@@ -127,21 +127,21 @@ export default function AdminPage() {
         </aside>
 
         {/* Mobile Tab Bar */}
-        <div className="md:hidden flex border-b border-[#1a1a1a] bg-[#050505] sticky top-14 z-40">
+        <div className="md:hidden flex border-b border-[#e5e7eb] bg-[#f5f5f5] sticky top-14 z-40">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`flex-1 flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium tracking-wide transition-all border-b-2 ${
                 tab === t.id
-                  ? "text-white border-white"
-                  : "text-[#444] border-transparent"
+                  ? "text-[#111827] border-[#111827]"
+                  : "text-[#4b5563] border-transparent"
               }`}
             >
               <span className="relative">
                 {t.icon}
                 {t.id === "orders" && pendingCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#f0b429] text-black text-[7px] font-bold w-3 h-3 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#f0b429] text-[#111827] text-[7px] font-bold w-3 h-3 rounded-full flex items-center justify-center">
                     {pendingCount}
                   </span>
                 )}

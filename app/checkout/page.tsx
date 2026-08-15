@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -218,6 +218,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 pt-5 pb-6">
+      
       <div className="flex items-center gap-2 mb-5">
         <Link
           href={isBuyNow ? "/" : "/cart"}

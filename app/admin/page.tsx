@@ -25,6 +25,9 @@ export default function AdminPage() {
       return;
     }
   }, []);
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const onDeleteProduct = (productId: string) => {
     setProducts(products.filter((p) => p.id !== productId));

@@ -94,26 +94,7 @@ export default function ProductDetail({
   return (
     <div className="max-w-lg mx-auto pb-8">
       {/* Back Button */}
-      <div className="px-4 py-3">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-[#374151] hover:text-[#111827] transition-colors text-sm"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          Back
-        </Link>
-      </div>
+     
 
       {/* Image Gallery */}
       <div className="relative bg-[#f3f4f6] aspect-square">

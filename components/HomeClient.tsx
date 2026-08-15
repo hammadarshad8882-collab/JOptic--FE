@@ -14,18 +14,29 @@ export default function HomeClient() {
   >("featured");
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [productSearch, setProductSearch] = useState("");
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
-  const filtered = products
-    .filter(
-      (p) => selectedCategory === "All" || p.category === selectedCategory,
-    )
-    .sort((a, b) => {
-      if (sort === "price-asc") return a.price - b.price;
-      if (sort === "price-desc") return b.price - a.price;
-      if (sort === "rating") return b.rating - a.rating;
-      return 0;
-    });
+ const filtered = products
+  .filter((p) => {
+    const matchesCategory =
+      selectedCategory === "All" || p.category === selectedCategory;
+
+    const search = productSearch.trim().toLowerCase();
+
+    const matchesSearch =
+      search === "" ||
+      p.name.toLowerCase().includes(search) ||
+      p.category.toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+  })
+  .sort((a, b) => {
+    if (sort === "price-asc") return a.price - b.price;
+    if (sort === "price-desc") return b.price - a.price;
+    if (sort === "rating") return b.rating - a.rating;
+    return 0;
+  });
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -95,7 +106,28 @@ export default function HomeClient() {
           </p>
         </div>
       </div>
-
+      <div className="relative mb-4 px-4 mt-5">
+        <svg
+          className="absolute left-7 top-1/2 -translate-y-1/2 text-[#4b5563]"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          value={productSearch}
+          onChange={(e) => setProductSearch(e.target.value)}
+          placeholder="Search products..."
+          className="w-full bg-[#ffffff] border border-[#e5e7eb] rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#111827] placeholder-[#6b7280] outline-none focus:border-[#9ca3af]"
+        />
+      </div>
       {/* Category Pills */}
       <div className="mt-5 px-4">
         <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium mb-3">

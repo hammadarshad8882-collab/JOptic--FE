@@ -1,6 +1,8 @@
 import type { Product } from "@/types";
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from "@/api/fetchWithAuth";
+import toast from "react-hot-toast";
+import Loader from "@/components/loader";
 
 interface ProductTabProps {
   setTab: (tab: any) => void;
@@ -15,6 +17,8 @@ export default function ProductTab({
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isdeleting, setIsdeleting] = useState<boolean>(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newVariantImages, setNewVariantImages] = useState<
     Record<number, File[]>
@@ -55,6 +59,7 @@ export default function ProductTab({
   }, []);
   const handleDelete = async (id: string) => {
     try {
+      setIsdeleting(true);    
       const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/deleteProduct/${id}`,
         {
@@ -67,9 +72,17 @@ export default function ProductTab({
       const data = await response.json();
       if (data.success) {
         setProducts(products.filter((product) => product.id !== id));
+        setDeleteConfirm(null);
+        onDeleteProduct(id);
+        setIsdeleting(false);
+        toast.success("Product deleted successfully");  
       }
     } catch (error) {
       console.log(error);
+      setIsdeleting(false);
+      toast.error("Failed to delete product");
+    } finally {
+      setIsdeleting(false);
     }
   };
 
@@ -144,7 +157,7 @@ export default function ProductTab({
       // ==========================================
       // Send request
       // ==========================================
-
+      setIsSaving(true); 
       const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/updateProduct/${productToUpdate.id}`,
         {
@@ -154,8 +167,6 @@ export default function ProductTab({
       );
 
       const data = await response.json();
-
-      console.log("Update response:", data);
 
       if (data.success) {
         const updatedProd = data.product || productToUpdate;
@@ -168,18 +179,21 @@ export default function ProductTab({
 
         setNewVariantImages({});
 
-        console.log("Product updated successfully");
-      } else {
-        console.log("Failed to update product:", data.message);
+        toast.success("Product updated successfully");
       }
-    } catch (error) {
-      console.error("Update product error:", error);
-    }
-  };
+  }
+  catch(error){
+    toast.error("Failed to update product");
+  }
+  finally{
+    setIsSaving(false);
+  }
+}
+
   if (isloading) {
     return (
-      <div className="flex items-center justify-center min-h-[300px]">
-        <div className="w-8 h-8 border-4 border-[#333] border-t-white rounded-full animate-spin" />
+      <div className="flex items-center justify-center h-screen">
+     <Loader/>
       </div>
     );
   }
@@ -365,7 +379,9 @@ export default function ProductTab({
                     Update Product
                   </button>
                   <button
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => {
+                      setDeleteConfirm(product.id);
+                     }}
                     className="py-2.5 px-4 border border-[#2a0000] text-[#ef9a9a] text-xs font-medium rounded-xl hover:bg-[#2a0000]/40 transition-all flex items-center gap-1.5"
                   >
                     <svg
@@ -393,7 +409,7 @@ export default function ProductTab({
       {/* Delete confirm popover */}
       {deleteConfirm && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           onClick={() => setDeleteConfirm(null)}
         >
           <div
@@ -415,12 +431,10 @@ export default function ProductTab({
               </button>
               <button
                 onClick={() => {
-                  onDeleteProduct(deleteConfirm);
-                  setDeleteConfirm(null);
+                  handleDelete(deleteConfirm);
                 }}
                 className="flex-1 py-3 bg-[#ef9a9a]/10 border border-[#ef9a9a]/30 text-[#ef9a9a] text-sm font-medium rounded-xl hover:bg-[#ef9a9a]/20"
-              >
-                Delete
+              >{isdeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>
@@ -998,8 +1012,7 @@ export default function ProductTab({
                 <button
                   type="submit"
                   className="px-4 py-2 bg-white text-black text-sm font-medium rounded-xl hover:bg-[#e0e0e0] transition-colors"
-                >
-                  Save Changes
+                >{isSaving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>

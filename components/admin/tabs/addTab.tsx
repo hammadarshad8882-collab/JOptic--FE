@@ -48,6 +48,7 @@ type Variant = {
 
 export default function AddTab() {
   const [form, setForm] = useState(emptyForm);
+  const [isLoading, setIsLoading] = useState(false);
 
   // General product images
   const [images, setImages] = useState<File[]>([]);
@@ -173,28 +174,7 @@ export default function AddTab() {
     setFormError("");
   };
 
-  // ----------------------------------------
-  // General product images
-  // ----------------------------------------
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (e.target.files) {
-      setImages(Array.from(e.target.files));
-      setFormError("");
-    }
-  };
-
-  // ----------------------------------------
-  // Remove general image
-  // ----------------------------------------
-
-  const removeGeneralImage = (index: number) => {
-    setImages((prev) =>
-      prev.filter((_, i) => i !== index),
-    );
-  };
 
   // ----------------------------------------
   // Remove variant image
@@ -345,6 +325,7 @@ export default function AddTab() {
     // ----------------------------------------
 
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/createProduct`,
         {
@@ -374,10 +355,15 @@ export default function AddTab() {
             stock: 0,
           },
         ]);
+
+        setIsLoading(false);
       } else {
         setFormError(
           data.message || "Failed to add product",
+       
         );
+
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Create product error:", error);
@@ -750,7 +736,7 @@ export default function AddTab() {
               />
             </Field>
 
-            <Field label="Lens Width">
+            <Field label="Lens Thickness">
               <input
                 value={form.lensWidth}
                 onChange={(e) =>
@@ -909,7 +895,11 @@ export default function AddTab() {
           type="submit"
           className="w-full py-4 bg-white text-black font-semibold text-sm rounded-2xl hover:bg-[#e0e0e0] active:scale-95 transition-all"
         >
-          Add to Catalogue
+          {isLoading ? (
+            <div className="w-6 h-6 border-2 border-[#333] border-t-white rounded-full animate-spin mx-auto" />
+          ) : (
+            "Add Product"
+          )}
         </button>
       </form>
     </div>

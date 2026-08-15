@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchWithAuth } from "@/api/fetchWithAuth";
-
+import Loader from "@/components/loader";
 import { useEffect, useState } from "react";
 import type { Order, OrderStatus } from "@/types";
 
@@ -150,7 +150,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#333] border-t-white rounded-full animate-spin" />
+        <Loader />
       </div>
     );
   }

@@ -1,6 +1,9 @@
-export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
+export const fetchWithAuth = async (
+  url: string,
+  options: RequestInit = {},
+) => {
   try {
-    // 1. Check if the user is authorized by calling /me
+    // 1. Check if the user is authorized
     const authResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
       {
@@ -12,21 +15,26 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
     const authData = await authResponse.json();
 
     if (!authData.success || !authData.user) {
-      // If not authorized, you can handle the redirect here or throw an error
       if (typeof window !== "undefined") {
         window.location.href = "/login";
       }
+
       throw new Error("Unauthorized");
     }
 
-    // 2. If authorized, call the actual API
+    // 2. Prepare headers
+    const headers = new Headers(options.headers);
+
+    // Only set JSON Content-Type when the body is NOT FormData
+    if (!(options.body instanceof FormData)) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    // 3. Call the actual API
     const response = await fetch(url, {
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-      credentials: "include", // Ensure cookies are sent
+      headers,
+      credentials: "include",
     });
 
     return response;

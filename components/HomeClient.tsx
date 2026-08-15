@@ -134,7 +134,7 @@ export default function HomeClient() {
           Shop by Category
         </p>
         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {categories.map((cat) => (
+          {categories.map((cat:any) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}

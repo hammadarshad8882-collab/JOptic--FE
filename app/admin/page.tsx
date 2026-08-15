@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import type { OrderStatus } from "../../types";
 import { useRouter } from "next/navigation";
-import { products as initialProducts } from "../../data/products";
+
 import { useSelector, useDispatch } from "react-redux";
 
 import type { RootState } from "@/store/store";
@@ -13,7 +13,7 @@ import type { AdminTab } from "../../types";
 
 export default function AdminPage() {
   const router = useRouter();
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const orders = useSelector((state: RootState) => state.orders.items);
   const User = useSelector((state: RootState) => state.auth.user);
   const [tab, setTab] = useState<AdminTab>("products");
@@ -30,10 +30,10 @@ export default function AdminPage() {
     }, []);
 
   const onDeleteProduct = (productId: string) => {
-    setProducts(products.filter((p) => p.id !== productId));
+    setProducts(products.filter((p:any) => p.id !== productId));
   };
 
-  const pendingCount = orders.filter((o) => {}).length;
+  const pendingCount = orders.filter((o:any) => {}).length;
 
   const tabs: { id: AdminTab; label: string; icon: React.ReactNode }[] = [
     {

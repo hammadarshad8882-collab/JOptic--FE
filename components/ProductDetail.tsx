@@ -348,7 +348,7 @@ export default function ProductDetail({
         {/* Tabs */}
         <div className="mt-7">
           <div className="flex border-b border-[#e5e7eb]">
-            {(["specs", "reviews"] as const).map((tab) => (
+            {(["specs"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -405,7 +405,7 @@ export default function ProductDetail({
               </div>
             )}
 
-            {activeTab === "reviews" && (
+            {/* {activeTab === "reviews" && (
               <div>
                 <div className="flex items-center gap-4 mb-5">
                   <div className="text-center">
@@ -458,12 +458,12 @@ export default function ProductDetail({
                           </div>
                         </div>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
 
                 {/* Sample Reviews */}
-                {[
+                {/* {[
                   {
                     name: "Marcus T.",
                     date: "Jul 2026",
@@ -517,7 +517,7 @@ export default function ProductDetail({
         </div>
 
         {/* Related Products */}
-        {relatedProducts.length > 0 && (
+        {/* {relatedProducts.length > 0 && (
           <div className="mt-8">
             <p className="text-[#374151] text-[10px] tracking-[0.3em] uppercase font-medium mb-4">
               You Might Also Like
@@ -548,7 +548,7 @@ export default function ProductDetail({
               ))}
             </div>
           </div>
-        )}
+        )}  */}
       </div>
     </div>
   );

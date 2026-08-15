@@ -1,6 +1,7 @@
 export type Page = "home" | "product" | "cart" | "wishlist" | "admin";
 
 export interface Product {
+  stock: number;
   variants: any;
   id: string;
   name: string;

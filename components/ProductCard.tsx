@@ -52,27 +52,77 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
   return (
     <div className="group relative bg-[#ffffff] rounded-2xl overflow-hidden border border-[#e5e7eb] hover:border-[#cbd5e1] transition-all duration-300 shadow-sm">
-      <button
-        className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-[#f8f9fa]/90 backdrop-blur-sm hover:bg-[#f3f4f6] transition-colors"
-        onClick={(e) => {
-          e.preventDefault();
-          handleWishlist();
-        }}
-        aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+     <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
+  {/* Wishlist */}
+  <button
+    className="p-1.5 rounded-full bg-[#f8f9fa]/90 backdrop-blur-sm border border-[#d1d5db] hover:border-[#111827] hover:bg-[#f3f4f6] transition-all duration-200"
+    onClick={(e) => {
+      e.preventDefault();
+      handleWishlist();
+    }}
+    aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+  >
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill={inWishlist ? "#111827" : "none"}
+      stroke="#111827"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  </button>
+
+  {/* Cart */}
+  <button
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleAddToCart(e);
+    }}
+    className={`p-1.5 rounded-full bg-[#f8f9fa]/90 backdrop-blur-sm border border-[#d1d5db]  transition-all duration-200 ${
+      inCart
+        ? " bg-[#111827] text-white"
+        : "text-[#374151] hover:border-[#111827] hover:bg-[#f3f4f6] hover:text-[#111827]"
+    }`}
+    title={inCart ? "Added to Cart" : "Add to Cart"}
+    aria-label={inCart ? "Added to cart" : "Add to cart"}
+  >
+    {inCart ? (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#111827"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill={inWishlist ? "#111827" : "none"}
-          stroke="#111827"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
-      </button>
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    ) : (
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#111827"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
+      </svg>
+    )}
+  </button>
+</div>
+      
 
       {(product.isNew || product.isBestseller || product.discount) && (
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
@@ -112,7 +162,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <h3 className="text-[#111827] font-medium text-base leading-tight mt-0.5">
             {product.name}
           </h3>
-          <div className="flex items-center gap-1 mt-1.5">
+          {/* <div className="flex items-center gap-1 mt-1.5">
             <div className="flex">
               {[1, 2, 3, 4, 5].map((star) => (
                 <svg
@@ -130,8 +180,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span className="text-[#374151] text-[10px]">
               ({product.reviewCount})
             </span>
+          </div> */}
+
+<div className="flex items-center gap-2 py-1">
+  {product.stock === 0 ? (
+    <span className="text-red-500 text-[10px] font-semibold uppercase">
+      Out of Stock
+    </span>
+  ) : (
+    <span className="text-green-600 text-[10px] font-semibold uppercase">
+      In Stock
+    </span>
+  )}
           </div>
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
               <span className="text-[#111827] font-semibold text-base">
                 PKR {product.price}
@@ -142,45 +204,6 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </span>
               )}
             </div>
-            <button
-              onClick={handleAddToCart}
-              className={`p-1.5 rounded-lg border transition-all duration-200 ${
-                inCart
-                  ? "border-[#111827] bg-[#111827] text-white"
-                  : "border-[#d1d5db] text-[#374151] hover:border-[#111827] hover:text-[#111827]"
-              }`}
-              title={inCart ? "Added to Cart" : "Add to Cart"}
-            >
-              {inCart ? (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              ) : (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <path d="M16 10a4 4 0 0 1-8 0" />
-                </svg>
-              )}
-            </button>
           </div>
         </div>
       </Link>

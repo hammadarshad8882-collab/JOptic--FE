@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import Loader from "@/components/loader";
 type OrderStatus =
-  "Pending" | "Confirmed" | "Shipped" | "Delivered" | "Cancelled";
+  | "Pending"
+  | "Confirmed"
+  | "Shipped"
+  | "Delivered"
+  | "Cancelled";
 
 interface OrderItem {
   id: string;
@@ -189,29 +194,8 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f8f9fa] text-[#111827] px-4 py-10">
-        <div className="max-w-[1000px] mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 w-40 bg-[#f3f4f6] rounded-lg mb-3" />
-
-            <div className="h-4 w-64 bg-[#f3f4f6] rounded mb-8" />
-
-            <div className="space-y-4">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="
-                    h-64
-                    bg-[#f3f4f6]
-                    border
-                    border-[#e5e7eb]
-                    rounded-2xl
-                  "
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="mx-auto flex h-[400px] w-full items-center justify-center overflow-hidden">
+        <Loader />
       </div>
     );
   }

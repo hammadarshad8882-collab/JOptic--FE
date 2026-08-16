@@ -188,7 +188,7 @@ export default function ProductTab({
 
   if (isloading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="mx-auto flex h-[400px] w-full items-center justify-center overflow-hidden">
         <Loader />
       </div>
     );

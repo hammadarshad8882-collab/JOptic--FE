@@ -40,7 +40,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
- const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   // =====================================================
   // GET ORDERS
@@ -149,7 +149,7 @@ export default function OrdersTab({ orders, onUpdateOrderStatus }: any) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="mx-auto flex h-[400px] w-full items-center justify-center overflow-hidden">
         <Loader />
       </div>
     );

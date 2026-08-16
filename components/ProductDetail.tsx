@@ -24,7 +24,7 @@ export default function ProductDetail({
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const inWishlist = wishlist.some((item) => item.id === product.id);
   const inCart = cartItems.some((item) => item.product.id === product.id);
-   const isOutofStock= product.stock===0
+  const isOutofStock = product.stock === 0;
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
   const [activeTab, setActiveTab] = useState<"details" | "specs" | "reviews">(
@@ -41,58 +41,52 @@ export default function ProductDetail({
   useEffect(() => {
     setActiveImage(0);
   }, [selectedColor]);
- const handleAddToCart = () => {
-  if (!selectedVariant) return;
- if(inCart){
-  return;
- }
-  dispatch(
-    addToCart({
-      product,
-      color: selectedVariant.color,
-    }),
-  );
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
+    if (inCart) {
+      return;
+    }
+    dispatch(
+      addToCart({
+        product,
+        color: selectedVariant.color,
+      }),
+    );
 
-  // Meta Pixel - AddToCart
-  if (
-    typeof window !== "undefined" &&
-    typeof window.fbq === "function"
-  ) {
-    window.fbq("track", "AddToCart", {
-      content_ids: [product.id],
-      content_type: "product",
-      content_name: product.name,
-      value: Number(product.price),
-      currency: "PKR",
-    });
-  }
+    // Meta Pixel - AddToCart
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "AddToCart", {
+        content_ids: [product.id],
+        content_type: "product",
+        content_name: product.name,
+        value: Number(product.price),
+        currency: "PKR",
+      });
+    }
 
-  setAdded(true);
+    setAdded(true);
 
-  setTimeout(() => setAdded(false), 2000);
-};
+    setTimeout(() => setAdded(false), 2000);
+  };
 
- const handleBuyNow = () => {
-  if (!selectedVariant) return;
+  const handleBuyNow = () => {
+    if (!selectedVariant) return;
 
-  dispatch(
-    setBuyNowItem({
-      product,
-      color: selectedVariant.color,
-    }),
-  );
+    dispatch(
+      setBuyNowItem({
+        product,
+        color: selectedVariant.color,
+      }),
+    );
 
-
-
-  router.push("/checkout");
-};
+    router.push("/checkout");
+  };
 
   const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 
   return (
     <div className="max-w-lg mx-auto pb-8">
       {/* Back Button */}
-     
 
       {/* Image Gallery */}
       <div className="relative bg-[#f3f4f6] aspect-square">
@@ -149,7 +143,9 @@ export default function ProductDetail({
                 key={i}
                 onClick={() => setActiveImage(i)}
                 className={`w-1.5 rounded-full transition-all duration-200 ${
-                  activeImage === i ? "bg-[#111827] w-4 h-1.5" : "bg-[#6b7280] h-1.5"
+                  activeImage === i
+                    ? "bg-[#111827] w-4 h-1.5"
+                    : "bg-[#6b7280] h-1.5"
                 }`}
               />
             ))}
@@ -165,7 +161,9 @@ export default function ProductDetail({
               key={i}
               onClick={() => setActiveImage(i)}
               className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
-                activeImage === i ? "border-[#111827]" : "border-[#d1d5db] opacity-50"
+                activeImage === i
+                  ? "border-[#111827]"
+                  : "border-[#d1d5db] opacity-50"
               }`}
             >
               <Image
@@ -268,8 +266,11 @@ export default function ProductDetail({
             {isOutofStock ? "Out of Stock" : "Buy Now"}
           </button>
           <button
+            disabled={isOutofStock}
             onClick={handleAddToCart}
-            className={`p-4 rounded-2xl border transition-all duration-300 border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]`}
+            className={`
+              p-4 rounded-2xl border transition-all duration-300 border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]
+              ${isOutofStock ? "opacity-50 cursor-not-allowed" : ""}`}
             title={inCart ? "Added to Cart" : "Add to Cart"}
           >
             {inCart ? (
@@ -307,17 +308,17 @@ export default function ProductDetail({
             className={`p-4 rounded-2xl border transition-all border-[#d1d5db] text-[#374151] hover:border-[#9ca3af]`}
           >
             <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill={inWishlist ? "#111827" : "none"}
-            stroke="#111827"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill={inWishlist ? "#111827" : "none"}
+              stroke="#111827"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
           </button>
         </div>
 
@@ -435,11 +436,11 @@ export default function ProductDetail({
                         </div>
                       );
                     })} */}
-                  </div>
-                </div>
+          </div>
+        </div>
 
-                {/* Sample Reviews */}
-                {/* {[
+        {/* Sample Reviews */}
+        {/* {[
                   {
                     name: "Marcus T.",
                     date: "Jul 2026",

@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { Order, OrderStatus } from "@/types";
 
 interface OrdersState {
+  orderCount: any;
   items: Order[];
 }
 
 const initialState: OrdersState = {
+  orderCount: 0,
   items: [],
 };
 
@@ -13,18 +15,12 @@ const ordersSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
-    addOrder(state, action: PayloadAction<Order>) {
-      state.items.unshift(action.payload);
+   setOrderCount(state, action: PayloadAction<number>) {
+      state.orderCount = action.payload;
     },
-
-    setInitialOrders(state, action: PayloadAction<Order[]>) {
-      state.items = action.payload;
-    },
-    clearOrders(state) {
-      state.items = [];
-    },
+    
   },
 });
 
-export const { addOrder, setInitialOrders, clearOrders } = ordersSlice.actions;
+export const { setOrderCount } = ordersSlice.actions;
 export default ordersSlice.reducer;

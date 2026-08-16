@@ -5,7 +5,7 @@ import { store, startPersistence } from "@/store/store";
 import { useEffect } from "react";
 import { setInitialCart } from "@/store/slics/cart";
 import { setInitialWishlist } from "@/store/slics/wishlist";
-import { setInitialOrders } from "@/store/slics/orders";
+import { setOrderCount } from "@/store/slics/orders";
 import { setUser } from "@/store/slics/auth";
 
 export default function ReduxProvider({
@@ -24,9 +24,9 @@ export default function ReduxProvider({
       if (savedWishlist) {
         store.dispatch(setInitialWishlist(JSON.parse(savedWishlist)));
       }
-      const savedOrders = localStorage.getItem("lensco:orders");
-      if (savedOrders) {
-        store.dispatch(setInitialOrders(JSON.parse(savedOrders)));
+      const savedOrderCount = localStorage.getItem("lensco:orderCount");
+      if (savedOrderCount) {
+        store.dispatch(setOrderCount(JSON.parse(savedOrderCount)));
       }
       const savedAuth = localStorage.getItem("lensco:auth");
       if (savedAuth && savedAuth !== "null") {

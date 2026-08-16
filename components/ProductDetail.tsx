@@ -24,6 +24,7 @@ export default function ProductDetail({
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const inWishlist = wishlist.some((item) => item.id === product.id);
   const inCart = cartItems.some((item) => item.product.id === product.id);
+   const isOutofStock= product.stock===0
   const [activeImage, setActiveImage] = useState(0);
   const [added, setAdded] = useState(false);
   const [activeTab, setActiveTab] = useState<"details" | "specs" | "reviews">(
@@ -81,10 +82,7 @@ export default function ProductDetail({
     }),
   );
 
-  if (!user) {
-    router.push("/login?redirect=/checkout");
-    return;
-  }
+
 
   router.push("/checkout");
 };
@@ -206,7 +204,7 @@ export default function ProductDetail({
         </div>
 
         {/* Rating */}
-        <div className="flex items-center gap-2 mt-2">
+        {/* <div className="flex items-center gap-2 mt-2">
           <div className="flex">
             {stars.map((s) => (
               <svg
@@ -226,7 +224,7 @@ export default function ProductDetail({
           <span className="text-[#374151] text-xs">
             ({product.reviewCount} reviews)
           </span>
-        </div>
+        </div> */}
 
         {/* Color Selection */}
         <div className="mt-5">
@@ -260,9 +258,14 @@ export default function ProductDetail({
         <div className="flex gap-3 mt-6">
           <button
             onClick={handleBuyNow}
-            className="flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300 bg-[#111827] text-white hover:bg-[#374151] active:scale-95"
+            className={`flex-1 py-4 rounded-2xl font-semibold text-sm tracking-wide transition-all duration-300  hover:bg-[#374151] active:scale-95 ${
+              isOutofStock
+                ? "bg-[#111827] text-white opacity-50 cursor-not-allowed"
+                : "bg-[#111827] text-white"
+            }`}
+            disabled={isOutofStock}
           >
-            Buy Now
+            {isOutofStock ? "Out of Stock" : "Buy Now"}
           </button>
           <button
             onClick={handleAddToCart}

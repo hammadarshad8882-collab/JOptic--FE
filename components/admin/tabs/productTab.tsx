@@ -24,7 +24,6 @@ export default function ProductTab({
     Record<number, File[]>
   >({});
   const [isloading, setIsloading] = useState<boolean>(false);
-  const [newImages, setNewImages] = useState<File[]>([]);
 
   const filteredProducts = products.filter(
     (p) =>
@@ -37,7 +36,7 @@ export default function ProductTab({
       try {
         setIsloading(true);
         const response = await fetchWithAuth(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products/getProducts`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/getProductsForAdmin`,
           {
             method: "GET",
           },
@@ -58,7 +57,7 @@ export default function ProductTab({
   }, []);
   const handleDelete = async (id: string) => {
     try {
-      setIsdeleting(true);    
+      setIsdeleting(true);
       const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/deleteProduct/${id}`,
         {
@@ -74,7 +73,7 @@ export default function ProductTab({
         setDeleteConfirm(null);
         onDeleteProduct(id);
         setIsdeleting(false);
-        toast.success("Product deleted successfully");  
+        toast.success("Product deleted successfully");
       }
     } catch (error) {
       console.log(error);
@@ -156,7 +155,7 @@ export default function ProductTab({
       // ==========================================
       // Send request
       // ==========================================
-      setIsSaving(true); 
+      setIsSaving(true);
       const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/updateProduct/${productToUpdate.id}`,
         {
@@ -180,19 +179,17 @@ export default function ProductTab({
 
         toast.success("Product updated successfully");
       }
-  }
-  catch(error){
-    toast.error("Failed to update product");
-  }
-  finally{
-    setIsSaving(false);
-  }
-}
+    } catch (error) {
+      toast.error("Failed to update product");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (isloading) {
     return (
       <div className="flex items-center justify-center h-screen">
-     <Loader/>
+        <Loader />
       </div>
     );
   }
@@ -329,7 +326,10 @@ export default function ProductTab({
 
                     { label: "Frame Shape", value: product.frameShape || "-" },
                     { label: "Material", value: product.frameMaterial || "-" },
-                    { label: "Lens Thickness", value: product.lensWidth || "-" },
+                    {
+                      label: "Lens Thickness",
+                      value: product.lensWidth || "-",
+                    },
                     {
                       label: "Bridge Width",
                       value: product.bridgeWidth || "-",
@@ -380,7 +380,7 @@ export default function ProductTab({
                   <button
                     onClick={() => {
                       setDeleteConfirm(product.id);
-                     }}
+                    }}
                     className="py-2.5 px-4 border border-[#fecaca] text-[#dc2626] text-xs font-medium rounded-xl hover:bg-[#fee2e2] transition-all flex items-center gap-1.5"
                   >
                     <svg
@@ -433,7 +433,8 @@ export default function ProductTab({
                   handleDelete(deleteConfirm);
                 }}
                 className="flex-1 py-3 bg-[#fee2e2] border border-[#fca5a5] text-[#dc2626] text-sm font-medium rounded-xl hover:bg-[#fecaca]"
-              >{isdeleting ? "Deleting..." : "Delete"}
+              >
+                {isdeleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>
@@ -455,7 +456,9 @@ export default function ProductTab({
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-[#111827] text-lg font-medium">Edit Product</h2>
+              <h2 className="text-[#111827] text-lg font-medium">
+                Edit Product
+              </h2>
 
               <button
                 type="button"
@@ -1011,7 +1014,8 @@ export default function ProductTab({
                 <button
                   type="submit"
                   className="px-4 py-2 bg-[#111827] text-white text-sm font-medium rounded-xl hover:bg-[#374151] transition-colors"
-                >{isSaving ? "Saving..." : "Save Changes"}
+                >
+                  {isSaving ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             </form>

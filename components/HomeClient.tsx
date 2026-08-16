@@ -1,68 +1,48 @@
 ﻿"use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import type { Product } from "@/types";
 import { categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import Loader from "./loader";
 
-export default function HomeClient() {
+export default function HomeClient({
+  initialProducts,
+}: {
+  initialProducts: Product[];
+}) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sort, setSort] = useState<
     "featured" | "price-asc" | "price-desc" | "rating"
   >("featured");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [products] = useState<Product[]>(initialProducts);
   const [productSearch, setProductSearch] = useState("");
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
- const filtered = products
-  .filter((p) => {
-    const matchesCategory =
-      selectedCategory === "All" || p.category === selectedCategory;
-
+  const filtered = useMemo(() => {
     const search = productSearch.trim().toLowerCase();
 
-    const matchesSearch =
-      search === "" ||
-      p.name.toLowerCase().includes(search) ||
-      p.category.toLowerCase().includes(search);
+    return products
+      .filter((p) => {
+        const matchesCategory =
+          selectedCategory === "All" || p.category === selectedCategory;
 
-    return matchesCategory && matchesSearch;
-  })
-  .sort((a, b) => {
-    if (sort === "price-asc") return a.price - b.price;
-    if (sort === "price-desc") return b.price - a.price;
-    if (sort === "rating") return b.rating - a.rating;
-    return 0;
-  });
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products/getProducts`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-        const data = await response.json();
-        if (data.success) {
-          setProducts(data.products);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getProducts();
-  }, []);
+        const matchesSearch =
+          search === "" ||
+          p.name.toLowerCase().includes(search) ||
+          p.category.toLowerCase().includes(search);
+
+        return matchesCategory && matchesSearch;
+      })
+      .sort((a, b) => {
+        if (sort === "price-asc") return a.price - b.price;
+        if (sort === "price-desc") return b.price - a.price;
+        if (sort === "rating") return b.rating - a.rating;
+        return 0;
+      });
+  }, [products, selectedCategory, productSearch, sort]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
@@ -134,7 +114,7 @@ export default function HomeClient() {
           Shop by Category
         </p>
         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {categories.map((cat:any) => (
+          {categories.map((cat: any) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -153,7 +133,9 @@ export default function HomeClient() {
       {/* Sort Row */}
       <div className="mt-5 px-4 flex items-center justify-between">
         <p className="text-[#4b5563] text-xs">
-          <span className="text-[#111827] font-semibold">{filtered.length}</span>{" "}
+          <span className="text-[#111827] font-semibold">
+            {filtered.length}
+          </span>{" "}
           items
         </p>
 
@@ -232,11 +214,7 @@ export default function HomeClient() {
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="flex justify-center items-center py-20">
-          <Loader/>
-        </div>
-      ) : filtered.length > 0 ? (
+      {filtered.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 px-4 mt-4 pb-6">
           {filtered.map((product) => (
             <ProductCard key={product.id} product={product} />

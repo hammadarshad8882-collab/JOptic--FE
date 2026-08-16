@@ -54,8 +54,7 @@ export interface Order {
     color: string;
   }[];
 
-  totalAmount: number;
-  createdAt: string;
+
 }
 
 export type AdminTab = "dashboard" | "products" | "add" | "orders";

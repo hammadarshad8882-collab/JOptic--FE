@@ -7,9 +7,12 @@ import Link from "next/link";
 import Image from "next/image";
 import type { RootState } from "@/store/store";
 import { clearCart, clearBuyNow } from "@/store/slics/cart";
-import { addOrder } from "@/store/slics/orders";
 import toast from "react-hot-toast";
 import { fetchWithAuth } from "@/api/fetchWithAuth";
+import Loader from "@/components/loader";
+import { clearUser } from "@/store/slics/auth";
+import { clearWishlist } from "@/store/slics/wishlist";
+import { setOrderCount } from "@/store/slics/orders";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -24,13 +27,41 @@ export default function CheckoutPage() {
   const checkoutTracked = useRef(false);
 
   useEffect(() => {
-    // Check role
-    if (!User) {
-      router.replace("/");
-      return;
-    }
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
+          {
+            credentials: "include",
+          },
+        );
 
+        const data = await response.json();
+
+        if (!data.success || !data.user) {
+          localStorage.clear();
+
+          dispatch(clearUser());
+          dispatch(clearCart());
+          dispatch(clearWishlist());
+          dispatch(setOrderCount(0));
+
+          localStorage.removeItem("lensco:cart");
+          localStorage.removeItem("lensco:wishlist");
+          localStorage.removeItem("lensco:orderCount");
+          localStorage.removeItem("lensco:auth");
+          router.replace("/login?redirect=/checkout");
+          return;
+        }
+      } catch (error) {
+        router.replace("/login?redirect=/checkout");
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
   useEffect(() => {
     if (User) {
       setFormData((prev) => ({
@@ -40,7 +71,7 @@ export default function CheckoutPage() {
       }));
     }
   }, [User]);
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,27 +89,21 @@ export default function CheckoutPage() {
   );
   const shipping = subtotal > 200 ? 0 : 15;
   const total = subtotal + shipping;
- useEffect(() => {
-  if (!User || cart.length === 0 || checkoutTracked.current) return;
+  useEffect(() => {
+    if (!User || cart.length === 0 || checkoutTracked.current) return;
 
-  if (
-    typeof window !== "undefined" &&
-    typeof window.fbq === "function"
-  ) {
-    window.fbq("track", "InitiateCheckout", {
-      content_ids: cart.map((item) => item.product.id),
-      content_type: "product",
-      num_items: cart.reduce(
-        (sum, item) => sum + item.quantity,
-        0,
-      ),
-      value: Number(total.toFixed(2)),
-      currency: "PKR",
-    });
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq("track", "InitiateCheckout", {
+        content_ids: cart.map((item) => item.product.id),
+        content_type: "product",
+        num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
+        value: Number(total.toFixed(2)),
+        currency: "PKR",
+      });
 
-    checkoutTracked.current = true;
-  }
-}, [User, cart, total]);
+      checkoutTracked.current = true;
+    }
+  }, [User, cart, total]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -123,9 +148,6 @@ export default function CheckoutPage() {
         address: formData.address,
         city: formData.city,
         items: orderItems,
-        userId: User?.id,
-        totalAmount: Number(total.toFixed(2)),
-        createdAt: new Date().toISOString(),
       };
 
       const placeOrder = await fetchWithAuth(
@@ -142,33 +164,26 @@ export default function CheckoutPage() {
       const data = await placeOrder.json();
 
       if (data.success) {
-  // Meta Pixel - Purchase
-  if (
-    typeof window !== "undefined" &&
-    typeof window.fbq === "function"
-  ) {
-    window.fbq("track", "Purchase", {
-      content_ids: cart.map((item) => item.product.id),
-      content_type: "product",
-      num_items: cart.reduce(
-        (sum, item) => sum + item.quantity,
-        0,
-      ),
-      value: Number(total.toFixed(2)),
-      currency: "PKR",
-    });
-  }
+        // Meta Pixel - Purchase
+        if (typeof window !== "undefined" && typeof window.fbq === "function") {
+          window.fbq("track", "Purchase", {
+            content_ids: cart.map((item) => item.product.id),
+            content_type: "product",
+            num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
+            value: Number(total.toFixed(2)),
+            currency: "PKR",
+          });
+        }
 
-  dispatch(addOrder(newOrder));
-  if (isBuyNow) {
-    dispatch(clearBuyNow());
-  } else {
-    dispatch(clearCart());
-  }
-  setCreatedOrderId(orderId);
-  setIsSuccess(true);
-  setIsLoading(false);
-}else {
+        if (isBuyNow) {
+          dispatch(clearBuyNow());
+        } else {
+          dispatch(clearCart());
+        }
+        setCreatedOrderId(orderId);
+        setIsSuccess(true);
+        setIsLoading(false);
+      } else {
         console.log(data);
         setIsLoading(false);
       }
@@ -179,6 +194,14 @@ export default function CheckoutPage() {
       setIsLoading(false);
     }
   };
+  if (authLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[70vh]">
+        <Loader />
+      </div>
+    );
+  }
+
   if (!User) {
     return null;
   }
@@ -218,7 +241,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 pt-5 pb-6">
-      
       <div className="flex items-center gap-2 mb-5">
         <Link
           href={isBuyNow ? "/" : "/cart"}
@@ -292,7 +314,9 @@ export default function CheckoutPage() {
           </div>
           <div className="border-t border-[#e5e7eb] pt-2 flex justify-between text-sm font-semibold">
             <span className="text-[#111827]">Total</span>
-            <span className="text-[#111827] text-base">PKR {total.toFixed(2)}</span>
+            <span className="text-[#111827] text-base">
+              PKR {total.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>

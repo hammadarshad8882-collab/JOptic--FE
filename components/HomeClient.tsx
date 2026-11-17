@@ -20,18 +20,19 @@ export default function HomeClient({
   const [productSearch, setProductSearch] = useState("");
   const [sortOpen, setSortOpen] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
+
   const filtered = useMemo(() => {
     const search = productSearch.trim().toLowerCase();
 
-    return products
+    return (Array.isArray(products) ? products : [])
       .filter((p) => {
         const matchesCategory =
           selectedCategory === "All" || p.category === selectedCategory;
 
         const matchesSearch =
           search === "" ||
-          p.name.toLowerCase().includes(search) ||
-          p.category.toLowerCase().includes(search);
+          (p.name || "").toLowerCase().includes(search) ||
+          (p.category || "").toLowerCase().includes(search);
 
         return matchesCategory && matchesSearch;
       })
